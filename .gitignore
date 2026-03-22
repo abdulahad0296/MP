@@ -1,0 +1,64 @@
+# ── Environment & secrets ─────────────────────────────────────────
+.env
+*.env
+.env.local
+.env.backup
+
+# ── Python ────────────────────────────────────────────────────────
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+.Python
+*.egg
+*.egg-info/
+dist/
+build/
+eggs/
+parts/
+var/
+sdist/
+develop-eggs/
+.installed.cfg
+lib/
+lib64/
+
+# ── Virtual environments ──────────────────────────────────────────
+venv/
+rplan/
+env/
+ENV/
+.venv/
+.virtualenv/
+
+# ── ML model cache ────────────────────────────────────────────────
+# sentence-transformers downloads models here on first run
+.cache/
+~/.cache/huggingface/
+*.bin
+*.pt
+*.pth
+*.onnx
+*.safetensors
+
+# ── Pipeline outputs ──────────────────────────────────────────────
+outputs/results.json
+outputs/baseline_b2.json
+outputs/*.json
+
+# ── IDE and OS ────────────────────────────────────────────────────
+.vscode/
+.idea/
+*.sublime-project
+*.sublime-workspace
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# ── Logs ──────────────────────────────────────────────────────────
+*.log
+logs/
+
+# ── Jupyter ───────────────────────────────────────────────────────
+.ipynb_checkpoints/
+*.ipynb
