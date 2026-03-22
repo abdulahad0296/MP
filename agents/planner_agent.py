@@ -199,7 +199,9 @@ def generate_plans(gap: ResearchGap, context_papers: List[Paper]) -> List[Resear
             "You must return a JSON object with key 'plans' containing exactly 3 items, "
             "each with all 4 required fields. "
             "Remember: 'dataset' must be a short official benchmark name only "
-            "(e.g. 'CIFAR-10', 'FEMNIST', 'MNIST') — no descriptions, no modifications."
+            "(e.g. 'CIFAR-10', 'FEMNIST', 'MNIST') — no descriptions, no modifications. "
+            "'evaluation_metric' must be a standard metric name only "
+            "(e.g. 'accuracy', 'F1', 'AUC', 'attack success rate') — no descriptions."
         )
         plans = _attempt(retry_system, user_prompt)
 

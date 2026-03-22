@@ -25,6 +25,7 @@ from typing import List
 import numpy as np
 from sklearn.metrics.pairwise import cosine_similarity
 from groq import Groq
+from groq import RateLimitError
 
 import config
 from models.schemas import Paper, ResearchPlan, ReviewResult
@@ -186,6 +187,10 @@ def run(plans: List[ResearchPlan], papers: List[Paper]) -> List[ReviewResult]:
         List[ReviewResult] — one per input plan, accepted or rejected.
     """
     results: List[ReviewResult] = []
+    # Expose partial results at module level so main.py can
+    # recover them if a rate limit exception interrupts the loop
+    import sys
+    sys.modules[__name__]._partial_results = results
 
     print(f"[reviewer_agent] Reviewing {len(plans)} plan(s)...")
 
@@ -210,8 +215,28 @@ def run(plans: List[ResearchPlan], papers: List[Paper]) -> List[ReviewResult]:
         # Step 4: Generate title + blueprint ONLY for accepted plans
         if accepted:
             print(f"[reviewer_agent]   Generating title and blueprint...")
-            suggested_title, research_direction, experimental_blueprint = \
-                generate_output_fields(plan)
+            try:
+                suggested_title, research_direction, experimental_blueprint = \
+                    generate_output_fields(plan)
+            except RateLimitError as e:
+                print(f"[reviewer_agent] WARNING: Rate limit hit during output generation.")
+                print(f"[reviewer_agent] Saving {len(results)} result(s) collected so far...")
+                # Mark this plan as accepted but with empty output fields
+                # so partial results are not lost
+                suggested_title        = plan.research_question[:80]
+                research_direction     = f"Investigate: {plan.research_question}"
+                experimental_blueprint = f"Apply {plan.proposed_method} on {plan.dataset}, evaluated by {plan.evaluation_metric}."
+                results.append(ReviewResult(
+                    plan=plan,
+                    novelty_score=novelty_score,
+                    feasibility_passed=feasibility_ok,
+                    feasibility_notes=feasibility_notes,
+                    suggested_title=suggested_title,
+                    research_direction=research_direction,
+                    experimental_blueprint=experimental_blueprint,
+                    accepted=accepted,
+                ))
+                raise  # re-raise so main.py can catch and save
         else:
             suggested_title        = ""
             research_direction     = ""

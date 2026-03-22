@@ -224,7 +224,21 @@ def run_pipeline(topic: str) -> List[ReviewResult]:
         return []
 
     # ── Step 4 + 5: Reviewer Agent ────────────────────────────────
-    results = reviewer_agent.run(plans, papers)
+    try:
+        results = reviewer_agent.run(plans, papers)
+    except Exception as e:
+        if "rate_limit" in str(e).lower() or "429" in str(e):
+            print(f"[pipeline] Rate limit hit — saving partial results...")
+            # reviewer_agent.run raises after appending the last plan,
+            # so retrieve whatever was collected from the partial run
+            import agents.reviewer_agent as _rev
+            results = getattr(_rev, '_partial_results', [])
+            if not results:
+                print("[pipeline] No partial results to save. Exiting.")
+                return []
+            print(f"[pipeline] Saving {len(results)} partial result(s).")
+        else:
+            raise
 
     # ── Revision loop ─────────────────────────────────────────────
     # Re-submit rejected plans to the Planner for a second attempt.

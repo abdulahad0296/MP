@@ -147,7 +147,9 @@ VALID_METRIC_METHOD_PAIRS: dict[str, list[str]] = {
     "sign": [
         "accuracy", "f1", "precision", "recall",
         "word error rate", "wer", "recognition accuracy",
-        "signer-independent accuracy", "top-1 accuracy", "bleu",
+        "signer-independent accuracy", "top-1 accuracy", "top-5 accuracy",
+        "bleu", "rouge", "auc", "auc-roc", "auroc",
+        "mean average precision", "map", "mcc",
     ],
     "quantum": [
         "fidelity", "error rate", "logical error rate",
@@ -166,6 +168,151 @@ VALID_METRIC_METHOD_PAIRS: dict[str, list[str]] = {
     "fact": [
         "accuracy", "f1", "precision", "recall",
         "factual accuracy", "factscore", "faithfulness score",
+    ],
+    # ── Quantum computing ──────────────────────────────────────────
+    "quantum": [
+        "fidelity", "error rate", "logical error rate",
+        "quantum volume", "gate fidelity", "circuit fidelity",
+        "error correction threshold", "error correction fidelity",
+        "entanglement fidelity", "process fidelity",
+        "syndrome detection rate", "code distance",
+        "accuracy", "f1",
+    ],
+    # ── Bioinformatics / computational biology ─────────────────────
+    "protein": [
+        "rmsd", "gdt-ts", "gdt-ha", "tm-score",
+        "mcc", "aupr", "auc", "sensitivity", "specificity",
+        "accuracy", "f1", "precision", "recall",
+    ],
+    "molecular": [
+        "rmsd", "mae", "mse", "r2",
+        "auc", "aupr", "mcc",
+        "validity", "uniqueness", "novelty",
+        "fcd", "nspdk",
+    ],
+    "drug": [
+        "auc", "aupr", "mcc", "accuracy", "f1",
+        "rmsd", "binding affinity", "enrichment factor",
+    ],
+    "biological": [
+        "auc", "aupr", "mcc", "f1", "accuracy",
+        "sensitivity", "specificity", "precision", "recall",
+    ],
+    # ── Speech and audio ───────────────────────────────────────────
+    "speech": [
+        "wer", "cer", "mer", "word error rate",
+        "character error rate", "match error rate",
+        "accuracy", "f1", "pesq", "stoi", "snr",
+    ],
+    "audio": [
+        "wer", "cer", "accuracy", "f1",
+        "pesq", "stoi", "snr", "si-sdr",
+        "map", "auc",
+    ],
+    "recognition": [
+        "accuracy", "f1", "precision", "recall",
+        "wer", "cer", "top-1 accuracy", "top-5 accuracy",
+        "map", "auc",
+    ],
+    # ── Graph and network ──────────────────────────────────────────
+    "graph": [
+        "accuracy", "f1", "auc", "aupr",
+        "hits@k", "mrr", "mean rank", "map",
+        "ndcg", "recall@k", "precision@k",
+        "nmi", "ari",
+    ],
+    "link": [
+        "hits@k", "mrr", "mean rank",
+        "auc", "aupr", "map",
+        "recall@k", "precision@k",
+    ],
+    "node": [
+        "accuracy", "f1", "micro-f1", "macro-f1",
+        "auc", "aupr",
+    ],
+    "knowledge": [
+        "hits@k", "mrr", "mean rank",
+        "accuracy", "f1", "map",
+    ],
+    # ── Time series and forecasting ────────────────────────────────
+    "forecasting": [
+        "mse", "mae", "rmse", "mape", "smape",
+        "r2", "dtw", "crps",
+    ],
+    "time": [
+        "mse", "mae", "rmse", "mape", "smape",
+        "accuracy", "f1", "auc",
+        "dtw", "r2",
+    ],
+    "anomaly": [
+        "auc", "aupr", "f1", "precision", "recall",
+        "average precision", "auc-roc",
+        "accuracy", "mcc",
+    ],
+    # ── Recommendation systems ─────────────────────────────────────
+    "recommendation": [
+        "ndcg", "map", "mrr", "hit rate",
+        "recall@k", "precision@k",
+        "mse", "mae", "rmse",
+        "coverage", "diversity",
+    ],
+    "collaborative": [
+        "ndcg", "map", "mrr",
+        "recall@k", "precision@k",
+        "mse", "mae", "rmse",
+    ],
+    # ── NLP — extended ────────────────────────────────────────────
+    "summarization": [
+        "rouge", "rouge-1", "rouge-2", "rouge-l",
+        "bleu", "meteor", "bertscore",
+        "faithfulness", "factuality",
+    ],
+    "question": [
+        "exact match", "f1", "accuracy",
+        "bleu", "rouge", "bertscore",
+    ],
+    "dialogue": [
+        "bleu", "rouge", "meteor", "bertscore",
+        "perplexity", "distinct-1", "distinct-2",
+        "f1", "accuracy",
+    ],
+    "machine": [
+        "bleu", "sacrebleu", "chrf", "comet",
+        "ter", "meteor", "bertscore",
+        "wer",
+    ],
+    # ── Security and privacy ───────────────────────────────────────
+    "privacy": [
+        "accuracy", "f1", "auc",
+        "attack success rate", "membership inference accuracy",
+        "differential privacy epsilon", "privacy budget",
+        "reconstruction error",
+    ],
+    "adversarial": [
+        "accuracy", "robust accuracy", "attack success rate",
+        "certified accuracy", "f1", "auc",
+    ],
+    "byzantine": [
+        "accuracy", "f1", "attack success rate",
+        "detection rate", "convergence rate",
+        "robust accuracy",
+    ],
+    "poisoning": [
+        "accuracy", "attack success rate",
+        "detection rate", "f1",
+        "backdoor success rate",
+    ],
+    # ── Robotics and RL extended ───────────────────────────────────
+    "robot": [
+        "success rate", "cumulative reward",
+        "average return", "episode return",
+        "task completion rate", "collision rate",
+        "accuracy", "mse",
+    ],
+    "planning": [
+        "success rate", "plan length",
+        "optimality ratio", "accuracy",
+        "cumulative reward",
     ],
 }
 
