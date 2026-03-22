@@ -41,7 +41,7 @@ python main.py --topic "graph neural networks drug discovery"
 research_planner/
 ├── main.py                    # Pipeline orchestrator — run this
 ├── config.py                  # Constants, thresholds, API keys
-├── .env.example               # Copy to .env and add your Groq API key
+├── .env                       # .env to add your Groq API key
 │
 ├── models/
 │   └── schemas.py             # Paper, ResearchGap, ResearchPlan, ReviewResult
