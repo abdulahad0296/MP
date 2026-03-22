@@ -1,0 +1,2226 @@
+{
+  "runs": [
+    {
+      "topic": "large language models hallucination detection",
+      "timestamp": "2026-03-20T21:04:06.277061",
+      "summary": {
+        "total_reviewed": 11,
+        "accepted": 3,
+        "rejected": 8
+      },
+      "results": [
+        {
+          "accepted": false,
+          "novelty_score": 8.05,
+          "feasibility_passed": false,
+          "feasibility_notes": "Dataset 'Protein Data Bank (PDB) and existing biophysics modeling datasets' not found in known benchmark list. Ensure you are using a recognised, publicly available dataset.",
+          "suggested_title": "",
+          "research_direction": "",
+          "experimental_blueprint": "",
+          "plan": {
+            "research_question": "Can Large Language Models be fine-tuned to predict protein structures in biophysics modeling?",
+            "proposed_method": "Using a combination of transfer learning and self-supervised learning techniques to adapt LLMs for biophysics applications",
+            "dataset": "Protein Data Bank (PDB) and existing biophysics modeling datasets",
+            "evaluation_metric": "Mean Absolute Error (MAE) in predicting protein structure accuracy",
+            "source_gap": "The intersection of Large Language Models and Biophysics Modeling is underexplored"
+          }
+        },
+        {
+          "accepted": false,
+          "novelty_score": 8.65,
+          "feasibility_passed": false,
+          "feasibility_notes": "Dataset 'Molecular dynamics simulation datasets and biophysics modeling benchmarks' not found in known benchmark list. Ensure you are using a recognised, publicly available dataset. | Evaluation metric 'Root Mean Square Deviation (RMSD) in predicting molecular dynamics simulation outcomes' could not be matched to a recognised method type. Use a standard metric such as accuracy, F1, BLEU, ROUGE, MSE, or forgetting.",
+          "suggested_title": "",
+          "research_direction": "",
+          "experimental_blueprint": "",
+          "plan": {
+            "research_question": "How can Large Language Models be integrated with molecular dynamics simulations to enhance biophysics modeling?",
+            "proposed_method": "Developing a hybrid approach that leverages LLMs for feature extraction and molecular dynamics simulations for biophysics modeling",
+            "dataset": "Molecular dynamics simulation datasets and biophysics modeling benchmarks",
+            "evaluation_metric": "Root Mean Square Deviation (RMSD) in predicting molecular dynamics simulation outcomes",
+            "source_gap": "The intersection of Large Language Models and Biophysics Modeling is underexplored"
+          }
+        },
+        {
+          "accepted": false,
+          "novelty_score": 7.4,
+          "feasibility_passed": false,
+          "feasibility_notes": "Dataset 'Existing biophysics modeling datasets and generated synthetic datasets' not found in known benchmark list. Ensure you are using a recognised, publicly available dataset.",
+          "suggested_title": "",
+          "research_direction": "",
+          "experimental_blueprint": "",
+          "plan": {
+            "research_question": "Can Large Language Models be used to generate realistic biophysics modeling scenarios for training and validation purposes?",
+            "proposed_method": "Using LLMs as generative models to create synthetic biophysics modeling datasets and scenarios",
+            "dataset": "Existing biophysics modeling datasets and generated synthetic datasets",
+            "evaluation_metric": "Fréchet Inception Distance (FID) in evaluating the realism of generated biophysics modeling scenarios",
+            "source_gap": "The intersection of Large Language Models and Biophysics Modeling is underexplored"
+          }
+        },
+        {
+          "accepted": true,
+          "novelty_score": 7.42,
+          "feasibility_passed": true,
+          "feasibility_notes": "All feasibility checks passed.",
+          "suggested_title": "Multimodal Hallucination-Enhanced Object Detection with Large Vision-Language Models",
+          "research_direction": "This research aims to explore the potential of Multimodal Hallucination in improving object detection accuracy in real-world scenarios by leveraging the complementary strengths of vision and language models. The fusion of Multimodal Hallucination with Large Vision-Language Models is expected to enhance detection capabilities, particularly in cases with limited or ambiguous visual information.",
+          "experimental_blueprint": "To test the proposed framework, we will utilize the COCO dataset with multimodal annotations, implementing a combination of Multimodal Hallucination techniques and Large Vision-Language Models. The object detection pipeline will be evaluated using the Mean Average Precision (mAP) metric to assess its effectiveness. Experimental variations will include comparing the performance of the proposed framework against baseline models without Multimodal Hallucination, as well as analyzing the impact of different Multimodal Hallucination strategies on detection accuracy.",
+          "plan": {
+            "research_question": "Can Multimodal Hallucination be applied to improve object detection in real-world scenarios?",
+            "proposed_method": "Developing a framework that combines Multimodal Hallucination with Large Vision-Language Models for object detection",
+            "dataset": "COCO dataset with multimodal annotations",
+            "evaluation_metric": "Mean Average Precision (mAP)",
+            "source_gap": "There is a lack of research on applying Multimodal Hallucination to real-world scenarios"
+          }
+        },
+        {
+          "accepted": false,
+          "novelty_score": 6.43,
+          "feasibility_passed": false,
+          "feasibility_notes": "Evaluation metric 'BLEU score' does not appear appropriate for a 'hallucination' method. Expected one of: ['accuracy', 'f1', 'precision', 'recall', 'hallucination rate', 'faithfulness', 'factuality', 'factual accuracy', 'hallucination detection rate', 'factscore', 'bert score', 'bertscore', 'entailment score', 'consistency score'].",
+          "suggested_title": "",
+          "research_direction": "",
+          "experimental_blueprint": "",
+          "plan": {
+            "research_question": "How can Multimodal Hallucination be used to generate realistic text based on images in real-world applications?",
+            "proposed_method": "Training a Multimodal Large Language Model with a hallucination detection module to generate realistic text",
+            "dataset": "MSCOCO dataset with image-text pairs",
+            "evaluation_metric": "BLEU score",
+            "source_gap": "There is a lack of research on applying Multimodal Hallucination to real-world scenarios"
+          }
+        },
+        {
+          "accepted": false,
+          "novelty_score": 8.53,
+          "feasibility_passed": false,
+          "feasibility_notes": "Dataset 'A custom dataset with annotated hallucinations in multimodal outputs' not found in known benchmark list. Ensure you are using a recognised, publicly available dataset.",
+          "suggested_title": "",
+          "research_direction": "",
+          "experimental_blueprint": "",
+          "plan": {
+            "research_question": "Is it possible to mitigate hallucinations in Multimodal Hallucination models using a standardized evaluation framework?",
+            "proposed_method": "Developing an extension of the THaMES framework to support multimodal hallucination evaluation and mitigation",
+            "dataset": "A custom dataset with annotated hallucinations in multimodal outputs",
+            "evaluation_metric": "Hallucination detection accuracy",
+            "source_gap": "There is a lack of research on applying Multimodal Hallucination to real-world scenarios"
+          }
+        },
+        {
+          "accepted": false,
+          "novelty_score": 7.23,
+          "feasibility_passed": false,
+          "feasibility_notes": "Dataset 'ASS dataset from the AI Safety Summit 2023 and other relevant datasets on LLMs' not found in known benchmark list. Ensure you are using a recognised, publicly available dataset.",
+          "suggested_title": "",
+          "research_direction": "",
+          "experimental_blueprint": "",
+          "plan": {
+            "research_question": "How can Strategic Deception be applied to improve the evaluation of hallucination in Large Language Models?",
+            "proposed_method": "Developing a framework that incorporates game-theoretic models to analyze and detect deceptive behaviors in LLMs",
+            "dataset": "ASS dataset from the AI Safety Summit 2023 and other relevant datasets on LLMs",
+            "evaluation_metric": "Deception detection accuracy and hallucination reduction rate",
+            "source_gap": "The area of Strategic Deception in AI Deception is not well-studied"
+          }
+        },
+        {
+          "accepted": false,
+          "novelty_score": 7.28,
+          "feasibility_passed": false,
+          "feasibility_notes": "Dataset 'Multimodal datasets with labeled deceptive and non-deceptive content' not found in known benchmark list. Ensure you are using a recognised, publicly available dataset.",
+          "suggested_title": "",
+          "research_direction": "",
+          "experimental_blueprint": "",
+          "plan": {
+            "research_question": "Can multimodal large vision-language models be used to detect and mitigate deception in AI-generated content?",
+            "proposed_method": "Designing an end-to-end tool that integrates object detection with multimodal LVLMs and THaMES framework for hallucination mitigation",
+            "dataset": "Multimodal datasets with labeled deceptive and non-deceptive content",
+            "evaluation_metric": "Deception detection accuracy, object detection precision, and recall",
+            "source_gap": "The area of Strategic Deception in AI Deception is not well-studied"
+          }
+        },
+        {
+          "accepted": false,
+          "novelty_score": 7.55,
+          "feasibility_passed": false,
+          "feasibility_notes": "Evaluation metric 'Taxonomy completeness, deception strategy effectiveness, and LLM reliability improvement' could not be matched to a recognised method type. Use a standard metric such as accuracy, F1, BLEU, ROUGE, MSE, or forgetting.",
+          "suggested_title": "",
+          "research_direction": "",
+          "experimental_blueprint": "",
+          "plan": {
+            "research_question": "What are the most effective strategies for Strategic Deception in AI deception, and how can they be applied to improve the reliability of Large Language Models?",
+            "proposed_method": "Conducting a comprehensive review of existing literature on Strategic Deception and AI deception, and developing a taxonomy of deception strategies",
+            "dataset": "A curated dataset of research papers on Strategic Deception, AI deception, and Large Language Models",
+            "evaluation_metric": "Taxonomy completeness, deception strategy effectiveness, and LLM reliability improvement",
+            "source_gap": "The area of Strategic Deception in AI Deception is not well-studied"
+          }
+        },
+        {
+          "accepted": true,
+          "novelty_score": 6.49,
+          "feasibility_passed": true,
+          "feasibility_notes": "All feasibility checks passed.",
+          "suggested_title": "Multimodal Hallucination for Object Detection with Large Vision-Language Models",
+          "research_direction": "This research explores the application of multimodal hallucination to real-world object detection tasks, leveraging the strengths of Large Language Models and Large Vision-Language Models. The goal is to enhance object detection capabilities in complex scenarios.",
+          "experimental_blueprint": "The proposed framework will be developed and tested on the COCO dataset with multimodal annotations, allowing for a comprehensive evaluation of the model's performance. The framework will utilize Large Language Models for textual understanding and Large Vision-Language Models for visual-lingual fusion, facilitating the multimodal hallucination process. The Mean Average Precision (MAP) metric will be used to evaluate the model's object detection accuracy, with potential comparisons to existing state-of-the-art models to assess the effectiveness of the multimodal hallucination approach.",
+          "plan": {
+            "research_question": "Can Multimodal Hallucination be applied to real-world object detection tasks using Large Vision-Language Models?",
+            "proposed_method": "Developing a multimodal hallucination framework that leverages the capabilities of Large Language Models and Large Vision-Language Models",
+            "dataset": "COCO dataset with multimodal annotations",
+            "evaluation_metric": "Mean Average Precision (MAP)",
+            "source_gap": "There is a lack of research on applying Multimodal Hallucination to real-world scenarios"
+          }
+        },
+        {
+          "accepted": true,
+          "novelty_score": 6.57,
+          "feasibility_passed": true,
+          "feasibility_notes": "All feasibility checks passed.",
+          "suggested_title": "Multimodal Hallucination for Realistic Text Generation from Images",
+          "research_direction": "This research explores the application of Multimodal Hallucination to generate realistic text based on images, with potential applications in image captioning, visual question answering, and multimodal dialogue systems. Fine-tuning pre-trained models on large datasets of image-text pairs offers a promising approach to achieving this goal.",
+          "experimental_blueprint": "The proposed method involves fine-tuning a pre-trained Multimodal Large Language Model on the Flickr30k dataset, which consists of image-text pairs. The model's performance will be evaluated using the BLEU score, which measures the similarity between generated text and reference text. The experiment will investigate the effects of different fine-tuning strategies, such as varying the number of fine-tuning epochs and the learning rate, on the model's performance. Additionally, the model's ability to generalize to new, unseen images will be tested using a held-out test set.",
+          "plan": {
+            "research_question": "How can Multimodal Hallucination be used to generate realistic text based on images in real-world scenarios?",
+            "proposed_method": "Fine-tuning a pre-trained Multimodal Large Language Model on a dataset of image-text pairs to generate coherent and contextually relevant text",
+            "dataset": "Flickr30k dataset with image-text pairs",
+            "evaluation_metric": "BLEU score",
+            "source_gap": "There is a lack of research on applying Multimodal Hallucination to real-world scenarios"
+          }
+        }
+      ]
+    },
+    {
+      "topic": "quantum computing error correction",
+      "timestamp": "2026-03-20T21:21:14.532424",
+      "summary": {
+        "total_reviewed": 12,
+        "accepted": 0,
+        "rejected": 12
+      },
+      "results": [
+        {
+          "accepted": false,
+          "novelty_score": 5.03,
+          "feasibility_passed": false,
+          "feasibility_notes": "Dataset 'Simulated quantum error correction datasets with varying levels of noise and error' not found in known benchmark list. Ensure you are using a recognised, publicly available dataset.",
+          "suggested_title": "",
+          "research_direction": "",
+          "experimental_blueprint": "",
+          "plan": {
+            "research_question": "How can Non-Markovian Dynamics be utilized to enhance the performance of Continuous-time Quantum Error Correction?",
+            "proposed_method": "Developing a framework that integrates continuous weak measurements and feedback with Non-Markovian Dynamics to improve error correction in quantum systems",
+            "dataset": "Simulated quantum error correction datasets with varying levels of noise and error",
+            "evaluation_metric": "Quantum error correction fidelity",
+            "source_gap": "Non-Markovian Dynamics and Quantum Error Correction"
+          }
+        },
+        {
+          "accepted": false,
+          "novelty_score": 4.15,
+          "feasibility_passed": false,
+          "feasibility_notes": "Dataset 'Experimental datasets from quantum computing systems with entanglement-assisted error correction' not found in known benchmark list. Ensure you are using a recognised, publicly available dataset.",
+          "suggested_title": "",
+          "research_direction": "",
+          "experimental_blueprint": "",
+          "plan": {
+            "research_question": "Can entanglement-assisted quantum error-correcting codes be designed to mitigate the effects of Non-Markovian noise in quantum systems?",
+            "proposed_method": "Designing and testing entanglement-assisted quantum error-correcting codes that account for Non-Markovian noise and error patterns",
+            "dataset": "Experimental datasets from quantum computing systems with entanglement-assisted error correction",
+            "evaluation_metric": "Error correction efficiency and entanglement fidelity",
+            "source_gap": "Non-Markovian Dynamics and Quantum Error Correction"
+          }
+        },
+        {
+          "accepted": false,
+          "novelty_score": 4.18,
+          "feasibility_passed": false,
+          "feasibility_notes": "Dataset 'Theoretical models of quantum error-correcting codes with Non-Markovian Dynamics and classical error control methods' not found in known benchmark list. Ensure you are using a recognised, publicly available dataset. | Evaluation metric 'Code construction efficiency and robustness against errors' could not be matched to a recognised method type. Use a standard metric such as accuracy, F1, BLEU, ROUGE, MSE, or forgetting.",
+          "suggested_title": "",
+          "research_direction": "",
+          "experimental_blueprint": "",
+          "plan": {
+            "research_question": "What are the implications of Non-Markovian Dynamics on the construction of quantum error-correcting codes, and how can classical error control methods be adapted for quantum systems?",
+            "proposed_method": "Developing a theoretical framework that incorporates Non-Markovian Dynamics into the construction of quantum error-correcting codes, and exploring adaptations of classical error control methods for quantum systems",
+            "dataset": "Theoretical models of quantum error-correcting codes with Non-Markovian Dynamics and classical error control methods",
+            "evaluation_metric": "Code construction efficiency and robustness against errors",
+            "source_gap": "Non-Markovian Dynamics and Quantum Error Correction"
+          }
+        },
+        {
+          "accepted": false,
+          "novelty_score": 4.34,
+          "feasibility_passed": false,
+          "feasibility_notes": "Dataset 'Simulated noise models for adiabatic quantum computation' not found in known benchmark list. Ensure you are using a recognised, publicly available dataset.",
+          "suggested_title": "",
+          "research_direction": "",
+          "experimental_blueprint": "",
+          "plan": {
+            "research_question": "Can encoded dynamics enhance error suppression in adiabatic quantum computing?",
+            "proposed_method": "Implementing continuous-time quantum error correction via encoded dynamics",
+            "dataset": "Simulated noise models for adiabatic quantum computation",
+            "evaluation_metric": "Quantum error correction fidelity",
+            "source_gap": "Adiabatic Quantum Computing and Error Suppression"
+          }
+        },
+        {
+          "accepted": false,
+          "novelty_score": 4.34,
+          "feasibility_passed": false,
+          "feasibility_notes": "Dataset 'Experimental data from adiabatic quantum computing devices' not found in known benchmark list. Ensure you are using a recognised, publicly available dataset. | Evaluation metric 'Quantum error correction threshold' could not be matched to a recognised method type. Use a standard metric such as accuracy, F1, BLEU, ROUGE, MSE, or forgetting.",
+          "suggested_title": "",
+          "research_direction": "",
+          "experimental_blueprint": "",
+          "plan": {
+            "research_question": "How do entanglement-assisted quantum error-correcting codes perform in adiabatic quantum computing?",
+            "proposed_method": "Developing entanglement-assisted quantum error-correcting codes for adiabatic quantum computation",
+            "dataset": "Experimental data from adiabatic quantum computing devices",
+            "evaluation_metric": "Quantum error correction threshold",
+            "source_gap": "Adiabatic Quantum Computing and Error Suppression"
+          }
+        },
+        {
+          "accepted": false,
+          "novelty_score": 6.08,
+          "feasibility_passed": false,
+          "feasibility_notes": "Dataset 'Theoretical models of adiabatic quantum computation with noise' not found in known benchmark list. Ensure you are using a recognised, publicly available dataset. | Evaluation metric 'Error suppression rate' could not be matched to a recognised method type. Use a standard metric such as accuracy, F1, BLEU, ROUGE, MSE, or forgetting.",
+          "suggested_title": "",
+          "research_direction": "",
+          "experimental_blueprint": "",
+          "plan": {
+            "research_question": "Can non-equilibrium dynamics be leveraged for error suppression in adiabatic quantum computing?",
+            "proposed_method": "Deriving a model for non-equilibrium dynamics in encoded adiabatic quantum computation",
+            "dataset": "Theoretical models of adiabatic quantum computation with noise",
+            "evaluation_metric": "Error suppression rate",
+            "source_gap": "Adiabatic Quantum Computing and Error Suppression"
+          }
+        },
+        {
+          "accepted": false,
+          "novelty_score": 9.24,
+          "feasibility_passed": false,
+          "feasibility_notes": "Dataset 'Quantum-classical hybrid algorithms and cloud computing infrastructure logs' not found in known benchmark list. Ensure you are using a recognised, publicly available dataset. | Evaluation metric 'Algorithm execution time and resource utilization efficiency' could not be matched to a recognised method type. Use a standard metric such as accuracy, F1, BLEU, ROUGE, MSE, or forgetting.",
+          "suggested_title": "",
+          "research_direction": "",
+          "experimental_blueprint": "",
+          "plan": {
+            "research_question": "How can Tierkreis framework be optimized for distributed computing environments?",
+            "proposed_method": "Implementation of a cloud-based distributed scheduling algorithm for Tierkreis",
+            "dataset": "Quantum-classical hybrid algorithms and cloud computing infrastructure logs",
+            "evaluation_metric": "Algorithm execution time and resource utilization efficiency",
+            "source_gap": "Quantum-Classical Hybrid and Cloud Computing"
+          }
+        },
+        {
+          "accepted": false,
+          "novelty_score": 4.62,
+          "feasibility_passed": false,
+          "feasibility_notes": "Dataset 'Quantum error correction code performance metrics and cloud-based quantum computing logs' not found in known benchmark list. Ensure you are using a recognised, publicly available dataset.",
+          "suggested_title": "",
+          "research_direction": "",
+          "experimental_blueprint": "",
+          "plan": {
+            "research_question": "Can entanglement-assisted quantum error-correcting codes be applied to a cloud-based quantum computing platform?",
+            "proposed_method": "Development of a cloud-based protocol for entanglement-assisted quantum error correction",
+            "dataset": "Quantum error correction code performance metrics and cloud-based quantum computing logs",
+            "evaluation_metric": "Error correction accuracy and quantum information protection",
+            "source_gap": "Quantum-Classical Hybrid and Cloud Computing"
+          }
+        },
+        {
+          "accepted": false,
+          "novelty_score": 4.8,
+          "feasibility_passed": false,
+          "feasibility_notes": "Dataset 'Quantum error correction performance metrics and hybrid algorithm execution logs' not found in known benchmark list. Ensure you are using a recognised, publicly available dataset.",
+          "suggested_title": "",
+          "research_direction": "",
+          "experimental_blueprint": "",
+          "plan": {
+            "research_question": "What are the benefits of integrating continuous-time quantum error correction into a hybrid quantum-classical computing framework?",
+            "proposed_method": "Design and implementation of a continuous-time quantum error correction module for Tierkreis",
+            "dataset": "Quantum error correction performance metrics and hybrid algorithm execution logs",
+            "evaluation_metric": "Quantum information protection and algorithm execution accuracy",
+            "source_gap": "Quantum-Classical Hybrid and Cloud Computing"
+          }
+        },
+        {
+          "accepted": false,
+          "novelty_score": 5.34,
+          "feasibility_passed": false,
+          "feasibility_notes": "Dataset 'Quantum double models in 2D with varying finite groups' not found in known benchmark list. Ensure you are using a recognised, publicly available dataset. | Evaluation metric 'Error correction threshold' could not be matched to a recognised method type. Use a standard metric such as accuracy, F1, BLEU, ROUGE, MSE, or forgetting.",
+          "suggested_title": "",
+          "research_direction": "",
+          "experimental_blueprint": "",
+          "plan": {
+            "research_question": "Can topological quantum order be utilized to construct robust quantum error-correcting codes?",
+            "proposed_method": "Investigating the application of Kitaev's quantum double models to generate gauge-invariant states for error correction",
+            "dataset": "Quantum double models in 2D with varying finite groups",
+            "evaluation_metric": "Error correction threshold",
+            "source_gap": "Topological Quantum Order and Quantum Error-Correcting Codes"
+          }
+        },
+        {
+          "accepted": false,
+          "novelty_score": 5.17,
+          "feasibility_passed": false,
+          "feasibility_notes": "Dataset 'Simulated quantum systems under continuous noise' not found in known benchmark list. Ensure you are using a recognised, publicly available dataset.",
+          "suggested_title": "",
+          "research_direction": "",
+          "experimental_blueprint": "",
+          "plan": {
+            "research_question": "How can continuous-time quantum error correction be integrated with topological quantum order for enhanced noise resilience?",
+            "proposed_method": "Developing a framework that combines continuous weak measurements and feedback with topological quantum codes",
+            "dataset": "Simulated quantum systems under continuous noise",
+            "evaluation_metric": "Quantum information fidelity over time",
+            "source_gap": "Topological Quantum Order and Quantum Error-Correcting Codes"
+          }
+        },
+        {
+          "accepted": false,
+          "novelty_score": 4.52,
+          "feasibility_passed": false,
+          "feasibility_notes": "Dataset 'Entanglement patterns in topological quantum systems' not found in known benchmark list. Ensure you are using a recognised, publicly available dataset. | Evaluation metric 'Entanglement-assisted error correction capacity' could not be matched to a recognised method type. Use a standard metric such as accuracy, F1, BLEU, ROUGE, MSE, or forgetting.",
+          "suggested_title": "",
+          "research_direction": "",
+          "experimental_blueprint": "",
+          "plan": {
+            "research_question": "What role can entanglement play in enhancing the robustness of quantum error-correcting codes derived from topological quantum order?",
+            "proposed_method": "Designing entanglement-assisted quantum error-correcting codes based on topological quantum systems",
+            "dataset": "Entanglement patterns in topological quantum systems",
+            "evaluation_metric": "Entanglement-assisted error correction capacity",
+            "source_gap": "Topological Quantum Order and Quantum Error-Correcting Codes"
+          }
+        }
+      ]
+    },
+    {
+      "topic": "sign language recognition Indian regional languages",
+      "timestamp": "2026-03-20T21:23:32.881158",
+      "summary": {
+        "total_reviewed": 12,
+        "accepted": 0,
+        "rejected": 12
+      },
+      "results": [
+        {
+          "accepted": false,
+          "novelty_score": 6.64,
+          "feasibility_passed": false,
+          "feasibility_notes": "Dataset 'ChaLearn LAP Large Scale Signer Independent Isolated Sign Language Recognition Challenge dataset' not found in known benchmark list. Ensure you are using a recognised, publicly available dataset.",
+          "suggested_title": "",
+          "research_direction": "",
+          "experimental_blueprint": "",
+          "plan": {
+            "research_question": "Can spatio-temporal modeling be integrated with multimodal learning to improve sign language recognition accuracy?",
+            "proposed_method": "Propose a multimodal fusion framework that incorporates spatio-temporal convolutional neural networks and graph attention networks to model manual and non-manual features",
+            "dataset": "ChaLearn LAP Large Scale Signer Independent Isolated Sign Language Recognition Challenge dataset",
+            "evaluation_metric": "Recognition accuracy and F1-score",
+            "source_gap": "There's a lack of integration of multimodal learning and spatio-temporal modeling in sign language recognition."
+          }
+        },
+        {
+          "accepted": false,
+          "novelty_score": 7.26,
+          "feasibility_passed": false,
+          "feasibility_notes": "Dataset 'Cross-View Isolated Sign Language Recognition dataset' not found in known benchmark list. Ensure you are using a recognised, publicly available dataset.",
+          "suggested_title": "",
+          "research_direction": "",
+          "experimental_blueprint": "",
+          "plan": {
+            "research_question": "How can ensemble learning be utilized to enhance the robustness of sign language recognition models?",
+            "proposed_method": "Develop an ensemble learning approach that combines the predictions of multiple models trained on different views and modalities, using techniques such as stacking and bagging",
+            "dataset": "Cross-View Isolated Sign Language Recognition dataset",
+            "evaluation_metric": "Recognition accuracy, precision, and recall",
+            "source_gap": "There's a lack of integration of multimodal learning and spatio-temporal modeling in sign language recognition."
+          }
+        },
+        {
+          "accepted": false,
+          "novelty_score": 5.77,
+          "feasibility_passed": false,
+          "feasibility_notes": "Dataset 'Large-scale sign language dataset with multiple modalities' not found in known benchmark list. Ensure you are using a recognised, publicly available dataset.",
+          "suggested_title": "",
+          "research_direction": "",
+          "experimental_blueprint": "",
+          "plan": {
+            "research_question": "What is the impact of multimodal pre-training on the performance of sign language recognition models?",
+            "proposed_method": "Investigate the use of multimodal pre-training methods, such as contrastive learning and masked language modeling, to improve the representation learning of sign language",
+            "dataset": "Large-scale sign language dataset with multiple modalities",
+            "evaluation_metric": "Recognition accuracy, BLEU score, and embedding visualization",
+            "source_gap": "There's a lack of integration of multimodal learning and spatio-temporal modeling in sign language recognition."
+          }
+        },
+        {
+          "accepted": false,
+          "novelty_score": 7.83,
+          "feasibility_passed": false,
+          "feasibility_notes": "Dataset 'Turkic languages dataset with annotated cognates and etymological origins' not found in known benchmark list. Ensure you are using a recognised, publicly available dataset.",
+          "suggested_title": "",
+          "research_direction": "",
+          "experimental_blueprint": "",
+          "plan": {
+            "research_question": "Can we develop a novel lexicon induction method for low-resource languages by leveraging machine learning techniques and annotating etymological relationships among lexical items?",
+            "proposed_method": "Unsupervised neural network-based approach with attention mechanisms to capture etymological relationships",
+            "dataset": "Turkic languages dataset with annotated cognates and etymological origins",
+            "evaluation_metric": "Precision and recall of induced lexicon entries",
+            "source_gap": "The exploration of automated translation and lexicon induction in low-resource languages is underrepresented."
+          }
+        },
+        {
+          "accepted": false,
+          "novelty_score": 6.97,
+          "feasibility_passed": false,
+          "feasibility_notes": "Dataset 'Multilingual dataset with paired text in English and Indian languages' not found in known benchmark list. Ensure you are using a recognised, publicly available dataset.",
+          "suggested_title": "",
+          "research_direction": "",
+          "experimental_blueprint": "",
+          "plan": {
+            "research_question": "How effective is transfer learning in improving automated translation for low-resource Indian languages?",
+            "proposed_method": "Transfer learning-based approach using pre-trained models on high-resource languages and fine-tuning on low-resource Indian languages",
+            "dataset": "Multilingual dataset with paired text in English and Indian languages",
+            "evaluation_metric": "BLEU score for machine translation",
+            "source_gap": "The exploration of automated translation and lexicon induction in low-resource languages is underrepresented."
+          }
+        },
+        {
+          "accepted": false,
+          "novelty_score": 5.73,
+          "feasibility_passed": false,
+          "feasibility_notes": "Dataset 'Isolated sign language dataset with annotated signs and corresponding text translations' not found in known benchmark list. Ensure you are using a recognised, publicly available dataset.",
+          "suggested_title": "",
+          "research_direction": "",
+          "experimental_blueprint": "",
+          "plan": {
+            "research_question": "Can we design an automated system for sign language recognition and translation to facilitate communication for deaf and hard of hearing individuals in low-resource languages?",
+            "proposed_method": "Multimodal fusion-based approach combining computer vision and machine learning techniques for sign language recognition and translation",
+            "dataset": "Isolated sign language dataset with annotated signs and corresponding text translations",
+            "evaluation_metric": "Accuracy of sign language recognition and translation",
+            "source_gap": "The exploration of automated translation and lexicon induction in low-resource languages is underrepresented."
+          }
+        },
+        {
+          "accepted": false,
+          "novelty_score": 6.42,
+          "feasibility_passed": false,
+          "feasibility_notes": "Dataset 'German Sign Language dataset' not found in known benchmark list. Ensure you are using a recognised, publicly available dataset. | Evaluation metric 'Word error rate' could not be matched to a recognised method type. Use a standard metric such as accuracy, F1, BLEU, ROUGE, MSE, or forgetting.",
+          "suggested_title": "",
+          "research_direction": "",
+          "experimental_blueprint": "",
+          "plan": {
+            "research_question": "Can transfer learning from visual speech recognition improve mouthing recognition in sign language?",
+            "proposed_method": "Fine-tuning a pre-trained visual speech recognition model on a mouthing recognition dataset",
+            "dataset": "German Sign Language dataset",
+            "evaluation_metric": "Word error rate",
+            "source_gap": "Research on the application of transfer learning to visual speech recognition and mouthing recognition is scarce."
+          }
+        },
+        {
+          "accepted": false,
+          "novelty_score": 6.67,
+          "feasibility_passed": false,
+          "feasibility_notes": "Dataset 'ChaLearn LAP Sign Language Recognition dataset' not found in known benchmark list. Ensure you are using a recognised, publicly available dataset.",
+          "suggested_title": "",
+          "research_direction": "",
+          "experimental_blueprint": "",
+          "plan": {
+            "research_question": "How does transfer learning from visual speech recognition to mouthing recognition impact robustness to signer variability?",
+            "proposed_method": "Training a multi-task learning model that jointly optimizes visual speech recognition and mouthing recognition objectives",
+            "dataset": "ChaLearn LAP Sign Language Recognition dataset",
+            "evaluation_metric": "Signer-independent recognition accuracy",
+            "source_gap": "Research on the application of transfer learning to visual speech recognition and mouthing recognition is scarce."
+          }
+        },
+        {
+          "accepted": false,
+          "novelty_score": 5.76,
+          "feasibility_passed": false,
+          "feasibility_notes": "Dataset 'Multilingual sign language dataset' not found in known benchmark list. Ensure you are using a recognised, publicly available dataset.",
+          "suggested_title": "",
+          "research_direction": "",
+          "experimental_blueprint": "",
+          "plan": {
+            "research_question": "What is the effectiveness of transfer learning from visual speech recognition to mouthing recognition across different sign languages?",
+            "proposed_method": "Adapting a pre-trained visual speech recognition model to multiple sign languages using few-shot learning",
+            "dataset": "Multilingual sign language dataset",
+            "evaluation_metric": "Language-independent mouthing recognition accuracy",
+            "source_gap": "Research on the application of transfer learning to visual speech recognition and mouthing recognition is scarce."
+          }
+        },
+        {
+          "accepted": false,
+          "novelty_score": 5.66,
+          "feasibility_passed": false,
+          "feasibility_notes": "Dataset 'Slovo: Russian Sign Language Dataset' not found in known benchmark list. Ensure you are using a recognised, publicly available dataset.",
+          "suggested_title": "",
+          "research_direction": "",
+          "experimental_blueprint": "",
+          "plan": {
+            "research_question": "Can we improve sign language recognition accuracy by leveraging crowdsourced data annotation on a large-scale dataset?",
+            "proposed_method": "Developing a crowdsourcing platform for data annotation and utilizing transfer learning to adapt to new sign language datasets",
+            "dataset": "Slovo: Russian Sign Language Dataset",
+            "evaluation_metric": "Recognition accuracy and F1-score",
+            "source_gap": "The use of crowdsourcing platforms and data annotation for sign language recognition requires further investigation."
+          }
+        },
+        {
+          "accepted": false,
+          "novelty_score": 6.88,
+          "feasibility_passed": false,
+          "feasibility_notes": "Dataset 'CV-ISLR challenge dataset' not found in known benchmark list. Ensure you are using a recognised, publicly available dataset.",
+          "suggested_title": "",
+          "research_direction": "",
+          "experimental_blueprint": "",
+          "plan": {
+            "research_question": "How can ensemble learning strategies be optimized for cross-view isolated sign language recognition?",
+            "proposed_method": "Implementing a multi-view ensemble learning approach with convolutional neural networks (CNNs) and recurrent neural networks (RNNs)",
+            "dataset": "CV-ISLR challenge dataset",
+            "evaluation_metric": "Recognition accuracy and mean average precision (MAP)",
+            "source_gap": "The use of crowdsourcing platforms and data annotation for sign language recognition requires further investigation."
+          }
+        },
+        {
+          "accepted": false,
+          "novelty_score": 6.44,
+          "feasibility_passed": false,
+          "feasibility_notes": "Dataset 'A large-scale multimodal sign language dataset' not found in known benchmark list. Ensure you are using a recognised, publicly available dataset.",
+          "suggested_title": "",
+          "research_direction": "",
+          "experimental_blueprint": "",
+          "plan": {
+            "research_question": "What is the impact of multimodal pre-training on sign language understanding, and can it be scaled up for real-world applications?",
+            "proposed_method": "Designing a multimodal pre-training framework that incorporates manual and non-manual features, and fine-tuning it on a large-scale dataset",
+            "dataset": "A large-scale multimodal sign language dataset",
+            "evaluation_metric": "Recognition accuracy, F1-score, and human evaluation metrics such as clarity and fluency",
+            "source_gap": "The use of crowdsourcing platforms and data annotation for sign language recognition requires further investigation."
+          }
+        }
+      ]
+    },
+    {
+      "topic": "deep learning",
+      "timestamp": "2026-03-20T21:25:08.905093",
+      "summary": {
+        "total_reviewed": 15,
+        "accepted": 4,
+        "rejected": 11
+      },
+      "results": [
+        {
+          "accepted": false,
+          "novelty_score": 6.28,
+          "feasibility_passed": false,
+          "feasibility_notes": "Dataset 'MRI scans of brain tumors' not found in known benchmark list. Ensure you are using a recognised, publicly available dataset. | Evaluation metric 'Dice Coefficient' does not appear appropriate for a 'classification' method. Expected one of: ['accuracy', 'f1', 'precision', 'recall', 'auc', 'roc', 'top-1', 'top-5', 'balanced accuracy'].",
+          "suggested_title": "",
+          "research_direction": "",
+          "experimental_blueprint": "",
+          "plan": {
+            "research_question": "How can Evidential Deep Learning models be applied to Medical Image Analysis to improve uncertainty quantification?",
+            "proposed_method": "Developing and evaluating Generalized Regularized Evidential Deep Learning models for medical image classification tasks",
+            "dataset": "MRI scans of brain tumors",
+            "evaluation_metric": "Dice Coefficient",
+            "source_gap": "Application of Evidential Deep Learning in Medical Image Analysis"
+          }
+        },
+        {
+          "accepted": false,
+          "novelty_score": 6.24,
+          "feasibility_passed": false,
+          "feasibility_notes": "Dataset 'CT scans of lung nodules' not found in known benchmark list. Ensure you are using a recognised, publicly available dataset. | Evaluation metric 'Intersection over Union' could not be matched to a recognised method type. Use a standard metric such as accuracy, F1, BLEU, ROUGE, MSE, or forgetting.",
+          "suggested_title": "",
+          "research_direction": "",
+          "experimental_blueprint": "",
+          "plan": {
+            "research_question": "Can Evidential Deep Learning be used to accumulate evidence from all training samples in Medical Image Analysis?",
+            "proposed_method": "Implementing a Learn-to-Accumulate-Evidence framework for medical image segmentation tasks using Evidential Deep Learning",
+            "dataset": "CT scans of lung nodules",
+            "evaluation_metric": "Intersection over Union",
+            "source_gap": "Application of Evidential Deep Learning in Medical Image Analysis"
+          }
+        },
+        {
+          "accepted": false,
+          "novelty_score": 6.19,
+          "feasibility_passed": false,
+          "feasibility_notes": "Dataset 'X-ray images of bone fractures' not found in known benchmark list. Ensure you are using a recognised, publicly available dataset. | Evaluation metric 'PePR score' could not be matched to a recognised method type. Use a standard metric such as accuracy, F1, BLEU, ROUGE, MSE, or forgetting.",
+          "suggested_title": "",
+          "research_direction": "",
+          "experimental_blueprint": "",
+          "plan": {
+            "research_question": "What is the impact of Performance Per Resource Unit on the application of Evidential Deep Learning in Medical Image Analysis?",
+            "proposed_method": "Evaluating the performance of Evidential Deep Learning models on medical image analysis tasks using the PePR metric",
+            "dataset": "X-ray images of bone fractures",
+            "evaluation_metric": "PePR score",
+            "source_gap": "Application of Evidential Deep Learning in Medical Image Analysis"
+          }
+        },
+        {
+          "accepted": false,
+          "novelty_score": 6.49,
+          "feasibility_passed": false,
+          "feasibility_notes": "Dataset 'Simulated data from computational physics models and real-world sensor data from various engineering applications' not found in known benchmark list. Ensure you are using a recognised, publicly available dataset.",
+          "suggested_title": "",
+          "research_direction": "",
+          "experimental_blueprint": "",
+          "plan": {
+            "research_question": "How can deep learning models be integrated with computational physics to predict complex system behavior in real-time?",
+            "proposed_method": "Develop a physics-informed neural network (PINN) that leverages computational physics to regularize deep learning models and improve their predictive accuracy in real-time systems",
+            "dataset": "Simulated data from computational physics models and real-world sensor data from various engineering applications",
+            "evaluation_metric": "Mean Absolute Error (MAE) and Mean Squared Error (MSE) between predicted and actual system behavior",
+            "source_gap": "Integration of Deep Learning and Computational Physics for Real-Time Systems"
+          }
+        },
+        {
+          "accepted": false,
+          "novelty_score": 6.31,
+          "feasibility_passed": false,
+          "feasibility_notes": "Dataset 'Large-scale datasets from various computational physics applications, such as fluid dynamics, structural mechanics, and thermodynamics' not found in known benchmark list. Ensure you are using a recognised, publicly available dataset.",
+          "suggested_title": "",
+          "research_direction": "",
+          "experimental_blueprint": "",
+          "plan": {
+            "research_question": "Can multitask deep learning models be designed to simultaneously solve multiple computational physics problems in real-time systems?",
+            "proposed_method": "Design a novel multitask deep learning architecture that integrates multiple physics-based loss functions and regularization techniques to enable simultaneous solution of multiple computational physics problems",
+            "dataset": "Large-scale datasets from various computational physics applications, such as fluid dynamics, structural mechanics, and thermodynamics",
+            "evaluation_metric": "Task-specific metrics, such as accuracy, precision, and recall, as well as overall multitask performance metrics, such as average precision and recall",
+            "source_gap": "Integration of Deep Learning and Computational Physics for Real-Time Systems"
+          }
+        },
+        {
+          "accepted": false,
+          "novelty_score": 5.86,
+          "feasibility_passed": false,
+          "feasibility_notes": "Dataset 'Benchmark datasets from computational physics applications, such as the Navier-Stokes equations and the heat equation' not found in known benchmark list. Ensure you are using a recognised, publicly available dataset.",
+          "suggested_title": "",
+          "research_direction": "",
+          "experimental_blueprint": "",
+          "plan": {
+            "research_question": "What are the mathematical foundations of deep learning models in computational physics, and how can they be used to improve model interpretability and generalizability in real-time systems?",
+            "proposed_method": "Develop a mathematical framework that integrates concepts from deep learning theory, computational physics, and numerical analysis to provide insights into the behavior of deep learning models in computational physics applications",
+            "dataset": "Benchmark datasets from computational physics applications, such as the Navier-Stokes equations and the heat equation",
+            "evaluation_metric": "Mathematical metrics, such as convergence rates and stability bounds, as well as practical metrics, such as computational cost and model interpretability",
+            "source_gap": "Integration of Deep Learning and Computational Physics for Real-Time Systems"
+          }
+        },
+        {
+          "accepted": false,
+          "novelty_score": 6.66,
+          "feasibility_passed": false,
+          "feasibility_notes": "Dataset 'H&E stained liver histopathology images' not found in known benchmark list. Ensure you are using a recognised, publicly available dataset.",
+          "suggested_title": "",
+          "research_direction": "",
+          "experimental_blueprint": "",
+          "plan": {
+            "research_question": "How can uncertainty quantification be achieved in deep neural networks for medical image classification tasks?",
+            "proposed_method": "Implementation of evidential deep learning models with generalized regularization techniques",
+            "dataset": "H&E stained liver histopathology images",
+            "evaluation_metric": "Area under the ROC curve",
+            "source_gap": "Uncertainty Quantification in Deep Neural Networks for Computer Vision Tasks"
+          }
+        },
+        {
+          "accepted": false,
+          "novelty_score": 8.17,
+          "feasibility_passed": false,
+          "feasibility_notes": "Evaluation metric 'Expected Calibration Error' could not be matched to a recognised method type. Use a standard metric such as accuracy, F1, BLEU, ROUGE, MSE, or forgetting.",
+          "suggested_title": "",
+          "research_direction": "",
+          "experimental_blueprint": "",
+          "plan": {
+            "research_question": "What is the impact of loss functions on uncertainty quantification in deep neural networks for computer vision tasks?",
+            "proposed_method": "Investigation of different loss functions and their effects on model calibration and uncertainty estimation",
+            "dataset": "CIFAR-10 and MNIST datasets",
+            "evaluation_metric": "Expected Calibration Error",
+            "source_gap": "Uncertainty Quantification in Deep Neural Networks for Computer Vision Tasks"
+          }
+        },
+        {
+          "accepted": false,
+          "novelty_score": 7.23,
+          "feasibility_passed": false,
+          "feasibility_notes": "Evaluation metric 'Mean Squared Error of predictive distributions' could not be matched to a recognised method type. Use a standard metric such as accuracy, F1, BLEU, ROUGE, MSE, or forgetting.",
+          "suggested_title": "",
+          "research_direction": "",
+          "experimental_blueprint": "",
+          "plan": {
+            "research_question": "Can hybrid deep learning approaches improve uncertainty quantification in deep neural networks for image classification tasks?",
+            "proposed_method": "Development of a hybrid model combining transfer learning and Bayesian neural networks",
+            "dataset": "ImageNet and Stanford Cars datasets",
+            "evaluation_metric": "Mean Squared Error of predictive distributions",
+            "source_gap": "Uncertainty Quantification in Deep Neural Networks for Computer Vision Tasks"
+          }
+        },
+        {
+          "accepted": false,
+          "novelty_score": 6.14,
+          "feasibility_passed": false,
+          "feasibility_notes": "Dataset 'BSDS500 dataset' not found in known benchmark list. Ensure you are using a recognised, publicly available dataset. | Evaluation metric 'Peak Signal-to-Noise Ratio (PSNR)' could not be matched to a recognised method type. Use a standard metric such as accuracy, F1, BLEU, ROUGE, MSE, or forgetting.",
+          "suggested_title": "",
+          "research_direction": "",
+          "experimental_blueprint": "",
+          "plan": {
+            "research_question": "Can Generative Adversarial Networks be used for image restoration by learning internal representations from a single image?",
+            "proposed_method": "Propose a new architecture that combines deep internal learning with adversarial training for image restoration tasks",
+            "dataset": "BSDS500 dataset",
+            "evaluation_metric": "Peak Signal-to-Noise Ratio (PSNR)",
+            "source_gap": "Application of Generative Adversarial Networks in Image Restoration and Enhancement"
+          }
+        },
+        {
+          "accepted": false,
+          "novelty_score": 7.31,
+          "feasibility_passed": false,
+          "feasibility_notes": "Dataset 'DIV2K dataset' not found in known benchmark list. Ensure you are using a recognised, publicly available dataset.",
+          "suggested_title": "",
+          "research_direction": "",
+          "experimental_blueprint": "",
+          "plan": {
+            "research_question": "How can Generative Adversarial Networks be applied to image enhancement tasks, such as super-resolution and de-noising?",
+            "proposed_method": "Develop a novel GAN-based approach that incorporates physics-based Bayesian inverse problems for image enhancement",
+            "dataset": "DIV2K dataset",
+            "evaluation_metric": "Structural Similarity Index (SSIM)",
+            "source_gap": "Application of Generative Adversarial Networks in Image Restoration and Enhancement"
+          }
+        },
+        {
+          "accepted": true,
+          "novelty_score": 6.26,
+          "feasibility_passed": true,
+          "feasibility_notes": "All feasibility checks passed.",
+          "suggested_title": "Deep Contextual GANs for Image Restoration and Enhancement",
+          "research_direction": "This research aims to explore the potential of integrating deep contextual features learning with Generative Adversarial Networks (GANs) to improve image restoration and enhancement tasks. By leveraging contextual information from a single image, the proposed framework seeks to achieve superior performance over existing methods.",
+          "experimental_blueprint": "The proposed framework will be tested on the ImageNet dataset, utilizing a combination of deep learning models to learn contextual features and GANs to generate enhanced images. The performance of the proposed framework will be evaluated using the Mean Squared Error (MSE) metric, comparing the results with state-of-the-art image restoration and enhancement methods. The experimental setup will involve training and testing the model on a subset of the ImageNet dataset, with hyperparameter tuning and model selection based on the validation set performance. The results will provide insight into the effectiveness of the proposed deep contextual GANs framework for image restoration and enhancement tasks.",
+          "plan": {
+            "research_question": "Can contextual features learned from a single image be used to improve image restoration and enhancement tasks using Generative Adversarial Networks?",
+            "proposed_method": "Propose a new framework that integrates Deep Contextual Features Learning with GANs for image restoration and enhancement",
+            "dataset": "ImageNet dataset",
+            "evaluation_metric": "Mean Squared Error (MSE)",
+            "source_gap": "Application of Generative Adversarial Networks in Image Restoration and Enhancement"
+          }
+        },
+        {
+          "accepted": true,
+          "novelty_score": 7.82,
+          "feasibility_passed": true,
+          "feasibility_notes": "All feasibility checks passed.",
+          "suggested_title": "Evidential Deep Learning for Robust Medical Image Analysis",
+          "research_direction": "This research aims to enhance the reliability of medical image analysis by leveraging Evidential Deep Learning (EDL), which can effectively quantify and manage uncertainty. By integrating belief theory and subjective logic into deep learning models, the study seeks to improve the robustness of medical image analysis.",
+          "experimental_blueprint": "The proposed EDL-based approach will be implemented using publicly available medical image datasets such as MNIST-Med or OpenI. The performance of the EDL model will be evaluated using metrics such as the Area Under the Receiver Operating Characteristic Curve (AUC-ROC) and Cohen's Kappa score. The experimental design will involve comparing the EDL model with traditional deep learning models to assess its effectiveness in mitigating uncertainty and improving robustness. The results will provide insights into the potential of EDL in medical image analysis and its ability to enhance the reliability of diagnostic decisions.",
+          "plan": {
+            "research_question": "How can Evidential Deep Learning be used to improve the robustness of Medical Image Analysis models?",
+            "proposed_method": "Implementing an EDL-based approach using belief theory and subjective logic to quantify and mitigate uncertainty in medical image analysis",
+            "dataset": "Publicly available datasets such as MNIST-Med or OpenI",
+            "evaluation_metric": "Area Under the Receiver Operating Characteristic Curve (AUC-ROC) and Cohen's Kappa score",
+            "source_gap": "Application of Evidential Deep Learning in Medical Image Analysis"
+          }
+        },
+        {
+          "accepted": true,
+          "novelty_score": 6.48,
+          "feasibility_passed": true,
+          "feasibility_notes": "All feasibility checks passed.",
+          "suggested_title": "Enhancing Image Restoration via Hybrid GAN-Internal Learning Approach",
+          "research_direction": "This research explores the potential of a hybrid approach combining generative adversarial networks (GANs) with deep internal learning to improve image restoration quality, leveraging both perceptual and contextual information. By integrating these two methodologies, the study aims to overcome the limitations of traditional image restoration methods.",
+          "experimental_blueprint": "To test the proposed architecture, a combination of publicly available datasets such as ImageNet and DIV2K will be used for training and evaluation. The performance of the hybrid approach will be compared to state-of-the-art image restoration methods using metrics such as Peak Signal-to-Noise Ratio (PSNR) and Structural Similarity Index (SSIM). The experimental setup will involve training the model on the combined dataset and evaluating its performance on a held-out test set, with a focus on analyzing the impact of the internal learning mechanism on the quality of restored images.",
+          "plan": {
+            "research_question": "Can a hybrid approach combining generative adversarial networks with deep internal learning improve image restoration quality?",
+            "proposed_method": "Propose a novel architecture that integrates GANs with internal learning mechanisms to leverage both perceptual and contextual information",
+            "dataset": "Use a combination of publicly available datasets such as ImageNet and DIV2K for training and evaluation",
+            "evaluation_metric": "Peak Signal-to-Noise Ratio (PSNR) and Structural Similarity Index (SSIM)",
+            "source_gap": "Application of Generative Adversarial Networks in Image Restoration and Enhancement"
+          }
+        },
+        {
+          "accepted": true,
+          "novelty_score": 7.01,
+          "feasibility_passed": true,
+          "feasibility_notes": "All feasibility checks passed.",
+          "suggested_title": "Enhancing Deep Neural Network Robustness with Uncertainty-Aware Loss Functions for Computer Vision",
+          "research_direction": "This research explores the potential of incorporating uncertainty-aware loss functions into Deep Neural Networks to boost their robustness in handling complex computer vision tasks. It aims to contribute to the understanding of how uncertainty-aware loss functions impact model performance and reliability.",
+          "experimental_blueprint": "The proposed method involves implementing Heteroscedastic Neural Networks with uncertainty-aware loss functions and training them on the ImageNet dataset. The performance will be evaluated using the Top-5 Error Rate metric, comparing the results with traditional loss functions to quantify the improvement. The experimentation will also consider varying levels of uncertainty and noise in the data to assess the model's robustness under different conditions. The results are expected to provide insights into the effectiveness of uncertainty-aware loss functions in enhancing model performance and reliability in computer vision tasks.",
+          "plan": {
+            "research_question": "Does the use of uncertainty-aware loss functions improve the robustness of Deep Neural Networks in computer vision tasks?",
+            "proposed_method": "Heteroscedastic Neural Networks with Uncertainty-Aware Loss Functions",
+            "dataset": "ImageNet",
+            "evaluation_metric": "Top-5 Error Rate",
+            "source_gap": "Uncertainty Quantification in Deep Neural Networks for Computer Vision Tasks"
+          }
+        }
+      ]
+    },
+    {
+      "topic": "federated learning privacy",
+      "timestamp": "2026-03-22T10:48:33.791915",
+      "summary": {
+        "total_reviewed": 12,
+        "accepted": 0,
+        "rejected": 12
+      },
+      "results": [
+        {
+          "accepted": false,
+          "novelty_score": 6.22,
+          "feasibility_passed": false,
+          "feasibility_notes": "Dataset 'MovieLens or Amazon product ratings' could not be verified on the Hugging Face Hub. Use a publicly available, named benchmark dataset (e.g. from huggingface.co/datasets).",
+          "suggested_title": "",
+          "research_direction": "",
+          "experimental_blueprint": "",
+          "plan": {
+            "research_question": "Can we develop an efficient federated collaborative filtering approach using matrix factorization without compromising user data privacy?",
+            "proposed_method": "Implementing a decentralized matrix factorization algorithm with secure multi-party computation",
+            "dataset": "MovieLens or Amazon product ratings",
+            "evaluation_metric": "Mean Average Precision (MAP) or Normalized Discounted Cumulative Gain (NDCG)",
+            "source_gap": "The intersection of federated learning and recommender systems with a focus on collaborative filtering"
+          }
+        },
+        {
+          "accepted": false,
+          "novelty_score": 4.8,
+          "feasibility_passed": false,
+          "feasibility_notes": "Dataset 'Multi-client e-commerce transaction data' could not be verified on the Hugging Face Hub. Use a publicly available, named benchmark dataset (e.g. from huggingface.co/datasets).",
+          "suggested_title": "",
+          "research_direction": "",
+          "experimental_blueprint": "",
+          "plan": {
+            "research_question": "How can asynchronous federated learning improve the performance of collaborative filtering in recommender systems?",
+            "proposed_method": "Developing an asynchronous stochastic gradient descent algorithm for vertical federated learning",
+            "dataset": "Multi-client e-commerce transaction data",
+            "evaluation_metric": "Precision at k (P@k) or Recall at k (R@k)",
+            "source_gap": "The intersection of federated learning and recommender systems with a focus on collaborative filtering"
+          }
+        },
+        {
+          "accepted": false,
+          "novelty_score": 4.99,
+          "feasibility_passed": false,
+          "feasibility_notes": "Dataset 'Synthetic or real-world datasets with diverse user behavior' could not be verified on the Hugging Face Hub. Use a publicly available, named benchmark dataset (e.g. from huggingface.co/datasets).",
+          "suggested_title": "",
+          "research_direction": "",
+          "experimental_blueprint": "",
+          "plan": {
+            "research_question": "What are the effects of non-IID data on the performance of federated collaborative filtering, and how can we mitigate them?",
+            "proposed_method": "Adapting a penalty term-based approach to federated learning for handling non-IID data",
+            "dataset": "Synthetic or real-world datasets with diverse user behavior",
+            "evaluation_metric": "Area Under the ROC Curve (AUC-ROC) or Mean Squared Error (MSE)",
+            "source_gap": "The intersection of federated learning and recommender systems with a focus on collaborative filtering"
+          }
+        },
+        {
+          "accepted": false,
+          "novelty_score": 5.78,
+          "feasibility_passed": false,
+          "feasibility_notes": "Dataset 'Synthetic social network data' could not be verified on the Hugging Face Hub. Use a publicly available, named benchmark dataset (e.g. from huggingface.co/datasets).",
+          "suggested_title": "",
+          "research_direction": "",
+          "experimental_blueprint": "",
+          "plan": {
+            "research_question": "How can differential privacy be applied to decentralized federated learning systems using a gossip protocol?",
+            "proposed_method": "Implementing a differentially private segmented gossip approach",
+            "dataset": "Synthetic social network data",
+            "evaluation_metric": "Privacy loss vs. model accuracy tradeoff",
+            "source_gap": "The application of differential privacy in decentralized federated learning systems"
+          }
+        },
+        {
+          "accepted": false,
+          "novelty_score": 4.04,
+          "feasibility_passed": false,
+          "feasibility_notes": "Dataset 'Real-world healthcare data' could not be verified on the Hugging Face Hub. Use a publicly available, named benchmark dataset (e.g. from huggingface.co/datasets).",
+          "suggested_title": "",
+          "research_direction": "",
+          "experimental_blueprint": "",
+          "plan": {
+            "research_question": "What is the impact of differential privacy on domain adaptation in decentralized federated learning?",
+            "proposed_method": "Developing a framework for private federated learning with domain adaptation using DP-SGD",
+            "dataset": "Real-world healthcare data",
+            "evaluation_metric": "Model accuracy and fairness metric",
+            "source_gap": "The application of differential privacy in decentralized federated learning systems"
+          }
+        },
+        {
+          "accepted": false,
+          "novelty_score": 3.7,
+          "feasibility_passed": false,
+          "feasibility_notes": "Dataset 'Benchmark datasets with injected backdoors' could not be verified on the Hugging Face Hub. Use a publicly available, named benchmark dataset (e.g. from huggingface.co/datasets).",
+          "suggested_title": "",
+          "research_direction": "",
+          "experimental_blueprint": "",
+          "plan": {
+            "research_question": "Can differential privacy prevent backdoor attacks in decentralized federated learning systems?",
+            "proposed_method": "Designing a differentially private federated learning algorithm with robustness to backdoor attacks",
+            "dataset": "Benchmark datasets with injected backdoors",
+            "evaluation_metric": "Attack success rate vs. model accuracy tradeoff",
+            "source_gap": "The application of differential privacy in decentralized federated learning systems"
+          }
+        },
+        {
+          "accepted": false,
+          "novelty_score": 6.74,
+          "feasibility_passed": false,
+          "feasibility_notes": "Dataset 'Open-source federated learning benchmark datasets' could not be verified on the Hugging Face Hub. Use a publicly available, named benchmark dataset (e.g. from huggingface.co/datasets).",
+          "suggested_title": "",
+          "research_direction": "",
+          "experimental_blueprint": "",
+          "plan": {
+            "research_question": "Can defensive aggregation methods effectively mitigate poisoning attacks in federated learning?",
+            "proposed_method": "Develop a robust defensive aggregation algorithm that detects and excludes poisoned updates",
+            "dataset": "Open-source federated learning benchmark datasets",
+            "evaluation_metric": "Model accuracy and convergence rate",
+            "source_gap": "Countermeasures against poisoning attacks in federated learning"
+          }
+        },
+        {
+          "accepted": false,
+          "novelty_score": 4.36,
+          "feasibility_passed": false,
+          "feasibility_notes": "Dataset 'Private datasets from multiple institutions with heterogeneous data' could not be verified on the Hugging Face Hub. Use a publicly available, named benchmark dataset (e.g. from huggingface.co/datasets). | Evaluation metric 'Model performance and privacy preservation' does not appear appropriate for a 'sign' method. Expected one of: ['accuracy', 'f1', 'precision', 'recall', 'word error rate', 'wer', 'recognition accuracy', 'signer-independent accuracy', 'top-1 accuracy', 'bleu'].",
+          "suggested_title": "",
+          "research_direction": "",
+          "experimental_blueprint": "",
+          "plan": {
+            "research_question": "How can vertical asynchronous federated learning be secured against poisoning attacks?",
+            "proposed_method": "Design a secure vertical asynchronous federated learning protocol using differential privacy and homomorphic encryption",
+            "dataset": "Private datasets from multiple institutions with heterogeneous data",
+            "evaluation_metric": "Model performance and privacy preservation",
+            "source_gap": "Countermeasures against poisoning attacks in federated learning"
+          }
+        },
+        {
+          "accepted": false,
+          "novelty_score": 4.62,
+          "feasibility_passed": false,
+          "feasibility_notes": "Dataset 'Publicly available datasets with pre-trained models' could not be verified on the Hugging Face Hub. Use a publicly available, named benchmark dataset (e.g. from huggingface.co/datasets). | Evaluation metric 'Model robustness and adaptation rate' could not be matched to a recognised metric type. Use a standard metric such as accuracy, F1, BLEU, ROUGE, MSE, IoU, PSNR, or WER.",
+          "suggested_title": "",
+          "research_direction": "",
+          "experimental_blueprint": "",
+          "plan": {
+            "research_question": "Can transfer learning be used to improve the robustness of federated learning models against poisoning attacks?",
+            "proposed_method": "Develop a transfer learning-based approach to adapt pre-trained models to federated learning settings with poisoning attacks",
+            "dataset": "Publicly available datasets with pre-trained models",
+            "evaluation_metric": "Model robustness and adaptation rate",
+            "source_gap": "Countermeasures against poisoning attacks in federated learning"
+          }
+        },
+        {
+          "accepted": false,
+          "novelty_score": 5.15,
+          "feasibility_passed": false,
+          "feasibility_notes": "Dataset 'Synthetic dataset with non-IID client data' could not be verified on the Hugging Face Hub. Use a publicly available, named benchmark dataset (e.g. from huggingface.co/datasets).",
+          "suggested_title": "",
+          "research_direction": "",
+          "experimental_blueprint": "",
+          "plan": {
+            "research_question": "Can differential privacy be used to protect client data in federated learning with non-IID data?",
+            "proposed_method": "Implementing a differential privacy framework with a penalty term in the loss function to prevent local models from drifting apart",
+            "dataset": "Synthetic dataset with non-IID client data",
+            "evaluation_metric": "Test accuracy and client data privacy loss",
+            "source_gap": "The impact of non-IID data on federated learning model performance and privacy"
+          }
+        },
+        {
+          "accepted": false,
+          "novelty_score": 4.56,
+          "feasibility_passed": false,
+          "feasibility_notes": "Dataset 'Real-world dataset with non-IID client data and varying participation rates' could not be verified on the Hugging Face Hub. Use a publicly available, named benchmark dataset (e.g. from huggingface.co/datasets).",
+          "suggested_title": "",
+          "research_direction": "",
+          "experimental_blueprint": "",
+          "plan": {
+            "research_question": "How does asynchronous federated learning perform on non-IID data with varying client participation rates?",
+            "proposed_method": "Developing an asynchronous federated learning algorithm with stochastic gradient descent and evaluating its performance with different client participation rates",
+            "dataset": "Real-world dataset with non-IID client data and varying participation rates",
+            "evaluation_metric": "Model accuracy and communication efficiency",
+            "source_gap": "The impact of non-IID data on federated learning model performance and privacy"
+          }
+        },
+        {
+          "accepted": false,
+          "novelty_score": 6.5,
+          "feasibility_passed": false,
+          "feasibility_notes": "Dataset 'Publicly available dataset with non-IID client data' could not be verified on the Hugging Face Hub. Use a publicly available, named benchmark dataset (e.g. from huggingface.co/datasets).",
+          "suggested_title": "",
+          "research_direction": "",
+          "experimental_blueprint": "",
+          "plan": {
+            "research_question": "Can transfer learning be used to improve the performance of federated learning models on non-IID data?",
+            "proposed_method": "Proposing a transfer learning-based approach to adapt pre-trained models to non-IID client data and evaluating its performance",
+            "dataset": "Publicly available dataset with non-IID client data",
+            "evaluation_metric": "Model accuracy and knowledge transfer efficiency",
+            "source_gap": "The impact of non-IID data on federated learning model performance and privacy"
+          }
+        }
+      ]
+    },
+    {
+      "topic": "federated learning privacy",
+      "timestamp": "2026-03-22T10:55:23.453735",
+      "summary": {
+        "total_reviewed": 13,
+        "accepted": 1,
+        "rejected": 12
+      },
+      "results": [
+        {
+          "accepted": false,
+          "novelty_score": 7.57,
+          "feasibility_passed": false,
+          "feasibility_notes": "Dataset 'Non-IID dataset with features from different clients' could not be verified on the Hugging Face Hub. Use a publicly available, named benchmark dataset (e.g. from huggingface.co/datasets).",
+          "suggested_title": "",
+          "research_direction": "",
+          "experimental_blueprint": "",
+          "plan": {
+            "research_question": "How can Vertical FL be applied to Non-IID settings using asynchronous stochastic gradient algorithms?",
+            "proposed_method": "Developing an asynchronous Vertical FL method that allows each client to run stochastic gradient algorithms without coordination with other clients",
+            "dataset": "Non-IID dataset with features from different clients",
+            "evaluation_metric": "Model accuracy and convergence rate",
+            "source_gap": "Application of Vertical FL in Non-IID settings"
+          }
+        },
+        {
+          "accepted": false,
+          "novelty_score": 8.33,
+          "feasibility_passed": false,
+          "feasibility_notes": "Dataset 'Non-IID dataset with drifting local models' could not be verified on the Hugging Face Hub. Use a publicly available, named benchmark dataset (e.g. from huggingface.co/datasets).",
+          "suggested_title": "",
+          "research_direction": "",
+          "experimental_blueprint": "",
+          "plan": {
+            "research_question": "Can a penalty term be added to the loss function to overcome forgetting in Vertical FL on Non-IID data?",
+            "proposed_method": "Adapting a solution for catastrophic forgetting to Vertical FL by adding a penalty term to the loss function",
+            "dataset": "Non-IID dataset with drifting local models",
+            "evaluation_metric": "Model accuracy and forgetting rate",
+            "source_gap": "Application of Vertical FL in Non-IID settings"
+          }
+        },
+        {
+          "accepted": false,
+          "novelty_score": 7.46,
+          "feasibility_passed": false,
+          "feasibility_notes": "Dataset 'Non-IID dataset with limited labeled data' could not be verified on the Hugging Face Hub. Use a publicly available, named benchmark dataset (e.g. from huggingface.co/datasets).",
+          "suggested_title": "",
+          "research_direction": "",
+          "experimental_blueprint": "",
+          "plan": {
+            "research_question": "How can transfer learning be incorporated into Vertical FL to overcome Non-IID data challenges?",
+            "proposed_method": "Developing a transfer learning-based Vertical FL method that leverages pre-trained models and fine-tunes them on Non-IID data",
+            "dataset": "Non-IID dataset with limited labeled data",
+            "evaluation_metric": "Model accuracy and knowledge transfer efficiency",
+            "source_gap": "Application of Vertical FL in Non-IID settings"
+          }
+        },
+        {
+          "accepted": false,
+          "novelty_score": 7.2,
+          "feasibility_passed": false,
+          "feasibility_notes": "Dataset 'OpenIOT dataset with simulated Byzantine attacks' could not be verified on the Hugging Face Hub. Use a publicly available, named benchmark dataset (e.g. from huggingface.co/datasets).",
+          "suggested_title": "",
+          "research_direction": "",
+          "experimental_blueprint": "",
+          "plan": {
+            "research_question": "How can we develop Byzantine-robust aggregation methods for Federated Learning?",
+            "proposed_method": "Multi-Krum aggregation with adaptive thresholding",
+            "dataset": "OpenIOT dataset with simulated Byzantine attacks",
+            "evaluation_metric": "Attack detection accuracy",
+            "source_gap": "Development of Byzantine-robust Federated Learning algorithms"
+          }
+        },
+        {
+          "accepted": false,
+          "novelty_score": 7.28,
+          "feasibility_passed": false,
+          "feasibility_notes": "Dataset 'CIFAR-10 dataset with heterogeneous client data' could not be verified on the Hugging Face Hub. Use a publicly available, named benchmark dataset (e.g. from huggingface.co/datasets).",
+          "suggested_title": "",
+          "research_direction": "",
+          "experimental_blueprint": "",
+          "plan": {
+            "research_question": "Can differential privacy be used to improve Byzantine-robustness in Federated Learning?",
+            "proposed_method": "DP-SGD with clipping and noise addition",
+            "dataset": "CIFAR-10 dataset with heterogeneous client data",
+            "evaluation_metric": "Model accuracy under Byzantine attacks",
+            "source_gap": "Development of Byzantine-robust Federated Learning algorithms"
+          }
+        },
+        {
+          "accepted": false,
+          "novelty_score": 6.38,
+          "feasibility_passed": false,
+          "feasibility_notes": "Dataset 'Vertical partitioned dataset from multiple hospitals' could not be verified on the Hugging Face Hub. Use a publicly available, named benchmark dataset (e.g. from huggingface.co/datasets). | Evaluation metric 'Convergence rate under Byzantine attacks' could not be matched to a recognised metric type. Use a standard metric such as accuracy, F1, BLEU, ROUGE, MSE, IoU, PSNR, or WER.",
+          "suggested_title": "",
+          "research_direction": "",
+          "experimental_blueprint": "",
+          "plan": {
+            "research_question": "How can asynchronous Vertical Federated Learning be made Byzantine-robust?",
+            "proposed_method": "Asynchronous stochastic gradient descent with robust gradient aggregation",
+            "dataset": "Vertical partitioned dataset from multiple hospitals",
+            "evaluation_metric": "Convergence rate under Byzantine attacks",
+            "source_gap": "Development of Byzantine-robust Federated Learning algorithms"
+          }
+        },
+        {
+          "accepted": false,
+          "novelty_score": 5.5,
+          "feasibility_passed": false,
+          "feasibility_notes": "Dataset 'MNIST or CIFAR-10 datasets' could not be verified on the Hugging Face Hub. Use a publicly available, named benchmark dataset (e.g. from huggingface.co/datasets). | Evaluation metric 'Mean Squared Error of relevance scores' could not be matched to a recognised metric type. Use a standard metric such as accuracy, F1, BLEU, ROUGE, MSE, IoU, PSNR, or WER.",
+          "suggested_title": "",
+          "research_direction": "",
+          "experimental_blueprint": "",
+          "plan": {
+            "research_question": "Can layer-wise relevance propagation be used to enhance model explainability in Federated Transfer Learning?",
+            "proposed_method": "Implementing layer-wise relevance propagation in the local training process of each client in Federated Transfer Learning",
+            "dataset": "MNIST or CIFAR-10 datasets",
+            "evaluation_metric": "Mean Squared Error of relevance scores",
+            "source_gap": "Improving model explainability in Federated Transfer Learning"
+          }
+        },
+        {
+          "accepted": false,
+          "novelty_score": 5.34,
+          "feasibility_passed": false,
+          "feasibility_notes": "Dataset 'UCI machine learning repository datasets' could not be verified on the Hugging Face Hub. Use a publicly available, named benchmark dataset (e.g. from huggingface.co/datasets).",
+          "suggested_title": "",
+          "research_direction": "",
+          "experimental_blueprint": "",
+          "plan": {
+            "research_question": "How does the integration of model interpretability techniques, such as SHAP, impact the performance of Federated Transfer Learning models?",
+            "proposed_method": "Integrating SHAP values into the model aggregation process in Federated Transfer Learning",
+            "dataset": "UCI machine learning repository datasets",
+            "evaluation_metric": "SHAP value variance across clients",
+            "source_gap": "Improving model explainability in Federated Transfer Learning"
+          }
+        },
+        {
+          "accepted": false,
+          "novelty_score": 5.57,
+          "feasibility_passed": false,
+          "feasibility_notes": "Dataset 'IMDB or 20 Newsgroups datasets' could not be verified on the Hugging Face Hub. Use a publicly available, named benchmark dataset (e.g. from huggingface.co/datasets). | Evaluation metric 'Feature importance scores based on attention weights' could not be matched to a recognised metric type. Use a standard metric such as accuracy, F1, BLEU, ROUGE, MSE, IoU, PSNR, or WER.",
+          "suggested_title": "",
+          "research_direction": "",
+          "experimental_blueprint": "",
+          "plan": {
+            "research_question": "Can attention mechanisms be used to improve the explainability of Federated Transfer Learning models by highlighting the most relevant features?",
+            "proposed_method": "Incorporating attention mechanisms into the feature extraction process of Federated Transfer Learning",
+            "dataset": "IMDB or 20 Newsgroups datasets",
+            "evaluation_metric": "Feature importance scores based on attention weights",
+            "source_gap": "Improving model explainability in Federated Transfer Learning"
+          }
+        },
+        {
+          "accepted": false,
+          "novelty_score": 6.89,
+          "feasibility_passed": false,
+          "feasibility_notes": "Dataset 'Non-IID datasets from multiple clients' could not be verified on the Hugging Face Hub. Use a publicly available, named benchmark dataset (e.g. from huggingface.co/datasets).",
+          "suggested_title": "",
+          "research_direction": "",
+          "experimental_blueprint": "",
+          "plan": {
+            "research_question": "How can a gossip-based approach enhance decentralization in Federated Learning?",
+            "proposed_method": "Implementing a segmented gossip protocol for distributed model synchronization",
+            "dataset": "Non-IID datasets from multiple clients",
+            "evaluation_metric": "Model accuracy and communication efficiency",
+            "source_gap": "Designing decentralized architectures for Federated Learning"
+          }
+        },
+        {
+          "accepted": false,
+          "novelty_score": 4.97,
+          "feasibility_passed": false,
+          "feasibility_notes": "Dataset 'Multi-client datasets with different feature sets' could not be verified on the Hugging Face Hub. Use a publicly available, named benchmark dataset (e.g. from huggingface.co/datasets). | Evaluation metric 'Model predictive performance and client participation rate' could not be matched to a recognised metric type. Use a standard metric such as accuracy, F1, BLEU, ROUGE, MSE, IoU, PSNR, or WER.",
+          "suggested_title": "",
+          "research_direction": "",
+          "experimental_blueprint": "",
+          "plan": {
+            "research_question": "Can asynchronous federated learning improve the performance of vertical FL models?",
+            "proposed_method": "Developing a method for vertical asynchronous federated learning using stochastic gradient algorithms",
+            "dataset": "Multi-client datasets with different feature sets",
+            "evaluation_metric": "Model predictive performance and client participation rate",
+            "source_gap": "Designing decentralized architectures for Federated Learning"
+          }
+        },
+        {
+          "accepted": false,
+          "novelty_score": 6.95,
+          "feasibility_passed": false,
+          "feasibility_notes": "Dataset 'Non-IID datasets from multiple clients with concept drift' could not be verified on the Hugging Face Hub. Use a publicly available, named benchmark dataset (e.g. from huggingface.co/datasets).",
+          "suggested_title": "",
+          "research_direction": "",
+          "experimental_blueprint": "",
+          "plan": {
+            "research_question": "How can transfer learning be used to overcome the forgetting problem in Federated Learning on Non-IID data?",
+            "proposed_method": "Incorporating transfer learning and penalty terms into the loss function to prevent local model drift",
+            "dataset": "Non-IID datasets from multiple clients with concept drift",
+            "evaluation_metric": "Model robustness and forgetting rate",
+            "source_gap": "Designing decentralized architectures for Federated Learning"
+          }
+        },
+        {
+          "accepted": true,
+          "novelty_score": 7.74,
+          "feasibility_passed": true,
+          "feasibility_notes": "All feasibility checks passed.",
+          "suggested_title": "Pruning for Explainability in Federated Transfer Learning",
+          "research_direction": "This research explores the impact of pruning on model explainability in Federated Transfer Learning, providing insights into how simplification affects the interpretability of models. The study aims to identify optimal pruning strategies that balance model performance and explainability.",
+          "experimental_blueprint": "The proposed study will utilize the CIFAR-10 dataset to train and prune deep learning models in a federated setting, applying various pruning techniques to simplify the models. The pruned models will be evaluated using model interpretability metrics such as Faithfulness and Sensitivity to assess their explainability. The experiment will compare the performance and interpretability of pruned models with their unpruned counterparts, providing a comprehensive understanding of the trade-offs involved in pruning for explainability. The results will inform the development of pruning-based model simplification methods that enhance the transparency and trustworthiness of federated learning models.",
+          "plan": {
+            "research_question": "What is the effect of pruning on model explainability in Federated Transfer Learning?",
+            "proposed_method": "Pruning-based Model Simplification",
+            "dataset": "CIFAR-10",
+            "evaluation_metric": "Model interpretability metrics such as Faithfulness and Sensitivity",
+            "source_gap": "Improving model explainability in Federated Transfer Learning"
+          }
+        }
+      ]
+    },
+    {
+      "topic": "federated learning privacy",
+      "timestamp": "2026-03-22T10:59:58.785007",
+      "summary": {
+        "total_reviewed": 12,
+        "accepted": 0,
+        "rejected": 12
+      },
+      "results": [
+        {
+          "accepted": false,
+          "novelty_score": 7.05,
+          "feasibility_passed": false,
+          "feasibility_notes": "Dataset 'Non-IID CIFAR-10 and MNIST datasets with simulated intermittent connectivity' could not be verified on the Hugging Face Hub. Use a publicly available, named benchmark dataset (e.g. from huggingface.co/datasets).",
+          "suggested_title": "",
+          "research_direction": "",
+          "experimental_blueprint": "",
+          "plan": {
+            "research_question": "How can decentralized gossip protocols be optimized for non-IID data in federated learning?",
+            "proposed_method": "Developing an adaptive gossip protocol that dynamically adjusts the communication frequency and topology based on the local data distribution and model performance",
+            "dataset": "Non-IID CIFAR-10 and MNIST datasets with simulated intermittent connectivity",
+            "evaluation_metric": "Test accuracy and communication efficiency (bytes transmitted per update)",
+            "source_gap": "Research on decentralized architecture and gossip approach in federated learning with non-IID data and intermittent connectivity"
+          }
+        },
+        {
+          "accepted": false,
+          "novelty_score": 4.72,
+          "feasibility_passed": false,
+          "feasibility_notes": "Dataset 'Real-world dataset with intermittent connectivity simulations (e.g., IoT or mobile edge computing scenarios)' could not be verified on the Hugging Face Hub. Use a publicly available, named benchmark dataset (e.g. from huggingface.co/datasets).",
+          "suggested_title": "",
+          "research_direction": "",
+          "experimental_blueprint": "",
+          "plan": {
+            "research_question": "What is the impact of intermittent connectivity on the convergence of decentralized federated learning algorithms?",
+            "proposed_method": "Implementing a novel asynchronous decentralized federated learning algorithm that incorporates robust aggregation rules and adaptive learning rates to mitigate the effects of intermittent connectivity",
+            "dataset": "Real-world dataset with intermittent connectivity simulations (e.g., IoT or mobile edge computing scenarios)",
+            "evaluation_metric": "Convergence rate, test accuracy, and fault tolerance (percentage of successful updates despite connectivity losses)",
+            "source_gap": "Research on decentralized architecture and gossip approach in federated learning with non-IID data and intermittent connectivity"
+          }
+        },
+        {
+          "accepted": false,
+          "novelty_score": 6.0,
+          "feasibility_passed": false,
+          "feasibility_notes": "Dataset 'Benchmark datasets with injected poisoning attacks (e.g., backdoor attacks or label flipping attacks)' could not be verified on the Hugging Face Hub. Use a publicly available, named benchmark dataset (e.g. from huggingface.co/datasets).",
+          "suggested_title": "",
+          "research_direction": "",
+          "experimental_blueprint": "",
+          "plan": {
+            "research_question": "Can decentralized federated learning with gossip protocols provide better robustness against poisoning attacks compared to traditional centralized architectures?",
+            "proposed_method": "Designing a decentralized gossip protocol with built-in robustness mechanisms, such as multi-party computation and reputation systems, to detect and mitigate poisoning attacks",
+            "dataset": "Benchmark datasets with injected poisoning attacks (e.g., backdoor attacks or label flipping attacks)",
+            "evaluation_metric": "Robustness to poisoning attacks (percentage of successful defenses) and model performance (test accuracy and F1-score)",
+            "source_gap": "Research on decentralized architecture and gossip approach in federated learning with non-IID data and intermittent connectivity"
+          }
+        },
+        {
+          "accepted": false,
+          "novelty_score": 6.46,
+          "feasibility_passed": false,
+          "feasibility_notes": "Dataset 'FEMNIST dataset with heterogeneous data distribution' could not be verified on the Hugging Face Hub. Use a publicly available, named benchmark dataset (e.g. from huggingface.co/datasets).",
+          "suggested_title": "",
+          "research_direction": "",
+          "experimental_blueprint": "",
+          "plan": {
+            "research_question": "How can differentially private federated learning defend against backdoor attacks?",
+            "proposed_method": "Implementing a robust aggregation algorithm with a clipping mechanism to limit the impact of malicious updates",
+            "dataset": "FEMNIST dataset with heterogeneous data distribution",
+            "evaluation_metric": "Model performance on targeted tasks and overall model accuracy",
+            "source_gap": "Studies on poisoning attacks, backdoor attacks, and adversarial attacks in federated learning with emphasis on differential privacy"
+          }
+        },
+        {
+          "accepted": false,
+          "novelty_score": 5.88,
+          "feasibility_passed": false,
+          "feasibility_notes": "Dataset 'CIFAR-10 dataset with injected poisoning attacks' could not be verified on the Hugging Face Hub. Use a publicly available, named benchmark dataset (e.g. from huggingface.co/datasets).",
+          "suggested_title": "",
+          "research_direction": "",
+          "experimental_blueprint": "",
+          "plan": {
+            "research_question": "What is the relationship between differential privacy and poisoning attack resilience in federated learning?",
+            "proposed_method": "Developing a novel poisoning attack detection method using differential privacy as a regularizer",
+            "dataset": "CIFAR-10 dataset with injected poisoning attacks",
+            "evaluation_metric": "Attack detection rate and model accuracy",
+            "source_gap": "Studies on poisoning attacks, backdoor attacks, and adversarial attacks in federated learning with emphasis on differential privacy"
+          }
+        },
+        {
+          "accepted": false,
+          "novelty_score": 4.08,
+          "feasibility_passed": false,
+          "feasibility_notes": "Dataset 'MNIST dataset with domain shifts and adversarial examples' could not be verified on the Hugging Face Hub. Use a publicly available, named benchmark dataset (e.g. from huggingface.co/datasets).",
+          "suggested_title": "",
+          "research_direction": "",
+          "experimental_blueprint": "",
+          "plan": {
+            "research_question": "Can domain adaptation improve the robustness of differentially private federated learning against adversarial attacks?",
+            "proposed_method": "Integrating domain adaptation with differentially private federated learning using a multi-task learning framework",
+            "dataset": "MNIST dataset with domain shifts and adversarial examples",
+            "evaluation_metric": "Model robustness against adversarial attacks and overall model performance",
+            "source_gap": "Studies on poisoning attacks, backdoor attacks, and adversarial attacks in federated learning with emphasis on differential privacy"
+          }
+        },
+        {
+          "accepted": false,
+          "novelty_score": 5.87,
+          "feasibility_passed": false,
+          "feasibility_notes": "Dataset 'Federated EMNIST dataset' could not be verified on the Hugging Face Hub. Use a publicly available, named benchmark dataset (e.g. from huggingface.co/datasets).",
+          "suggested_title": "",
+          "research_direction": "",
+          "experimental_blueprint": "",
+          "plan": {
+            "research_question": "Can we develop an efficient secure aggregation protocol for federated learning that minimizes communication overhead?",
+            "proposed_method": "Hybrid secure aggregation protocol combining cryptographic techniques with differential privacy",
+            "dataset": "Federated EMNIST dataset",
+            "evaluation_metric": "Communication efficiency and model accuracy",
+            "source_gap": "Investigation of privacy preservation techniques such as secure aggregation, multi-secret sharing, and functional encryption in federated learning"
+          }
+        },
+        {
+          "accepted": false,
+          "novelty_score": 6.21,
+          "feasibility_passed": false,
+          "feasibility_notes": "Dataset 'Private dataset from multiple e-commerce companies' could not be verified on the Hugging Face Hub. Use a publicly available, named benchmark dataset (e.g. from huggingface.co/datasets). | Evaluation metric 'Privacy guarantee and model performance' could not be matched to a recognised metric type. Use a standard metric such as accuracy, F1, BLEU, ROUGE, MSE, IoU, PSNR, or WER.",
+          "suggested_title": "",
+          "research_direction": "",
+          "experimental_blueprint": "",
+          "plan": {
+            "research_question": "How can we leverage multi-secret sharing and functional encryption to enhance privacy preservation in federated learning?",
+            "proposed_method": "Threshold-based multi-secret sharing scheme with functional encryption for model updates",
+            "dataset": "Private dataset from multiple e-commerce companies",
+            "evaluation_metric": "Privacy guarantee and model performance",
+            "source_gap": "Investigation of privacy preservation techniques such as secure aggregation, multi-secret sharing, and functional encryption in federated learning"
+          }
+        },
+        {
+          "accepted": false,
+          "novelty_score": 3.92,
+          "feasibility_passed": false,
+          "feasibility_notes": "Dataset 'Synthetic dataset simulating heterogeneous client data' could not be verified on the Hugging Face Hub. Use a publicly available, named benchmark dataset (e.g. from huggingface.co/datasets).",
+          "suggested_title": "",
+          "research_direction": "",
+          "experimental_blueprint": "",
+          "plan": {
+            "research_question": "Can we design a federated learning framework that integrates secure aggregation, multi-secret sharing, and functional encryption to prevent inference and poisoning attacks?",
+            "proposed_method": "Decentralized federated learning framework with secure aggregation, multi-secret sharing, and functional encryption",
+            "dataset": "Synthetic dataset simulating heterogeneous client data",
+            "evaluation_metric": "Security and robustness against various attacks",
+            "source_gap": "Investigation of privacy preservation techniques such as secure aggregation, multi-secret sharing, and functional encryption in federated learning"
+          }
+        },
+        {
+          "accepted": false,
+          "novelty_score": 4.3,
+          "feasibility_passed": false,
+          "feasibility_notes": "Dataset 'Twitter or Facebook dataset' could not be verified on the Hugging Face Hub. Use a publicly available, named benchmark dataset (e.g. from huggingface.co/datasets).",
+          "suggested_title": "",
+          "research_direction": "",
+          "experimental_blueprint": "",
+          "plan": {
+            "research_question": "How can federated learning be applied to social network analysis while preserving data privacy?",
+            "proposed_method": "Developing a decentralized, asynchronous federated learning algorithm for social network analysis",
+            "dataset": "Twitter or Facebook dataset",
+            "evaluation_metric": "F1-score and precision",
+            "source_gap": "Exploration of the application of federated learning in recommender systems, collaborative filtering, and social network analysis with a focus on data privacy"
+          }
+        },
+        {
+          "accepted": false,
+          "novelty_score": 6.13,
+          "feasibility_passed": false,
+          "feasibility_notes": "Dataset 'MovieLens or Netflix dataset' could not be verified on the Hugging Face Hub. Use a publicly available, named benchmark dataset (e.g. from huggingface.co/datasets). | Evaluation metric 'Mean Absolute Error (MAE) and Mean Squared Error (MSE)' does not appear appropriate for a 'fact' method. Expected one of: ['accuracy', 'f1', 'precision', 'recall', 'factual accuracy', 'factscore', 'faithfulness score'].",
+          "suggested_title": "",
+          "research_direction": "",
+          "experimental_blueprint": "",
+          "plan": {
+            "research_question": "What are the effects of federated matrix factorization on collaborative filtering in recommender systems?",
+            "proposed_method": "Implementing a federated matrix factorization approach for collaborative filtering in a decentralized manner",
+            "dataset": "MovieLens or Netflix dataset",
+            "evaluation_metric": "Mean Absolute Error (MAE) and Mean Squared Error (MSE)",
+            "source_gap": "Exploration of the application of federated learning in recommender systems, collaborative filtering, and social network analysis with a focus on data privacy"
+          }
+        },
+        {
+          "accepted": false,
+          "novelty_score": 4.52,
+          "feasibility_passed": false,
+          "feasibility_notes": "Dataset 'Multi-source e-commerce dataset' could not be verified on the Hugging Face Hub. Use a publicly available, named benchmark dataset (e.g. from huggingface.co/datasets). | Evaluation metric 'Area Under the ROC Curve (AUC) and Normalized Discounted Cumulative Gain (NDCG)' does not appear appropriate for a 'sign' method. Expected one of: ['accuracy', 'f1', 'precision', 'recall', 'word error rate', 'wer', 'recognition accuracy', 'signer-independent accuracy', 'top-1 accuracy', 'bleu'].",
+          "suggested_title": "",
+          "research_direction": "",
+          "experimental_blueprint": "",
+          "plan": {
+            "research_question": "Can vertical asynchronous federated learning improve the performance of recommender systems while preserving data privacy?",
+            "proposed_method": "Designing a vertical asynchronous federated learning framework for recommender systems",
+            "dataset": "Multi-source e-commerce dataset",
+            "evaluation_metric": "Area Under the ROC Curve (AUC) and Normalized Discounted Cumulative Gain (NDCG)",
+            "source_gap": "Exploration of the application of federated learning in recommender systems, collaborative filtering, and social network analysis with a focus on data privacy"
+          }
+        }
+      ]
+    },
+    {
+      "topic": "federated learning privacy",
+      "timestamp": "2026-03-22T11:05:07.119357",
+      "summary": {
+        "total_reviewed": 13,
+        "accepted": 1,
+        "rejected": 12
+      },
+      "results": [
+        {
+          "accepted": false,
+          "novelty_score": 3.43,
+          "feasibility_passed": false,
+          "feasibility_notes": "Dataset 'Benchmark datasets such as CIFAR-10 or ImageNet' could not be verified on the Hugging Face Hub. Use a publicly available, named benchmark dataset (e.g. from huggingface.co/datasets).",
+          "suggested_title": "",
+          "research_direction": "",
+          "experimental_blueprint": "",
+          "plan": {
+            "research_question": "How can differential privacy be integrated with federated transfer learning to protect client data while maintaining model accuracy?",
+            "proposed_method": "Developing a framework that combines federated transfer learning with differential privacy techniques, such as adding noise to the gradients or using private aggregation protocols",
+            "dataset": "Benchmark datasets such as CIFAR-10 or ImageNet",
+            "evaluation_metric": "Measure the trade-off between model accuracy and privacy using metrics such as epsilon-differential privacy and test accuracy",
+            "source_gap": "Integration of Differential Privacy with Federated Transfer Learning"
+          }
+        },
+        {
+          "accepted": false,
+          "novelty_score": 4.44,
+          "feasibility_passed": false,
+          "feasibility_notes": "Dataset 'Large-scale datasets such as Open Images or YouTube-8M' could not be verified on the Hugging Face Hub. Use a publicly available, named benchmark dataset (e.g. from huggingface.co/datasets). | Evaluation metric 'Evaluate the communication efficiency using metrics such as bandwidth usage and wall-clock time' could not be matched to a recognised metric type. Use a standard metric such as accuracy, F1, BLEU, ROUGE, MSE, IoU, PSNR, or WER.",
+          "suggested_title": "",
+          "research_direction": "",
+          "experimental_blueprint": "",
+          "plan": {
+            "research_question": "What is the impact of differential privacy on the communication efficiency of federated transfer learning?",
+            "proposed_method": "Investigating the use of compression and quantization techniques to reduce the communication overhead of private federated transfer learning",
+            "dataset": "Large-scale datasets such as Open Images or YouTube-8M",
+            "evaluation_metric": "Evaluate the communication efficiency using metrics such as bandwidth usage and wall-clock time",
+            "source_gap": "Integration of Differential Privacy with Federated Transfer Learning"
+          }
+        },
+        {
+          "accepted": false,
+          "novelty_score": 3.53,
+          "feasibility_passed": false,
+          "feasibility_notes": "Dataset 'Adversarial datasets such as MNIST-C or CIFAR-10-C' could not be verified on the Hugging Face Hub. Use a publicly available, named benchmark dataset (e.g. from huggingface.co/datasets).",
+          "suggested_title": "",
+          "research_direction": "",
+          "experimental_blueprint": "",
+          "plan": {
+            "research_question": "Can adversarial training be used to improve the robustness of differentially private federated transfer learning models?",
+            "proposed_method": "Developing a training framework that combines adversarial training with differential privacy to improve the robustness of federated transfer learning models",
+            "dataset": "Adversarial datasets such as MNIST-C or CIFAR-10-C",
+            "evaluation_metric": "Evaluate the robustness of the models using metrics such as adversarial test accuracy and attack success rate",
+            "source_gap": "Integration of Differential Privacy with Federated Transfer Learning"
+          }
+        },
+        {
+          "accepted": false,
+          "novelty_score": 5.99,
+          "feasibility_passed": false,
+          "feasibility_notes": "Dataset 'A large-scale dataset of decentralized nodes with varied bandwidths and computational capabilities' could not be verified on the Hugging Face Hub. Use a publicly available, named benchmark dataset (e.g. from huggingface.co/datasets).",
+          "suggested_title": "",
+          "research_direction": "",
+          "experimental_blueprint": "",
+          "plan": {
+            "research_question": "How to improve the efficiency of secure aggregation protocols in decentralized federated learning?",
+            "proposed_method": "Develop a novel secure aggregation protocol based on homomorphic encryption and differential privacy",
+            "dataset": "A large-scale dataset of decentralized nodes with varied bandwidths and computational capabilities",
+            "evaluation_metric": "Communication overhead and model accuracy",
+            "source_gap": "Research on Secure Aggregation in Decentralized Federated Learning"
+          }
+        },
+        {
+          "accepted": false,
+          "novelty_score": 4.38,
+          "feasibility_passed": false,
+          "feasibility_notes": "Dataset 'A heterogeneous dataset from multiple clients with varying data distributions' could not be verified on the Hugging Face Hub. Use a publicly available, named benchmark dataset (e.g. from huggingface.co/datasets). | Evaluation metric 'Model convergence rate and data privacy preservation' does not appear appropriate for a 'sign' method. Expected one of: ['accuracy', 'f1', 'precision', 'recall', 'word error rate', 'wer', 'recognition accuracy', 'signer-independent accuracy', 'top-1 accuracy', 'bleu'].",
+          "suggested_title": "",
+          "research_direction": "",
+          "experimental_blueprint": "",
+          "plan": {
+            "research_question": "Can asynchronous federated learning be integrated with secure aggregation to enhance decentralized federated learning?",
+            "proposed_method": "Design an asynchronous federated learning framework with secure aggregation using blockchain-based protocols",
+            "dataset": "A heterogeneous dataset from multiple clients with varying data distributions",
+            "evaluation_metric": "Model convergence rate and data privacy preservation",
+            "source_gap": "Research on Secure Aggregation in Decentralized Federated Learning"
+          }
+        },
+        {
+          "accepted": false,
+          "novelty_score": 4.48,
+          "feasibility_passed": false,
+          "feasibility_notes": "Dataset 'A simulated dataset with controlled variables to evaluate the trade-offs' could not be verified on the Hugging Face Hub. Use a publicly available, named benchmark dataset (e.g. from huggingface.co/datasets).",
+          "suggested_title": "",
+          "research_direction": "",
+          "experimental_blueprint": "",
+          "plan": {
+            "research_question": "What are the trade-offs between model accuracy, communication efficiency, and security in decentralized federated learning with secure aggregation?",
+            "proposed_method": "Develop a multi-objective optimization framework to balance model accuracy, communication overhead, and security guarantees in decentralized federated learning",
+            "dataset": "A simulated dataset with controlled variables to evaluate the trade-offs",
+            "evaluation_metric": "Pareto optimality of model accuracy, communication overhead, and security metrics",
+            "source_gap": "Research on Secure Aggregation in Decentralized Federated Learning"
+          }
+        },
+        {
+          "accepted": false,
+          "novelty_score": 7.51,
+          "feasibility_passed": false,
+          "feasibility_notes": "Dataset 'FEMNIST or CIFAR10 with artificially introduced Non-IID patterns' could not be verified on the Hugging Face Hub. Use a publicly available, named benchmark dataset (e.g. from huggingface.co/datasets). | Evaluation metric 'Test accuracy and F1-score' does not appear appropriate for a 'clustering' method. Expected one of: ['nmi', 'ari', 'silhouette', 'purity'].",
+          "suggested_title": "",
+          "research_direction": "",
+          "experimental_blueprint": "",
+          "plan": {
+            "research_question": "How does the level of Non-IID data affect model accuracy in Federated Learning?",
+            "proposed_method": "Clustering-based client selection with data similarity measurement",
+            "dataset": "FEMNIST or CIFAR10 with artificially introduced Non-IID patterns",
+            "evaluation_metric": "Test accuracy and F1-score",
+            "source_gap": "Impact of Non-IID Data on Model Accuracy in Federated Learning"
+          }
+        },
+        {
+          "accepted": false,
+          "novelty_score": 7.16,
+          "feasibility_passed": false,
+          "feasibility_notes": "Dataset 'OpenI or MIMIC-III with inherent Non-IID data distributions' could not be verified on the Hugging Face Hub. Use a publicly available, named benchmark dataset (e.g. from huggingface.co/datasets).",
+          "suggested_title": "",
+          "research_direction": "",
+          "experimental_blueprint": "",
+          "plan": {
+            "research_question": "Can personalized model aggregation mitigate the impact of Non-IID data in Federated Learning?",
+            "proposed_method": "Multi-task learning with domain adaptation techniques",
+            "dataset": "OpenI or MIMIC-III with inherent Non-IID data distributions",
+            "evaluation_metric": "Area under the receiver operating characteristic curve (AUC-ROC) and average precision (AP)",
+            "source_gap": "Impact of Non-IID Data on Model Accuracy in Federated Learning"
+          }
+        },
+        {
+          "accepted": false,
+          "novelty_score": 5.61,
+          "feasibility_passed": false,
+          "feasibility_notes": "Dataset 'MNIST or ImageNet with varying levels of data heterogeneity' could not be verified on the Hugging Face Hub. Use a publicly available, named benchmark dataset (e.g. from huggingface.co/datasets).",
+          "suggested_title": "",
+          "research_direction": "",
+          "experimental_blueprint": "",
+          "plan": {
+            "research_question": "What is the effectiveness of differential privacy in preserving data privacy and mitigating the effects of Non-IID data in Federated Learning?",
+            "proposed_method": "Implementation of differential privacy using the Laplace mechanism and its variants",
+            "dataset": "MNIST or ImageNet with varying levels of data heterogeneity",
+            "evaluation_metric": "Model accuracy, privacy loss, and data utility",
+            "source_gap": "Impact of Non-IID Data on Model Accuracy in Federated Learning"
+          }
+        },
+        {
+          "accepted": false,
+          "novelty_score": 6.82,
+          "feasibility_passed": false,
+          "feasibility_notes": "Dataset 'A federated learning dataset with injected poisoning attacks' could not be verified on the Hugging Face Hub. Use a publicly available, named benchmark dataset (e.g. from huggingface.co/datasets).",
+          "suggested_title": "",
+          "research_direction": "",
+          "experimental_blueprint": "",
+          "plan": {
+            "research_question": "Can anomaly detection methods be used to identify poisoned clients in federated learning?",
+            "proposed_method": "Implementing a statistical anomaly detection algorithm to flag potentially compromised clients",
+            "dataset": "A federated learning dataset with injected poisoning attacks",
+            "evaluation_metric": "Detection accuracy of poisoned clients",
+            "source_gap": "Poisoning Attack Resilience in Federated Learning"
+          }
+        },
+        {
+          "accepted": false,
+          "novelty_score": 5.22,
+          "feasibility_passed": false,
+          "feasibility_notes": "Dataset 'A synthetic dataset with diverse poisoning attack scenarios' could not be verified on the Hugging Face Hub. Use a publicly available, named benchmark dataset (e.g. from huggingface.co/datasets).",
+          "suggested_title": "",
+          "research_direction": "",
+          "experimental_blueprint": "",
+          "plan": {
+            "research_question": "How effective is differential privacy in preventing poisoning attacks in federated learning?",
+            "proposed_method": "Applying differential privacy mechanisms to client updates before aggregation",
+            "dataset": "A synthetic dataset with diverse poisoning attack scenarios",
+            "evaluation_metric": "Model performance under various poisoning attack strengths",
+            "source_gap": "Poisoning Attack Resilience in Federated Learning"
+          }
+        },
+        {
+          "accepted": false,
+          "novelty_score": 7.45,
+          "feasibility_passed": false,
+          "feasibility_notes": "Dataset 'A real-world federated learning dataset with graph-structured client relationships' could not be verified on the Hugging Face Hub. Use a publicly available, named benchmark dataset (e.g. from huggingface.co/datasets). | Evaluation metric 'Robustness of the model to poisoning attacks' could not be matched to a recognised metric type. Use a standard metric such as accuracy, F1, BLEU, ROUGE, MSE, IoU, PSNR, or WER.",
+          "suggested_title": "",
+          "research_direction": "",
+          "experimental_blueprint": "",
+          "plan": {
+            "research_question": "Can graph-based methods be used to mitigate the effects of poisoning attacks in federated learning?",
+            "proposed_method": "Constructing a graph of client relationships to identify and isolate poisoned clients",
+            "dataset": "A real-world federated learning dataset with graph-structured client relationships",
+            "evaluation_metric": "Robustness of the model to poisoning attacks",
+            "source_gap": "Poisoning Attack Resilience in Federated Learning"
+          }
+        },
+        {
+          "accepted": true,
+          "novelty_score": 3.73,
+          "feasibility_passed": true,
+          "feasibility_notes": "All feasibility checks passed.",
+          "suggested_title": "Asynchronous Decentralized Federated Learning with Differential Privacy",
+          "research_direction": "This study explores the potential of decentralized federated learning with asynchronous updates to enhance privacy and security guarantees in machine learning models. By integrating differential privacy and secure multi-party computation, the research aims to create a more robust and private learning framework.",
+          "experimental_blueprint": "The proposed algorithm will be tested on the CIFAR-10 dataset, evaluating its performance in terms of model accuracy and privacy loss. The experiments will compare the asynchronous decentralized federated learning approach with traditional federated learning methods to assess its effectiveness in maintaining privacy and security. The evaluation will also consider the impact of varying levels of differential privacy and secure multi-party computation on the model's accuracy and privacy guarantees.",
+          "plan": {
+            "research_question": "Can decentralized federated learning with asynchronous updates achieve better privacy and security guarantees?",
+            "proposed_method": "Designing an asynchronous decentralized federated learning algorithm with differential privacy and secure multi-party computation",
+            "dataset": "CIFAR-10 dataset",
+            "evaluation_metric": "Model accuracy and privacy loss",
+            "source_gap": "Research on Secure Aggregation in Decentralized Federated Learning"
+          }
+        }
+      ]
+    },
+    {
+      "topic": "federated learning privacy",
+      "timestamp": "2026-03-22T11:08:27.716337",
+      "summary": {
+        "total_reviewed": 14,
+        "accepted": 2,
+        "rejected": 12
+      },
+      "results": [
+        {
+          "accepted": false,
+          "novelty_score": 4.45,
+          "feasibility_passed": false,
+          "feasibility_notes": "Dataset 'Vertical federated learning dataset with multiple clients' could not be verified on the Hugging Face Hub. Use a publicly available, named benchmark dataset (e.g. from huggingface.co/datasets).",
+          "suggested_title": "",
+          "research_direction": "",
+          "experimental_blueprint": "",
+          "plan": {
+            "research_question": "Can federated learning with convex optimization improve model accuracy while preserving data privacy?",
+            "proposed_method": "Developing a vertical asynchronous federated learning algorithm with convex optimization techniques",
+            "dataset": "Vertical federated learning dataset with multiple clients",
+            "evaluation_metric": "Model accuracy and data privacy level",
+            "source_gap": "Research on the intersection of federated learning and convex optimization"
+          }
+        },
+        {
+          "accepted": false,
+          "novelty_score": 3.52,
+          "feasibility_passed": false,
+          "feasibility_notes": "Dataset 'Federated learning dataset with simulated privacy threats' could not be verified on the Hugging Face Hub. Use a publicly available, named benchmark dataset (e.g. from huggingface.co/datasets). | Evaluation metric 'Model robustness against privacy attacks' does not appear appropriate for a 'sign' method. Expected one of: ['accuracy', 'f1', 'precision', 'recall', 'word error rate', 'wer', 'recognition accuracy', 'signer-independent accuracy', 'top-1 accuracy', 'bleu'].",
+          "suggested_title": "",
+          "research_direction": "",
+          "experimental_blueprint": "",
+          "plan": {
+            "research_question": "How can convex optimization be used to enhance the security of federated learning models against privacy threats?",
+            "proposed_method": "Designing a convex optimization-based framework for identifying and mitigating privacy threats in federated learning",
+            "dataset": "Federated learning dataset with simulated privacy threats",
+            "evaluation_metric": "Model robustness against privacy attacks",
+            "source_gap": "Research on the intersection of federated learning and convex optimization"
+          }
+        },
+        {
+          "accepted": false,
+          "novelty_score": 4.33,
+          "feasibility_passed": false,
+          "feasibility_notes": "Dataset 'Decentralized federated learning dataset with multiple nodes' could not be verified on the Hugging Face Hub. Use a publicly available, named benchmark dataset (e.g. from huggingface.co/datasets). | Evaluation metric 'Model training time and scalability' could not be matched to a recognised metric type. Use a standard metric such as accuracy, F1, BLEU, ROUGE, MSE, IoU, PSNR, or WER.",
+          "suggested_title": "",
+          "research_direction": "",
+          "experimental_blueprint": "",
+          "plan": {
+            "research_question": "Can decentralized federated learning with convex optimization improve the efficiency and scalability of model training?",
+            "proposed_method": "Developing a decentralized federated learning algorithm using convex optimization and gossip protocols",
+            "dataset": "Decentralized federated learning dataset with multiple nodes",
+            "evaluation_metric": "Model training time and scalability",
+            "source_gap": "Research on the intersection of federated learning and convex optimization"
+          }
+        },
+        {
+          "accepted": false,
+          "novelty_score": 4.72,
+          "feasibility_passed": false,
+          "feasibility_notes": "Dataset 'MNIST and CIFAR-10 datasets for evaluation' could not be verified on the Hugging Face Hub. Use a publicly available, named benchmark dataset (e.g. from huggingface.co/datasets).",
+          "suggested_title": "",
+          "research_direction": "",
+          "experimental_blueprint": "",
+          "plan": {
+            "research_question": "Can we develop a robust method to detect and prevent model inversion attacks in federated learning?",
+            "proposed_method": "Use a combination of differential privacy and adversarial training to enhance model security",
+            "dataset": "MNIST and CIFAR-10 datasets for evaluation",
+            "evaluation_metric": "Attack success rate and model accuracy",
+            "source_gap": "Investigation of model inversion attacks in federated learning"
+          }
+        },
+        {
+          "accepted": false,
+          "novelty_score": 6.42,
+          "feasibility_passed": false,
+          "feasibility_notes": "Dataset 'Federated datasets from medical and financial domains' could not be verified on the Hugging Face Hub. Use a publicly available, named benchmark dataset (e.g. from huggingface.co/datasets). | Evaluation metric 'Model performance and information leakage' could not be matched to a recognised metric type. Use a standard metric such as accuracy, F1, BLEU, ROUGE, MSE, IoU, PSNR, or WER.",
+          "suggested_title": "",
+          "research_direction": "",
+          "experimental_blueprint": "",
+          "plan": {
+            "research_question": "How can we modify the federated averaging algorithm to make it more resilient to model inversion attacks?",
+            "proposed_method": "Implement a secure multi-party computation protocol to protect model updates",
+            "dataset": "Federated datasets from medical and financial domains",
+            "evaluation_metric": "Model performance and information leakage",
+            "source_gap": "Investigation of model inversion attacks in federated learning"
+          }
+        },
+        {
+          "accepted": false,
+          "novelty_score": 4.29,
+          "feasibility_passed": false,
+          "feasibility_notes": "Dataset 'Real-world datasets with diverse feature sets' could not be verified on the Hugging Face Hub. Use a publicly available, named benchmark dataset (e.g. from huggingface.co/datasets).",
+          "suggested_title": "",
+          "research_direction": "",
+          "experimental_blueprint": "",
+          "plan": {
+            "research_question": "Is it possible to design a federated learning framework that is inherently resistant to model inversion attacks?",
+            "proposed_method": "Develop a decentralized federated learning approach with homomorphic encryption",
+            "dataset": "Real-world datasets with diverse feature sets",
+            "evaluation_metric": "Model accuracy, communication overhead, and attack resilience",
+            "source_gap": "Investigation of model inversion attacks in federated learning"
+          }
+        },
+        {
+          "accepted": false,
+          "novelty_score": 4.75,
+          "feasibility_passed": false,
+          "feasibility_notes": "Dataset 'Synthetic and real-world datasets with varying degrees of non-IIDness' could not be verified on the Hugging Face Hub. Use a publicly available, named benchmark dataset (e.g. from huggingface.co/datasets).",
+          "suggested_title": "",
+          "research_direction": "",
+          "experimental_blueprint": "",
+          "plan": {
+            "research_question": "How does the use of transfer learning affect the performance of federated learning on non-IID data?",
+            "proposed_method": "Modify existing federated learning algorithms to incorporate transfer learning techniques and evaluate their performance on non-IID datasets",
+            "dataset": "Synthetic and real-world datasets with varying degrees of non-IIDness",
+            "evaluation_metric": "Accuracy and convergence rate",
+            "source_gap": "Study of the impact of non-IID data on federated learning performance"
+          }
+        },
+        {
+          "accepted": false,
+          "novelty_score": 4.57,
+          "feasibility_passed": false,
+          "feasibility_notes": "Dataset 'Large-scale datasets with diverse feature distributions' could not be verified on the Hugging Face Hub. Use a publicly available, named benchmark dataset (e.g. from huggingface.co/datasets).",
+          "suggested_title": "",
+          "research_direction": "",
+          "experimental_blueprint": "",
+          "plan": {
+            "research_question": "Can asynchronous federated learning methods mitigate the impact of non-IID data on model performance?",
+            "proposed_method": "Develop and evaluate asynchronous federated learning algorithms that account for non-IID data distributions",
+            "dataset": "Large-scale datasets with diverse feature distributions",
+            "evaluation_metric": "Model drift and test accuracy",
+            "source_gap": "Study of the impact of non-IID data on federated learning performance"
+          }
+        },
+        {
+          "accepted": false,
+          "novelty_score": 5.26,
+          "feasibility_passed": false,
+          "feasibility_notes": "Dataset 'Benchmark datasets with known non-IID properties' could not be verified on the Hugging Face Hub. Use a publicly available, named benchmark dataset (e.g. from huggingface.co/datasets).",
+          "suggested_title": "",
+          "research_direction": "",
+          "experimental_blueprint": "",
+          "plan": {
+            "research_question": "What is the effect of penalty terms in the loss function on the convergence of federated learning models in non-IID settings?",
+            "proposed_method": "Investigate the use of penalty terms in the loss function to encourage convergence to a shared optimum in federated learning with non-IID data",
+            "dataset": "Benchmark datasets with known non-IID properties",
+            "evaluation_metric": "Convergence rate and model stability",
+            "source_gap": "Study of the impact of non-IID data on federated learning performance"
+          }
+        },
+        {
+          "accepted": false,
+          "novelty_score": 6.84,
+          "feasibility_passed": false,
+          "feasibility_notes": "Dataset 'Synthetic Federated Learning datasets with varying numbers of clients and data distributions' could not be verified on the Hugging Face Hub. Use a publicly available, named benchmark dataset (e.g. from huggingface.co/datasets).",
+          "suggested_title": "",
+          "research_direction": "",
+          "experimental_blueprint": "",
+          "plan": {
+            "research_question": "How to develop an efficient secure aggregation protocol for federated learning using multi-secret sharing?",
+            "proposed_method": "Implementing a modified version of the FastSecAgg protocol with an improved multi-secret sharing scheme to reduce computational overhead",
+            "dataset": "Synthetic Federated Learning datasets with varying numbers of clients and data distributions",
+            "evaluation_metric": "Communication overhead and model accuracy",
+            "source_gap": "Development of secure aggregation methods for federated learning"
+          }
+        },
+        {
+          "accepted": false,
+          "novelty_score": 5.78,
+          "feasibility_passed": false,
+          "feasibility_notes": "Dataset 'Real-world vertical federated learning datasets, such as those from the financial or healthcare sectors' could not be verified on the Hugging Face Hub. Use a publicly available, named benchmark dataset (e.g. from huggingface.co/datasets).",
+          "suggested_title": "",
+          "research_direction": "",
+          "experimental_blueprint": "",
+          "plan": {
+            "research_question": "Can asynchronous federated learning be used to improve the security of model aggregation in vertical federated learning?",
+            "proposed_method": "Developing an asynchronous secure aggregation protocol based on the VAFL method, incorporating differential privacy and cryptographic techniques",
+            "dataset": "Real-world vertical federated learning datasets, such as those from the financial or healthcare sectors",
+            "evaluation_metric": "Model accuracy, communication overhead, and information leakage",
+            "source_gap": "Development of secure aggregation methods for federated learning"
+          }
+        },
+        {
+          "accepted": false,
+          "novelty_score": 3.91,
+          "feasibility_passed": false,
+          "feasibility_notes": "Dataset 'Benchmark datasets for federated learning, such as CIFAR-10 and MNIST, with simulated adversarial attacks' could not be verified on the Hugging Face Hub. Use a publicly available, named benchmark dataset (e.g. from huggingface.co/datasets).",
+          "suggested_title": "",
+          "research_direction": "",
+          "experimental_blueprint": "",
+          "plan": {
+            "research_question": "How to adapt transfer learning to improve the security of federated learning models against adversarial attacks?",
+            "proposed_method": "Designing a transfer learning-based approach to federated learning with adversarial training and robust aggregation, leveraging pre-trained models as a starting point",
+            "dataset": "Benchmark datasets for federated learning, such as CIFAR-10 and MNIST, with simulated adversarial attacks",
+            "evaluation_metric": "Model robustness, accuracy, and resistance to adversarial attacks",
+            "source_gap": "Development of secure aggregation methods for federated learning"
+          }
+        },
+        {
+          "accepted": true,
+          "novelty_score": 6.24,
+          "feasibility_passed": true,
+          "feasibility_notes": "All feasibility checks passed.",
+          "suggested_title": "Generative Model-based Defenses Against Model Inversion Attacks in Federated Learning",
+          "research_direction": "This research aims to explore the effectiveness of generative models in defending against model inversion attacks in federated learning, where sensitive data is protected by generating synthetic data. By investigating this approach, we can determine the potential of generative models to enhance data privacy in collaborative learning environments.",
+          "experimental_blueprint": "To test this idea, we will train generative models on the MNIST dataset to generate synthetic data that can be used to defend against model inversion attacks. We will evaluate the effectiveness of our approach by measuring the attack success rate on both the original and synthetic data. The performance of the generative model-based defense will be compared to traditional defenses, such as differential privacy and data perturbation. Additionally, we will investigate the impact of various generative model architectures and training parameters on the defense's effectiveness.",
+          "plan": {
+            "research_question": "How effective is the use of generative models in defending against model inversion attacks in federated learning?",
+            "proposed_method": "Training generative models to generate synthetic data that can be used to defend against model inversion attacks",
+            "dataset": "MNIST",
+            "evaluation_metric": "Attack success rate",
+            "source_gap": "Investigation of model inversion attacks in federated learning"
+          }
+        },
+        {
+          "accepted": true,
+          "novelty_score": 4.38,
+          "feasibility_passed": true,
+          "feasibility_notes": "All feasibility checks passed.",
+          "suggested_title": "Enhancing Asynchronous Federated Learning with Secure Aggregation Against Model Inversion Attacks",
+          "research_direction": "This research explores the development of robust asynchronous federated learning protocols that can withstand model inversion attacks, which is crucial for protecting sensitive data in decentralized learning environments. By focusing on secure aggregation methods, the study aims to improve the resilience of federated learning systems.",
+          "experimental_blueprint": "The proposed method involves designing and implementing asynchronous federated learning protocols with secure aggregation techniques, such as homomorphic encryption or differential privacy, to safeguard against model inversion attacks. The Fashion-MNIST dataset will be utilized to train and evaluate the performance of the developed protocols. Model accuracy will serve as the primary evaluation metric to assess the efficacy of the secure aggregation methods in preventing model inversion attacks while maintaining the learning performance of the federated model.",
+          "plan": {
+            "research_question": "Can asynchronous federated learning protocols be designed to be more resilient to model inversion attacks?",
+            "proposed_method": "Developing asynchronous federated learning protocols that use secure aggregation methods",
+            "dataset": "Fashion-MNIST",
+            "evaluation_metric": "Model accuracy",
+            "source_gap": "Investigation of model inversion attacks in federated learning"
+          }
+        }
+      ]
+    },
+    {
+      "topic": "federated learning privacy",
+      "timestamp": "2026-03-22T11:35:50.527988",
+      "summary": {
+        "total_reviewed": 18,
+        "accepted": 14,
+        "rejected": 4
+      },
+      "results": [
+        {
+          "accepted": true,
+          "novelty_score": 3.69,
+          "feasibility_passed": true,
+          "feasibility_notes": "All feasibility checks passed.",
+          "suggested_title": "Differential Privacy in Federated Learning: A Non-IID Data Performance Evaluation",
+          "research_direction": "This research explores the impact of differential privacy on the performance of federated learning models trained on non-identically and independently distributed (non-IID) data. The study aims to find the optimal balance between data privacy and model accuracy in federated learning",
+          "experimental_blueprint": "To investigate the effect of differential privacy on federated learning, the proposed method involves training models with varying levels of differential privacy on the CIFAR-10 dataset, which will be divided into non-IID subsets. The models will be evaluated based on their test accuracy to determine how differential privacy affects performance. The experiment will be repeated for different levels of differential privacy to establish a comprehensive understanding of the trade-off between data privacy and model accuracy.",
+          "plan": {
+            "research_question": "How does the level of differential privacy affect the performance of federated learning models on non-IID data?",
+            "proposed_method": "Train federated learning models with varying levels of differential privacy on non-IID CIFAR-10 data and evaluate their performance",
+            "dataset": "CIFAR-10",
+            "evaluation_metric": "Test accuracy",
+            "source_gap": "Research on the intersection of Federated Learning and Differential Privacy"
+          }
+        },
+        {
+          "accepted": true,
+          "novelty_score": 4.33,
+          "feasibility_passed": true,
+          "feasibility_notes": "All feasibility checks passed.",
+          "suggested_title": "Enhancing Private Federated Learning with Domain Adaptation for Improved Accuracy",
+          "research_direction": "This research aims to investigate the potential of domain adaptation in enhancing the accuracy of private federated learning models. By leveraging domain adaptation techniques, the study seeks to improve the performance of private federated learning frameworks, particularly in scenarios where data distributions vary across clients.",
+          "experimental_blueprint": "The proposed study will implement a private federated learning framework with domain adaptation and compare its performance to a baseline framework without domain adaptation using the FEMNIST dataset. The experimental setup will involve training and testing both frameworks on the FEMNIST data, with the domain adaptation approach incorporating techniques such as adversarial training or multi-task learning to align the feature distributions across domains. The performance of both frameworks will be evaluated using the average user accuracy metric, providing insights into the effectiveness of domain adaptation in improving the accuracy of private federated learning models.",
+          "plan": {
+            "research_question": "Can domain adaptation improve the accuracy of private federated learning models?",
+            "proposed_method": "Implement a private federated learning framework with domain adaptation and compare its performance to a baseline framework without domain adaptation on FEMNIST data",
+            "dataset": "FEMNIST",
+            "evaluation_metric": "Average user accuracy",
+            "source_gap": "Research on the intersection of Federated Learning and Differential Privacy"
+          }
+        },
+        {
+          "accepted": false,
+          "novelty_score": 4.02,
+          "feasibility_passed": false,
+          "feasibility_notes": "Evaluation metric 'Model robustness to poisoning attacks' could not be matched to a recognised metric type. Use a standard metric such as accuracy, F1, BLEU, ROUGE, MSE, IoU, PSNR, or WER.",
+          "suggested_title": "",
+          "research_direction": "",
+          "experimental_blueprint": "",
+          "plan": {
+            "research_question": "What is the impact of poisoning attacks on the performance of differentially private federated learning models?",
+            "proposed_method": "Simulate poisoning attacks on a differentially private federated learning framework and evaluate the model's performance on MNIST data",
+            "dataset": "MNIST",
+            "evaluation_metric": "Model robustness to poisoning attacks",
+            "source_gap": "Research on the intersection of Federated Learning and Differential Privacy"
+          }
+        },
+        {
+          "accepted": true,
+          "novelty_score": 4.81,
+          "feasibility_passed": true,
+          "feasibility_notes": "All feasibility checks passed.",
+          "suggested_title": "Transfer Learning for Federated Learning in Non-IID Settings: A CIFAR-10 Case Study",
+          "research_direction": "This research aims to explore the potential of transfer learning in improving the performance of federated learning models in non-Independent and Identically Distributed (non-IID) settings. By leveraging pre-trained models and fine-tuning them on private client data, we can potentially mitigate the challenges posed by non-IID data distributions.",
+          "experimental_blueprint": "We will use the CIFAR-10 dataset to evaluate the effectiveness of transfer learning in federated learning. The experiment will involve pre-training a model on the CIFAR-10 dataset, then fine-tuning it on private client data using federated averaging. The performance of the model will be evaluated on a held-out test set using test accuracy as the primary metric. We will compare the results with a baseline model trained from scratch using federated learning to quantify the improvement in performance due to transfer learning.",
+          "plan": {
+            "research_question": "Can transfer learning improve the performance of federated learning models in non-IID settings?",
+            "proposed_method": "We propose to use a pre-trained model on a public dataset and fine-tune it on private client data using federated averaging, then evaluate the performance on a held-out test set.",
+            "dataset": "CIFAR-10",
+            "evaluation_metric": "Test accuracy",
+            "source_gap": "Investigation of Transfer Learning in the context of Federated Learning"
+          }
+        },
+        {
+          "accepted": true,
+          "novelty_score": 4.21,
+          "feasibility_passed": true,
+          "feasibility_notes": "All feasibility checks passed.",
+          "suggested_title": "Transfer Learning in Federated Matrix Factorization for Personalized Recommendation",
+          "research_direction": "This research aims to explore the effectiveness of transfer learning in federated learning for recommender systems, by leveraging pre-trained models on public datasets and fine-tuning them on private user data. The approach has potential to improve the performance of federated recommender systems while preserving user data privacy",
+          "experimental_blueprint": "The proposed method can be tested using the MovieLens dataset, where a global matrix factorization model is pre-trained on a public subset of the data and then fine-tuned on private user data using federated learning. The performance of the model can be evaluated using precision and recall metrics, and compared to baseline models that do not use transfer learning. The experimental setup can be implemented using popular federated learning frameworks, and the results can be analyzed to understand the benefits and limitations of transfer learning in federated recommender systems.",
+          "plan": {
+            "research_question": "How effective is transfer learning in federated learning for recommender systems?",
+            "proposed_method": "We propose to use a federated matrix factorization approach with transfer learning, where a global model is pre-trained on a public dataset and then fine-tuned on private user data using federated learning.",
+            "dataset": "MovieLens",
+            "evaluation_metric": "Precision and recall",
+            "source_gap": "Investigation of Transfer Learning in the context of Federated Learning"
+          }
+        },
+        {
+          "accepted": true,
+          "novelty_score": 3.24,
+          "feasibility_passed": true,
+          "feasibility_notes": "All feasibility checks passed.",
+          "suggested_title": "Enhancing Federated Learning Robustness with Transfer Learning Against Membership Inference Attacks",
+          "research_direction": "This research aims to investigate the potential of transfer learning in improving the robustness of federated learning models against privacy threats, specifically membership inference attacks. The goal is to develop more secure and private machine learning models that can be applied in sensitive domains.",
+          "experimental_blueprint": "The proposed experiment will utilize the MNIST dataset to pre-train a model using transfer learning, which will then be fine-tuned on private client data via federated learning with differential privacy. The robustness of the model will be evaluated by measuring the attack success rate of membership inference attacks. To test the effectiveness of the proposed approach, comparisons will be made with models trained without transfer learning. The experimental results will provide insights into the ability of transfer learning to enhance the privacy and security of federated learning models.",
+          "plan": {
+            "research_question": "Can transfer learning enhance the robustness of federated learning models against privacy threats?",
+            "proposed_method": "We propose to use transfer learning to pre-train a model on a public dataset, then fine-tune it on private client data using federated learning with differential privacy, and evaluate the robustness against membership inference attacks.",
+            "dataset": "MNIST",
+            "evaluation_metric": "Attack success rate",
+            "source_gap": "Investigation of Transfer Learning in the context of Federated Learning"
+          }
+        },
+        {
+          "accepted": true,
+          "novelty_score": 6.85,
+          "feasibility_passed": true,
+          "feasibility_notes": "All feasibility checks passed.",
+          "suggested_title": "Improving Federated Learning with Generative Adversarial Networks on Non-IID Data",
+          "research_direction": "This research aims to investigate the potential of Generative Adversarial Networks (GANs) in improving the performance of Federated Learning (FL) models on non-Independent and Identically Distributed (non-IID) data, a common challenge in FL. By leveraging GANs, this study seeks to mitigate the effects of non-IID data and enhance the overall accuracy of FL models.",
+          "experimental_blueprint": "The proposed approach will utilize the CIFAR-10 dataset and implement the Federated Averaging (FedAvg) algorithm to train the generator component of a GAN. The trained generator will be used to generate artificial data samples that augment the local datasets, reducing the effect of non-IID data. The performance of the FL model will be evaluated using the test accuracy metric, and the results will be compared with traditional FL methods to demonstrate the effectiveness of the proposed approach.",
+          "plan": {
+            "research_question": "Can Generative Adversarial Networks improve the performance of Federated Learning models on non-IID data?",
+            "proposed_method": "Train a generator component of a GAN using the FedAvg algorithm and use it to generate artificial data samples that augment the local datasets, reducing the effect of non-IID data",
+            "dataset": "CIFAR-10",
+            "evaluation_metric": "Test accuracy",
+            "source_gap": "Studies on the application of Generative Adversarial Networks in Federated Learning"
+          }
+        },
+        {
+          "accepted": false,
+          "novelty_score": 3.62,
+          "feasibility_passed": false,
+          "feasibility_notes": "Evaluation metric 'Information disclosure risk' could not be matched to a recognised metric type. Use a standard metric such as accuracy, F1, BLEU, ROUGE, MSE, IoU, PSNR, or WER.",
+          "suggested_title": "",
+          "research_direction": "",
+          "experimental_blueprint": "",
+          "plan": {
+            "research_question": "How effective is the use of Generative Adversarial Networks in preserving data privacy in Federated Learning?",
+            "proposed_method": "Implement a Federated Learning framework with GAN-based privacy preservation and evaluate its performance using a penalty term in the loss function to prevent local models from diverging",
+            "dataset": "MNIST",
+            "evaluation_metric": "Information disclosure risk",
+            "source_gap": "Studies on the application of Generative Adversarial Networks in Federated Learning"
+          }
+        },
+        {
+          "accepted": false,
+          "novelty_score": 4.67,
+          "feasibility_passed": false,
+          "feasibility_notes": "Evaluation metric 'Model convergence rate' could not be matched to a recognised metric type. Use a standard metric such as accuracy, F1, BLEU, ROUGE, MSE, IoU, PSNR, or WER.",
+          "suggested_title": "",
+          "research_direction": "",
+          "experimental_blueprint": "",
+          "plan": {
+            "research_question": "Can the combination of Generative Adversarial Networks and transfer learning enhance the performance of Federated Learning models?",
+            "proposed_method": "Develop a novel Federated Learning method that incorporates GANs and transfer learning, allowing each client to run stochastic gradient algorithms without coordination and evaluate its performance on a real-world dataset",
+            "dataset": "ImageNet",
+            "evaluation_metric": "Model convergence rate",
+            "source_gap": "Studies on the application of Generative Adversarial Networks in Federated Learning"
+          }
+        },
+        {
+          "accepted": true,
+          "novelty_score": 5.12,
+          "feasibility_passed": true,
+          "feasibility_notes": "All feasibility checks passed.",
+          "suggested_title": "Byzantine-Robust Federated Learning using Defensive Aggregation Methods",
+          "research_direction": "This research aims to investigate the effectiveness of defensive aggregation methods in enhancing Byzantine robustness in federated learning. It will explore the impact of various aggregation methods on the resilience of federated models against data poisoning attacks.",
+          "experimental_blueprint": "The experiment will involve implementing a federated learning framework on the CIFAR-10 dataset with non-IID data distribution. The performance of the model will be evaluated using the test accuracy metric under various poisoning attack scenarios. The Byzantine robustness of the model will be tested by comparing the performance of different defensive aggregation methods, including median and trimmed mean, against a baseline model without any defensive mechanisms.",
+          "plan": {
+            "research_question": "How does the use of defensive aggregation methods impact Byzantine robustness in federated learning?",
+            "proposed_method": "Implementing a Byzantine robust aggregation method, such as median or trimmed mean, in a federated learning setting with non-IID data and evaluating its performance against various poisoning attacks",
+            "dataset": "CIFAR-10",
+            "evaluation_metric": "Test accuracy",
+            "source_gap": "Exploration of Byzantine Robustness and Defensive Aggregation in Federated Learning"
+          }
+        },
+        {
+          "accepted": true,
+          "novelty_score": 4.47,
+          "feasibility_passed": true,
+          "feasibility_notes": "All feasibility checks passed.",
+          "suggested_title": "Byzantine Robustness in Vertical Asynchronous Federated Learning",
+          "research_direction": "This research aims to investigate the inherent Byzantine robustness of vertical asynchronous federated learning due to its asynchronous nature, and to develop mechanisms for enhancing this robustness. Vertical asynchronous federated learning has the potential to provide robustness against faulty or malicious clients, making it a valuable tool for secure distributed machine learning.",
+          "experimental_blueprint": "To test the idea, a vertical asynchronous federated learning algorithm with built-in Byzantine robustness mechanisms will be developed and evaluated on the MNIST dataset. The algorithm will incorporate client filtering or weighting mechanisms to mitigate the effects of Byzantine clients. The performance of the algorithm will be evaluated using the area under the ROC curve, which will provide a measure of the algorithm's ability to distinguish between legitimate and malicious clients. The experiment will involve simulating various Byzantine attack scenarios to assess the algorithm's robustness.",
+          "plan": {
+            "research_question": "Can vertical asynchronous federated learning provide inherent Byzantine robustness due to its asynchronous nature?",
+            "proposed_method": "Developing and evaluating a vertical asynchronous federated learning algorithm with built-in Byzantine robustness mechanisms, such as client filtering or weighting",
+            "dataset": "MNIST",
+            "evaluation_metric": "Area under the ROC curve",
+            "source_gap": "Exploration of Byzantine Robustness and Defensive Aggregation in Federated Learning"
+          }
+        },
+        {
+          "accepted": false,
+          "novelty_score": 5.07,
+          "feasibility_passed": false,
+          "feasibility_notes": "Evaluation metric 'Model drift' could not be matched to a recognised metric type. Use a standard metric such as accuracy, F1, BLEU, ROUGE, MSE, IoU, PSNR, or WER.",
+          "suggested_title": "",
+          "research_direction": "",
+          "experimental_blueprint": "",
+          "plan": {
+            "research_question": "What is the impact of transfer learning on the Byzantine robustness of federated learning models?",
+            "proposed_method": "Investigating the effect of incorporating transfer learning into federated learning on the model's ability to withstand Byzantine attacks, using techniques such as knowledge distillation or fine-tuning",
+            "dataset": "ImageNet",
+            "evaluation_metric": "Model drift",
+            "source_gap": "Exploration of Byzantine Robustness and Defensive Aggregation in Federated Learning"
+          }
+        },
+        {
+          "accepted": true,
+          "novelty_score": 4.75,
+          "feasibility_passed": true,
+          "feasibility_notes": "All feasibility checks passed.",
+          "suggested_title": "Enhancing Private Federated Learning with Domain Adaptation for Heterogeneous Data",
+          "research_direction": "This research aims to investigate the potential benefits of integrating domain adaptation into Private Federated Learning to mitigate the challenges posed by heterogeneous data distributions across clients. By doing so, it seeks to improve the overall model accuracy and robustness across diverse client data profiles.",
+          "experimental_blueprint": "The proposed method involves implementing a Private Federated Learning framework that incorporates domain adaptation using a multi-task learning approach on the CIFAR-10 dataset. The performance of the model will be evaluated on each client's test data, with test accuracy serving as the primary evaluation metric. The experimental setup will allow for the comparison of model performance with and without domain adaptation, providing insights into the effectiveness of this approach in enhancing model accuracy in Private Federated Learning settings. Furthermore, the study will examine how different domain adaptation techniques impact model performance across heterogeneous client data.",
+          "plan": {
+            "research_question": "Can domain adaptation improve model accuracy in Private Federated Learning with heterogeneous data?",
+            "proposed_method": "Implement a Private Federated Learning framework with domain adaptation on CIFAR-10 using a multi-task learning approach and evaluate the performance of the model on each client's test data",
+            "dataset": "CIFAR-10",
+            "evaluation_metric": "Test accuracy",
+            "source_gap": "Research on the intersection of Federated Learning and Differential Privacy"
+          }
+        },
+        {
+          "accepted": true,
+          "novelty_score": 3.99,
+          "feasibility_passed": true,
+          "feasibility_notes": "All feasibility checks passed.",
+          "suggested_title": "Detecting Backdoor Attacks in Federated Learning using Differential Privacy",
+          "research_direction": "This research aims to explore the potential of differential privacy in detecting backdoor attacks in Federated Learning. By leveraging the membership inference attack, it seeks to provide a novel approach to enhancing the security and reliability of distributed machine learning models.",
+          "experimental_blueprint": "The proposed experiment involves training a Federated Learning model on the FEMNIST dataset with artificially injected backdoors into a subset of client data. Differential privacy mechanisms will be applied to the model to assess their impact on detecting these backdoors. The detection rate of backdoor attacks will be used as the primary evaluation metric to measure the effectiveness of this approach. The experiment will also investigate how varying levels of differential privacy and the number of compromised clients affect the model's vulnerability to backdoor attacks.",
+          "plan": {
+            "research_question": "Is it possible to detect backdoor attacks in Federated Learning using Differential Privacy?",
+            "proposed_method": "Train a Federated Learning model on FEMNIST with backdoors injected into a subset of clients and evaluate the effectiveness of differential privacy in detecting these attacks using the membership inference attack",
+            "dataset": "FEMNIST",
+            "evaluation_metric": "Detection rate of backdoor attacks",
+            "source_gap": "Research on the intersection of Federated Learning and Differential Privacy"
+          }
+        },
+        {
+          "accepted": true,
+          "novelty_score": 5.51,
+          "feasibility_passed": true,
+          "feasibility_notes": "All feasibility checks passed.",
+          "suggested_title": "Enhancing Federated Learning with Generative Adversarial Networks for Non-IID Data",
+          "research_direction": "This research aims to investigate the potential of Generative Adversarial Networks (GANs) in improving the performance of Federated Learning (FL) models on non-Independent and Identically Distributed (non-IID) data, which is a significant challenge in FL. By leveraging GANs, the study seeks to develop more robust and generalizable FL models.",
+          "experimental_blueprint": "The proposed method involves training a GAN using the Federated Averaging algorithm to generate synthetic data samples that can augment the training data of local models, thereby reducing the impact of non-IID data. The CIFAR-10 dataset will be used to evaluate the performance of the proposed approach, with test accuracy serving as the primary evaluation metric. The experimental setup will consist of multiple clients with non-IID data distributions, and the GAN-generated synthetic data will be used to supplement the local training data. The performance of the proposed approach will be compared to traditional FL methods to demonstrate its efficacy in improving test accuracy on non-IID data.",
+          "plan": {
+            "research_question": "Can Generative Adversarial Networks improve the performance of Federated Learning models on non-IID data?",
+            "proposed_method": "Train a Generative Adversarial Network using the Federated Averaging algorithm to generate synthetic data samples that can augment the training data of local models, reducing the impact of non-IID data",
+            "dataset": "CIFAR-10",
+            "evaluation_metric": "Test accuracy",
+            "source_gap": "Studies on the application of Generative Adversarial Networks in Federated Learning"
+          }
+        },
+        {
+          "accepted": true,
+          "novelty_score": 5.0,
+          "feasibility_passed": true,
+          "feasibility_notes": "All feasibility checks passed.",
+          "suggested_title": "Adapting Federated Learning with Generative Adversarial Networks for Unseen Data Distributions",
+          "research_direction": "This research aims to explore the potential of using Generative Adversarial Networks (GANs) to adapt Federated Learning models to new, unseen data distributions. By leveraging GANs, Federated Learning models can potentially achieve better performance on novel datasets without requiring additional labeled data.",
+          "experimental_blueprint": "The proposed method involves training a GAN to generate new data samples based on the pre-trained Federated Learning model, and then fine-tuning the model using these generated samples. The adapted model will be evaluated on the ImageNet dataset using the adaptation accuracy metric. The performance of the adapted model will be compared to a baseline model that is not adapted to the new data distribution, and the results will be analyzed to determine the effectiveness of the proposed method. The experiment will be repeated with varying GAN architectures and hyperparameters to determine the most effective configuration.",
+          "plan": {
+            "research_question": "Can Generative Adversarial Networks be used to adapt Federated Learning models to new, unseen data distributions?",
+            "proposed_method": "Train a Generative Adversarial Network to generate new data samples that can be used to fine-tune a pre-trained Federated Learning model, and evaluate the performance of the adapted model on a new, unseen dataset",
+            "dataset": "ImageNet",
+            "evaluation_metric": "Adaptation accuracy",
+            "source_gap": "Studies on the application of Generative Adversarial Networks in Federated Learning"
+          }
+        },
+        {
+          "accepted": true,
+          "novelty_score": 5.25,
+          "feasibility_passed": true,
+          "feasibility_notes": "All feasibility checks passed.",
+          "suggested_title": "Defensive Aggregation Methods for Byzantine Robustness in Federated Learning",
+          "research_direction": "This research aims to explore the impact of defensive aggregation methods on Byzantine robustness in federated learning, specifically in scenarios with non-IID client data. By investigating various defensive aggregation techniques, this study seeks to identify effective strategies for improving the robustness of federated learning systems.",
+          "experimental_blueprint": "The proposed study will utilize the CIFAR-10 dataset and a federated learning setup to evaluate the effectiveness of median and trimmed mean defensive aggregation methods against Byzantine attacks. The impact of these methods on test accuracy will be assessed in the presence of varying levels of Byzantine faults. The experimental design will involve training and testing neural network models on non-IID client data, and the results will be analyzed to determine the most effective defensive aggregation method for achieving Byzantine robustness. The study will also investigate the trade-offs between robustness and accuracy in federated learning systems.",
+          "plan": {
+            "research_question": "How does defensive aggregation impact Byzantine robustness in federated learning?",
+            "proposed_method": "We will investigate the effectiveness of various defensive aggregation methods, including median and trimmed mean, in the presence of Byzantine attacks on the CIFAR-10 dataset with a federated learning setup and non-IID client data",
+            "dataset": "CIFAR-10",
+            "evaluation_metric": "Test accuracy",
+            "source_gap": "Exploration of Byzantine Robustness and Defensive Aggregation in Federated Learning"
+          }
+        },
+        {
+          "accepted": true,
+          "novelty_score": 4.4,
+          "feasibility_passed": true,
+          "feasibility_notes": "All feasibility checks passed.",
+          "suggested_title": "Enhancing Byzantine Robustness in Vertical Asynchronous Federated Learning via Poisoning Attack Mitigation",
+          "research_direction": "This research explores the potential of vertical asynchronous federated learning to enhance Byzantine robustness by mitigating poisoning attacks. By developing and evaluating a novel framework on the FEMNIST dataset, it aims to provide insights into improving the security of federated learning systems.",
+          "experimental_blueprint": "The experimental approach involves designing a vertical asynchronous federated learning framework with built-in defense mechanisms against poisoning attacks. This framework will be tested on the FEMNIST dataset, where simulated Byzantine clients will be introduced to evaluate the system's robustness. The performance will be measured using the attack success rate as the primary evaluation metric. To further assess the efficacy of the proposed framework, comparisons will be made with traditional federated learning methods lacking such defense mechanisms.",
+          "plan": {
+            "research_question": "Can vertical asynchronous federated learning mitigate poisoning attacks and improve Byzantine robustness?",
+            "proposed_method": "We will develop a vertical asynchronous federated learning framework with built-in defense mechanisms against poisoning attacks and evaluate its Byzantine robustness on the FEMNIST dataset with simulated Byzantine clients",
+            "dataset": "FEMNIST",
+            "evaluation_metric": "Attack success rate",
+            "source_gap": "Exploration of Byzantine Robustness and Defensive Aggregation in Federated Learning"
+          }
+        }
+      ]
+    }
+  ]
+}
