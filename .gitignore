@@ -45,6 +45,7 @@ ENV/
 outputs/results.json
 outputs/baseline_b2.json
 outputs/*.json
+outputs/*.pdf
 
 # ── IDE and OS ────────────────────────────────────────────────────
 .vscode/
@@ -62,3 +63,7 @@ logs/
 # ── Jupyter ───────────────────────────────────────────────────────
 .ipynb_checkpoints/
 *.ipynb
+
+# ── Docs ────────────────────────────────────────────────────────────
+*.docx
+*.doc

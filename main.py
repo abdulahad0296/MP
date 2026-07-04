@@ -21,16 +21,18 @@ import json
 import os
 import sys
 from datetime import datetime
-from typing import List
+from typing import List, Optional
 
 import config
 from agents import librarian_agent, planner_agent, reviewer_agent
 from models.schemas import ReviewResult
+from tools.feasibility_checker import get_topic_datasets
+from tools.pdf_exporter import generate_pdf
 
 
 # ── Save results ──────────────────────────────────────────────────────────────
 
-def save_results(results: List[ReviewResult], topic: str, path: str = None) -> str:
+def save_results(results: List[ReviewResult], topic: str, path: Optional[str] = None) -> tuple[str, int]:
     """
     Append this run's results to the cumulative JSON log file.
 
@@ -82,12 +84,18 @@ def save_results(results: List[ReviewResult], topic: str, path: str = None) -> s
             "accepted": sum(1 for r in results if r.accepted),
             "rejected": sum(1 for r in results if not r.accepted),
         },
+        "novelty_threshold": results[0].novelty_threshold if results else None,
         "results": [
             {
                 "accepted": r.accepted,
                 "novelty_score": r.novelty_score,
+                "novelty_threshold": r.novelty_threshold,
                 "feasibility_passed": r.feasibility_passed,
                 "feasibility_notes": r.feasibility_notes,
+                "feasibility_components": {
+                    k: {"passed": v[0], "note": v[1]}
+                    for k, v in r.feasibility_components.items()
+                },
                 "suggested_title": r.suggested_title,
                 "research_direction": r.research_direction,
                 "experimental_blueprint": r.experimental_blueprint,
@@ -135,14 +143,15 @@ def display_results(results: List[ReviewResult], topic: str) -> None:
     if not accepted:
         print("\n  No plans accepted in this run.")
         print("  Try running again — gap identification varies between runs.")
-        print("  You can also lower NOVELTY_THRESHOLD in config.py.")
+        print("  The novelty threshold is computed per-run from the retrieved")
+        print("  corpus (see novelty_threshold in each result) and adapts to topic.")
     else:
         print(f"\n  {len(accepted)} ACCEPTED RESEARCH PROPOSAL(S)\n")
 
         for i, r in enumerate(accepted, 1):
-            print(f"  {'─' * (width - 2)}")
+            print(f"  {'-' * (width - 2)}")
             print(f"  Proposal {i} of {len(accepted)}")
-            print(f"  {'─' * (width - 2)}")
+            print(f"  {'-' * (width - 2)}")
             print(f"\n  Title     : {r.suggested_title}")
             print(f"\n  Direction : {r.research_direction}")
             print(f"\n  Question  : {r.plan.research_question}")
@@ -171,12 +180,12 @@ def display_results(results: List[ReviewResult], topic: str) -> None:
             print()
 
     if rejected:
-        print(f"  {'─' * (width - 2)}")
+        print(f"  {'-' * (width - 2)}")
         print(f"\n  {len(rejected)} REJECTED PLAN(S)\n")
         for r in rejected:
             reasons = []
-            if r.novelty_score < config.NOVELTY_THRESHOLD:
-                reasons.append(f"novelty {r.novelty_score:.2f} < threshold {config.NOVELTY_THRESHOLD}")
+            if r.novelty_score < r.novelty_threshold:
+                reasons.append(f"novelty {r.novelty_score:.2f} < threshold {r.novelty_threshold:.2f}")
             if not r.feasibility_passed:
                 reasons.append(f"feasibility: {r.feasibility_notes[:60]}")
             print(f"  - {r.plan.research_question[:60]}...")
@@ -188,7 +197,7 @@ def display_results(results: List[ReviewResult], topic: str) -> None:
 
 # ── Pipeline orchestrator ─────────────────────────────────────────────────────
 
-def run_pipeline(topic: str) -> List[ReviewResult]:
+def run_pipeline(topic: str):
     """
     Run the full Agentic Research Planning pipeline for a given topic.
 
@@ -203,7 +212,8 @@ def run_pipeline(topic: str) -> List[ReviewResult]:
         topic: Research topic string entered by the user.
 
     Returns:
-        List of all ReviewResult objects (accepted and rejected).
+        Tuple of (results, papers, gaps, run_number) for optional PDF export.
+        results is a list of ReviewResult objects (accepted and rejected).
     """
     print(f"\n[pipeline] Starting research planning for topic: '{topic}'")
     print(f"[pipeline] {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}\n")
@@ -214,14 +224,21 @@ def run_pipeline(topic: str) -> List[ReviewResult]:
     if not gaps:
         print("[pipeline] ERROR: No research gaps identified. Cannot continue.")
         print("[pipeline] Try a more specific topic or re-run — gap detection varies.")
-        return []
+        return [], papers, [], 0
+
+    # ── Pre-fetch verified datasets for this topic ────────────────
+    suggested_datasets = get_topic_datasets(topic)
+    if suggested_datasets:
+        print(f"[pipeline] HF Hub datasets for topic: {suggested_datasets}")
+    else:
+        print("[pipeline] No HF Hub datasets found for topic — using generic benchmarks.")
 
     # ── Step 3: Planner Agent ─────────────────────────────────────
-    plans = planner_agent.run(gaps, papers)
+    plans = planner_agent.run(gaps, papers, suggested_datasets=suggested_datasets)
 
     if not plans:
         print("[pipeline] ERROR: No research plans generated. Cannot continue.")
-        return []
+        return [], papers, gaps, 0
 
     # ── Step 4 + 5: Reviewer Agent ────────────────────────────────
     try:
@@ -250,13 +267,20 @@ def run_pipeline(topic: str) -> List[ReviewResult]:
     if rejected:
         print(f"\n[pipeline] Revision loop: {len(rejected)} rejected plan(s) will be re-planned.")
 
-    # Deduplicate gaps from original rejections — retry each gap once only
+    # Deduplicate gaps from original rejections — retry each gap once only.
+    # Also collect all rejection reasons per gap so the planner knows what
+    # to avoid on the next attempt instead of guessing randomly.
     seen_gap_descriptions = set()
     unique_gaps_to_retry = []
+    rejection_feedback: dict = {}  # gap_description -> [reason strings]
+
     for r in rejected:
-        if r.plan.source_gap and r.plan.source_gap.description not in seen_gap_descriptions:
-            seen_gap_descriptions.add(r.plan.source_gap.description)
-            unique_gaps_to_retry.append(r.plan.source_gap)
+        if r.plan.source_gap:
+            desc = r.plan.source_gap.description
+            if desc not in seen_gap_descriptions:
+                seen_gap_descriptions.add(desc)
+                unique_gaps_to_retry.append(r.plan.source_gap)
+            rejection_feedback.setdefault(desc, []).append(r.feasibility_notes)
 
     for attempt in range(config.MAX_REVISION_ATTEMPTS):
         if not unique_gaps_to_retry:
@@ -265,20 +289,29 @@ def run_pipeline(topic: str) -> List[ReviewResult]:
         print(f"[pipeline] Revision attempt {attempt + 1} of {config.MAX_REVISION_ATTEMPTS} "
               f"({len(unique_gaps_to_retry)} unique gap(s))...")
 
-        revised_plans   = planner_agent.run(unique_gaps_to_retry, papers)
+        revised_plans = planner_agent.run(
+            unique_gaps_to_retry,
+            papers,
+            suggested_datasets=suggested_datasets,
+            rejection_feedback=rejection_feedback,
+        )
         revised_results = reviewer_agent.run(revised_plans, papers)
 
-        newly_accepted  = [r for r in revised_results if r.accepted]
-        still_rejected  = [r for r in revised_results if not r.accepted]
+        newly_accepted = [r for r in revised_results if r.accepted]
+        still_rejected = [r for r in revised_results if not r.accepted]
 
         results += newly_accepted
 
-        # Only keep gaps that are still producing rejected plans
+        # Only keep gaps that are still producing rejected plans.
+        # Update feedback with the new round's failures for the next attempt.
         accepted_gap_descs = {r.plan.source_gap.description for r in newly_accepted if r.plan.source_gap}
         unique_gaps_to_retry = [
             g for g in unique_gaps_to_retry
             if g.description not in accepted_gap_descs
         ]
+        for r in still_rejected:
+            if r.plan.source_gap:
+                rejection_feedback.setdefault(r.plan.source_gap.description, []).append(r.feasibility_notes)
 
         print(f"[pipeline] Revision {attempt + 1}: {len(newly_accepted)} newly accepted, "
               f"{len(still_rejected)} still rejected.")
@@ -292,7 +325,7 @@ def run_pipeline(topic: str) -> List[ReviewResult]:
     accepted_count = sum(1 for r in results if r.accepted)
     print(f"[pipeline] Done. {accepted_count} accepted proposal(s) for topic: '{topic}'\n")
 
-    return results
+    return results, papers, gaps, run_number
 
 
 # ── Entry point ───────────────────────────────────────────────────────────────
@@ -307,6 +340,7 @@ Examples:
   python main.py --topic "vision transformers medical imaging"
   python main.py --topic "graph neural networks drug discovery"
   python main.py --topic "continual learning catastrophic forgetting"
+  python main.py --topic "federated learning privacy" --pdf
         """
     )
     parser.add_argument(
@@ -321,6 +355,11 @@ Examples:
         default=None,
         help=f"Output JSON path (default: {config.OUTPUT_PATH})"
     )
+    parser.add_argument(
+        "--pdf",
+        action="store_true",
+        help="Export a PDF report to outputs/ after the run completes"
+    )
 
     args = parser.parse_args()
 
@@ -328,10 +367,15 @@ Examples:
         print("ERROR: --topic cannot be empty.")
         sys.exit(1)
 
-    results = run_pipeline(args.topic.strip())
+    results, papers, gaps, run_number = run_pipeline(args.topic.strip())
 
     if not any(r.accepted for r in results):
         sys.exit(1)
+
+    if args.pdf:
+        print("[pipeline] Generating PDF report...")
+        pdf_path = generate_pdf(args.topic.strip(), results, papers, gaps, run_number)
+        print(f"[pipeline] PDF saved to: {pdf_path}")
 
 
 if __name__ == "__main__":

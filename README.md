@@ -104,8 +104,11 @@ All agents use **Groq free tier** with `llama-3.3-70b-versatile`.
 |---|---|---|
 | `MAX_PAPERS` | 20 | Papers retrieved from arXiv |
 | `MAX_PLANS_PER_GAP` | 3 | Plans generated per research gap |
-| `NOVELTY_THRESHOLD` | 1.5 | Minimum score to accept a plan |
+| `TOP_K_PAPERS` | 5 | Papers used in top-K novelty scoring |
+| `NOVELTY_THRESHOLD_STRICT` | 2.5 | Fallback novelty threshold if corpus-derived computation fails |
 | `MAX_REVISION_ATTEMPTS` | 2 | Retry attempts for rejected plans |
+
+The novelty acceptance threshold is **not** a fixed constant — it is computed per run from the retrieved paper corpus (25th percentile of inter-paper novelty scores). See `compute_novelty_threshold()` in `agents/reviewer_agent.py`.
 
 ---
 

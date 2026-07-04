@@ -1,0 +1,16 @@
+# Agentic Research Planning Framework — dependencies
+# Install with: pip install -r requirements.txt
+
+arxiv>=2.4.1
+groq>=1.1.1
+sentence-transformers>=5.3.0
+scikit-learn>=1.8.0
+numpy>=2.4.3
+python-dotenv>=1.2.2
+requests>=2.32.5
+
+# Gradio web interface (app.py)
+gradio>=6.9.0
+
+# PDF report export (tools/pdf_exporter.py)
+reportlab>=4.5.1

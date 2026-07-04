@@ -75,7 +75,7 @@ def run_tests():
         print(f"    Title    : {p.title}")
         print(f"    arXiv ID : {p.arxiv_id}")
         print(f"    Abstract : {p.abstract[:120]}...")
-        print(f"    Concepts : {p.concepts}  ← empty until Librarian Agent runs")
+        print(f"    Concepts : {p.concepts}  (empty until Librarian Agent runs)")
 
     print("\n" + "=" * 60)
     print("Step 1 validation complete.")

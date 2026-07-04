@@ -97,6 +97,7 @@ def run_tests():
 
     gap_plans = {}
     for plan in all_plans:
+        assert plan.source_gap is not None  # Type guard for Pylance
         key = plan.source_gap.description[:55]
         gap_plans.setdefault(key, []).append(plan)
 

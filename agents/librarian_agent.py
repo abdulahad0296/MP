@@ -188,7 +188,7 @@ def run(topic: str) -> Tuple[List[Paper], List[ResearchGap]]:
     for i, paper in enumerate(papers):
         concepts = extract_concepts(paper)
         paper.concepts = concepts
-        print(f"[librarian_agent]   [{i+1}/{len(papers)}] '{paper.title[:55]}...' → {concepts}")
+        print(f"[librarian_agent]   [{i+1}/{len(papers)}] '{paper.title[:55]}...' -> {concepts}")
 
     populated = [p for p in papers if p.concepts]
     print(f"[librarian_agent] Concepts extracted for {len(populated)}/{len(papers)} papers.")

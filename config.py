@@ -58,16 +58,30 @@ PLANNER_CONTEXT_PAPERS: int = 4
 
 # ── Reviewer Agent ────────────────────────────────────────────────────────────
 
-# Minimum novelty score for a plan to be accepted (0.0–10.0 scale).
-# Calibrated for domain-specific research planning:
-# Plans are generated from retrieved papers and share domain vocabulary,
-# so raw scores land between 1.0–4.0 even for genuinely novel combinations.
-# Scores below 1.5 indicate near-copies of existing abstracts — reject those.
-# Task 5.7: threshold tuned based on calibration results from test_step4.py
+# Legacy fixed novelty threshold (0.0–10.0 scale). No longer used to gate
+# acceptance — the Reviewer Agent now computes a corpus-derived threshold
+# per run (see compute_novelty_threshold() in agents/reviewer_agent.py,
+# which falls back to NOVELTY_THRESHOLD_STRICT below if computation fails).
+# Kept only for historical reference / as a manual override point.
 NOVELTY_THRESHOLD: float = 1.5
 
 # Maximum number of times a rejected plan is re-submitted to the Planner
 MAX_REVISION_ATTEMPTS: int = 2
+
+# ── Novelty Scoring (Phase A upgrade) ────────────────────────────────────────
+
+# Number of top-K most similar papers used for novelty scoring.
+# Instead of averaging similarity across all retrieved papers, the scorer
+# takes the K most similar papers and scores against those — making it
+# more discriminative against plans that closely mirror even a few papers.
+TOP_K_PAPERS: int = 5
+
+# Strict novelty threshold for the top-K scoring approach.
+# Higher than the original mean-based threshold (1.5) because top-K
+# similarity scores are inherently higher than full-corpus mean scores.
+# Plans scoring below this are rejected as insufficiently novel.
+# Recalibrate after running test topics if needed.
+NOVELTY_THRESHOLD_STRICT: float = 2.5
 
 # ── Output ────────────────────────────────────────────────────────────────────
 

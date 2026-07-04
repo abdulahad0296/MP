@@ -16,7 +16,7 @@ Usage:
 """
 
 import json
-from typing import List
+from typing import List, Optional
 
 from groq import Groq
 
@@ -44,10 +44,10 @@ def _call_llm(system_prompt: str, user_prompt: str) -> str:
             {"role": "user",   "content": user_prompt},
         ]
     )
-    return response.choices[0].message.content
+    return response.choices[0].message.content or ""
 
 
-def _parse_json(raw: str, label: str) -> any:
+def _parse_json(raw: str, label: str) -> Optional[dict]:
     """
     Parse JSON from LLM response. Logs warning and returns None on failure.
     Never crashes the pipeline.
@@ -85,7 +85,7 @@ def _dict_to_plan(plan_dict: dict, gap: ResearchGap) -> ResearchPlan:
 # -- Task 3.3: select_context_papers
 
 def select_context_papers(gap: ResearchGap, papers: List[Paper],
-                          n: int = None) -> List[Paper]:
+                          n: Optional[int] = None) -> List[Paper]:
     """
     Select the n most relevant papers for a given gap by concept overlap.
 
@@ -118,7 +118,12 @@ def select_context_papers(gap: ResearchGap, papers: List[Paper],
 
 # -- Task 3.1 + 3.2: generate_plans
 
-def generate_plans(gap: ResearchGap, context_papers: List[Paper]) -> List[ResearchPlan]:
+def generate_plans(
+    gap: ResearchGap,
+    context_papers: List[Paper],
+    suggested_datasets: Optional[List[str]] = None,
+    rejection_reasons: Optional[List[str]] = None,
+) -> List[ResearchPlan]:
     """
     Generate exactly 3 candidate research plans for a given research gap.
 
@@ -127,13 +132,25 @@ def generate_plans(gap: ResearchGap, context_papers: List[Paper]) -> List[Resear
     with an explicit correction request before giving up.
 
     Args:
-        gap            : The ResearchGap to generate plans for.
-        context_papers : Most relevant papers to use as grounding context.
+        gap               : The ResearchGap to generate plans for.
+        context_papers    : Most relevant papers to use as grounding context.
+        suggested_datasets: Verified HF Hub dataset names for this topic.
+                            Injected into the prompt so the LLM picks real names.
+        rejection_reasons : Failure notes from a previous attempt on this gap.
+                            Injected so the LLM avoids repeating the same mistakes.
 
     Returns:
         List of ResearchPlan objects. May contain fewer than 3 if the LLM
         repeatedly fails to return valid structured output.
     """
+    dataset_hint = ""
+    if suggested_datasets:
+        ds_list = ", ".join(f"'{d}'" for d in suggested_datasets[:8])
+        dataset_hint = (
+            f" VERIFIED DATASETS FOR THIS TOPIC (from Hugging Face Hub): {ds_list}. "
+            "Prefer these over generic benchmarks when they are relevant to the gap."
+        )
+
     system_prompt = (
         "You are a research planning assistant. "
         "Given a research gap and relevant paper abstracts, generate exactly 3 "
@@ -153,8 +170,9 @@ def generate_plans(gap: ResearchGap, context_papers: List[Paper]) -> List[Resear
         "Do NOT write phrases like 'Non-IID CIFAR-10', 'MNIST with noise', "
         "'a custom dataset', or 'benchmark datasets with injected attacks'. "
         "Just write the base dataset name. Describe the experimental setup in "
-        "'proposed_method' instead. "
-        "No explanation, no extra keys, no markdown."
+        "'proposed_method' instead."
+        + dataset_hint +
+        " No explanation, no extra keys, no markdown."
     )
 
     context_abstracts = "\n\n".join(
@@ -162,10 +180,20 @@ def generate_plans(gap: ResearchGap, context_papers: List[Paper]) -> List[Resear
         for p in context_papers
     )
 
+    rejection_block = ""
+    if rejection_reasons:
+        reasons_text = "\n".join(f"  - {r}" for r in rejection_reasons)
+        rejection_block = (
+            f"\n\nPREVIOUS ATTEMPT FAILED — do NOT repeat these mistakes:\n"
+            f"{reasons_text}\n"
+            "Generate 3 new plans that avoid all of the above issues."
+        )
+
     user_prompt = (
         f"Research gap: {gap.description}\n\n"
         f"Related concepts: {gap.related_concepts}\n\n"
         f"Relevant abstracts:\n{context_abstracts}"
+        + rejection_block
     )
 
     def _attempt(prompt_system, prompt_user) -> List[ResearchPlan]:
@@ -210,7 +238,12 @@ def generate_plans(gap: ResearchGap, context_papers: List[Paper]) -> List[Resear
 
 # -- Task 3.4: run
 
-def run(gaps: List[ResearchGap], papers: List[Paper]) -> List[ResearchPlan]:
+def run(
+    gaps: List[ResearchGap],
+    papers: List[Paper],
+    suggested_datasets: Optional[List[str]] = None,
+    rejection_feedback: Optional[dict] = None,
+) -> List[ResearchPlan]:
     """
     Full Planner Agent pipeline: for each gap, select context and generate plans.
 
@@ -218,13 +251,19 @@ def run(gaps: List[ResearchGap], papers: List[Paper]) -> List[ResearchPlan]:
     source_gap is set on every plan for use in the main.py revision loop.
 
     Args:
-        gaps   : Research gaps identified by the Librarian Agent.
-        papers : Full list of retrieved papers with concepts populated.
+        gaps               : Research gaps identified by the Librarian Agent.
+        papers             : Full list of retrieved papers with concepts populated.
+        suggested_datasets : Verified HF Hub dataset names pre-fetched for this topic.
+                             Passed through to generate_plans() for every gap.
+        rejection_feedback : Dict mapping gap description -> list of rejection reason
+                             strings from the previous revision attempt. Used to tell
+                             the LLM what mistakes to avoid when re-planning.
 
     Returns:
         Flat List[ResearchPlan] - not nested by gap.
     """
     all_plans: List[ResearchPlan] = []
+    rejection_feedback = rejection_feedback or {}
 
     for i, gap in enumerate(gaps):
         print(f"[planner_agent] Gap {i+1}/{len(gaps)}: '{gap.description[:60]}...'")
@@ -232,7 +271,11 @@ def run(gaps: List[ResearchGap], papers: List[Paper]) -> List[ResearchPlan]:
         context = select_context_papers(gap, papers)
         print(f"[planner_agent]   Selected {len(context)} context paper(s) by concept overlap.")
 
-        plans = generate_plans(gap, context)
+        reasons = rejection_feedback.get(gap.description)
+        if reasons:
+            print(f"[planner_agent]   Injecting {len(reasons)} rejection reason(s) into prompt.")
+
+        plans = generate_plans(gap, context, suggested_datasets, reasons)
         print(f"[planner_agent]   Generated {len(plans)} valid plan(s).")
 
         all_plans.extend(plans)

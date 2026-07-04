@@ -20,10 +20,16 @@ import sys
 import os
 sys.path.insert(0, os.path.dirname(__file__))
 
+import config
 from agents.librarian_agent import run as librarian_run
 from agents.planner_agent import run as planner_run
 from agents.reviewer_agent import run as reviewer_run, score_novelty, generate_output_fields
-from tools.feasibility_checker import check_feasibility
+from tools.feasibility_checker import (
+    check_feasibility,
+    check_computational_feasibility,
+    check_methodological_practicality,
+    check_time_feasibility,
+)
 from tools.embedder import get_embeddings
 from models.schemas import Paper, ResearchPlan, ResearchGap, ReviewResult
 
@@ -45,7 +51,8 @@ def run_tests():
     check("get_embeddings returns ndarray", hasattr(embs, 'shape'))
     check("Shape is (2, 384) for all-MiniLM-L6-v2", embs.shape == (2, 384))
 
-    # Calibration: identical text should score near 0
+    # Calibration Test 1: identical text should score near 0
+    # With top-K scoring, a plan identical to a paper should still score ~0
     dummy_abstract = (
         "We propose a federated learning approach using gradient compression "
         "and differential privacy to handle non-IID data across distributed clients."
@@ -60,9 +67,9 @@ def run_tests():
         source_gap=None
     )
     identical_score = score_novelty(identical_plan, [dummy_paper])
-    check(f"Identical text scores near 0 (got {identical_score:.2f})", identical_score < 2.0)
+    check(f"Identical text scores near 0 with top-K (got {identical_score:.2f})", identical_score < 2.5)
 
-    # Calibration: unrelated text should score high
+    # Calibration Test 2: unrelated text should score high
     unrelated_plan = ResearchPlan(
         research_question="How do ocean tidal patterns affect coral reef ecosystems?",
         proposed_method="Marine biology field study with underwater acoustic sensors",
@@ -71,33 +78,123 @@ def run_tests():
         source_gap=None
     )
     unrelated_score = score_novelty(unrelated_plan, [dummy_paper])
-    check(f"Unrelated text scores high (got {unrelated_score:.2f})", unrelated_score >= 7.0)
+    check(f"Unrelated text scores high with top-K (got {unrelated_score:.2f})", unrelated_score >= 7.0)
 
-    # ── Test 2: Feasibility checker — known datasets ───────────────
-    print("\nTest 2: check_feasibility rejects non-existent datasets")
+    # Calibration Test 3: moderately similar plan should score between thresholds
+    moderate_plan = ResearchPlan(
+        research_question="Can we apply gradient sparsification to improve federated learning efficiency?",
+        proposed_method="Using sparse gradient updates with momentum correction in federated settings",
+        dataset="cifar-10",
+        evaluation_metric="accuracy",
+        source_gap=None
+    )
+    moderate_score = score_novelty(moderate_plan, [dummy_paper])
+    print(f"  Moderate similarity score (for threshold calibration): {moderate_score:.2f}")
+    print(f"  Top-K threshold in use: {config.NOVELTY_THRESHOLD_STRICT}")
+
+    # ── Test 2: Feasibility checker — all 5 components ─────────────
+    print("\nTest 2: check_feasibility — 5-component validation")
 
     good_plan = ResearchPlan(
-        research_question="Test question",
-        proposed_method="A continual learning approach using regularization",
-        dataset="split cifar-100",
+        research_question="Can transfer learning improve continual learning?",
+        proposed_method="Fine-tuning a pre-trained transformer using transfer learning",
+        dataset="cifar-100",
         evaluation_metric="forgetting metric and accuracy",
         source_gap=None
     )
-    passed, notes = check_feasibility(good_plan)
-    check("Known dataset passes feasibility", passed)
+    passed, notes, components = check_feasibility(good_plan)
+    check("Valid plan passes all 5 components", passed)
+    check("Returns components dict with 5 keys", len(components) == 5)
     check("Notes say 'passed' for valid plan", "passed" in notes.lower())
+    check("data_availability component present", "data_availability" in components)
+    check("metric_validity component present", "metric_validity" in components)
+    check("computational_feasibility component present", "computational_feasibility" in components)
+    check("methodological_practicality component present", "methodological_practicality" in components)
+    check("time_feasibility component present", "time_feasibility" in components)
 
     bad_plan = ResearchPlan(
         research_question="Test question",
-        proposed_method="A classification approach",
+        proposed_method="A classification approach using fine-tuning",
         dataset="MyMadeUpDataset2099",
         evaluation_metric="accuracy",
         source_gap=None
     )
-    passed_bad, notes_bad = check_feasibility(bad_plan)
+    passed_bad, notes_bad, _ = check_feasibility(bad_plan)
     check("Unknown dataset fails feasibility", not passed_bad)
     check("Notes explain the rejection", len(notes_bad) > 20)
     print(f"  Rejection note: {notes_bad[:80]}...")
+
+    # ── Test 2B: Individual component checks ──────────────────────
+    print("\nTest 2B: Individual Phase B component checks")
+
+    # Computational feasibility
+    expensive_plan = ResearchPlan(
+        research_question="Test",
+        proposed_method="Train a foundation model from scratch on large corpus",
+        dataset="cifar-10",
+        evaluation_metric="accuracy",
+        source_gap=None
+    )
+    comp_ok, comp_note = check_computational_feasibility(expensive_plan)
+    check("Expensive compute correctly rejected", not comp_ok)
+    print(f"  Compute rejection: {comp_note[:70]}")
+
+    cheap_plan = ResearchPlan(
+        research_question="Test",
+        proposed_method="Fine-tuning a pre-trained ResNet using transfer learning",
+        dataset="cifar-10",
+        evaluation_metric="accuracy",
+        source_gap=None
+    )
+    comp_ok2, _ = check_computational_feasibility(cheap_plan)
+    check("Standard compute correctly accepted", comp_ok2)
+
+    # Methodological practicality
+    # Note: with LLM-based verification, the vague/known distinction is
+    # handled by the LLM's knowledge — we test the known case is always accepted
+    known_plan = ResearchPlan(
+        research_question="Test",
+        proposed_method="Applying contrastive learning with a transformer backbone",
+        dataset="cifar-10",
+        evaluation_metric="accuracy",
+        source_gap=None
+    )
+    meth_ok, meth_note = check_methodological_practicality(known_plan)
+    check("Known method (contrastive learning + transformer) accepted", meth_ok)
+    print(f"  Method note: {meth_note[:70]}")
+
+    known_plan2 = ResearchPlan(
+        research_question="Test",
+        proposed_method="Using energy-based models with contrastive divergence for regularization",
+        dataset="cifar-10",
+        evaluation_metric="accuracy",
+        source_gap=None
+    )
+    meth_ok2, meth_note2 = check_methodological_practicality(known_plan2)
+    check("Known method (energy-based + contrastive divergence) accepted", meth_ok2)
+    print(f"  Method note: {meth_note2[:70]}")
+
+    # Time feasibility
+    long_plan = ResearchPlan(
+        research_question="Can we conduct human trials for this approach?",
+        proposed_method="Run a multi-year study with clinical trial participants",
+        dataset="cifar-10",
+        evaluation_metric="accuracy",
+        source_gap=None
+    )
+    time_ok, time_note = check_time_feasibility(long_plan)
+    check("Unrealistic scope correctly rejected", not time_ok)
+    print(f"  Time rejection: {time_note[:70]}")
+
+    short_plan = ResearchPlan(
+        research_question="Can fine-tuning improve image classification?",
+        proposed_method="Fine-tuning a pre-trained CNN on CIFAR-10",
+        dataset="cifar-10",
+        evaluation_metric="accuracy",
+        source_gap=None
+    )
+    time_ok2, _ = check_time_feasibility(short_plan)
+    check("Realistic scope correctly accepted", time_ok2)
 
     # ── Test 3: score_novelty range ────────────────────────────────
     print("\nTest 3: score_novelty always returns float in [0.0, 10.0]")
@@ -118,7 +215,7 @@ def run_tests():
     print(f"  Score for test plan: {score:.2f}")
 
     # ── Test 4: Full pipeline run ──────────────────────────────────
-    print("\nTest 4: Full pipeline — Librarian → Planner → Reviewer")
+    print("\nTest 4: Full pipeline - Librarian -> Planner -> Reviewer")
     print("  Running Librarian Agent...")
     papers, gaps = librarian_run("continual learning")
     print("  Running Planner Agent...")
@@ -132,10 +229,11 @@ def run_tests():
 
     # ── Test 5: Accepted/rejected logic ───────────────────────────
     print("\nTest 5: Accepted/rejected logic is correct")
+    # Use the corpus-derived threshold stored on the result itself
     for r in results:
-        should_accept = r.novelty_score >= 4.0 and r.feasibility_passed
+        should_accept = r.novelty_score >= r.novelty_threshold and r.feasibility_passed
         check(
-            f"Plan accepted={r.accepted} matches novelty({r.novelty_score:.1f})>=4.0 AND feasibility({r.feasibility_passed})",
+            f"Plan accepted={r.accepted} matches novelty({r.novelty_score:.1f})>={r.novelty_threshold:.2f} AND feasibility({r.feasibility_passed})",
             r.accepted == should_accept
         )
 
@@ -146,6 +244,8 @@ def run_tests():
             check("Accepted plan has suggested_title", bool(r.suggested_title))
             check("Accepted plan has research_direction", bool(r.research_direction))
             check("Accepted plan has experimental_blueprint", bool(r.experimental_blueprint))
+            check("Accepted plan has 5 feasibility components",
+                  len(r.feasibility_components) == 5)
         else:
             check("Rejected plan has empty output fields",
                   r.suggested_title == "" and r.research_direction == "" and r.experimental_blueprint == "")

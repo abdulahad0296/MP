@@ -13,18 +13,20 @@ Then open http://localhost:7860 in your browser.
 
 import gradio as gr
 import json
-import time
-import threading
 from datetime import datetime
 from typing import Generator
 
 import config
 from agents import librarian_agent, planner_agent, reviewer_agent
 from models.schemas import ReviewResult
+from tools.pdf_exporter import generate_pdf
 
 
 # ── Colour constants ──────────────────────────────────────────────────────────
 ACCENT   = "#2563EB"
+
+# ── State: holds last completed run for PDF download ──────────────────────────
+_last_run: dict = {}  # keys: results, papers, gaps, topic, run_number
 SUCCESS  = "#16A34A"
 WARNING  = "#D97706"
 DANGER   = "#DC2626"
@@ -46,7 +48,8 @@ def run_pipeline_streaming(topic: str) -> Generator:
     tuples at each step so Gradio can stream updates live.
     """
     if not topic.strip():
-        yield "Please enter a research topic.", "", ""
+        yield "Please enter a research topic.", "", "", gr.update(visible=False)
+
         return
 
     log_lines = []
@@ -56,54 +59,63 @@ def run_pipeline_streaming(topic: str) -> Generator:
         return "\n".join(log_lines)
 
     # ── Step 1+2: Librarian ───────────────────────────────────────
-    yield log(f"Starting pipeline for: '{topic}'"), "", ""
-    yield log("Librarian Agent — fetching papers from arXiv...", "agent"), "", ""
+    yield log(f"Starting pipeline for: '{topic}'"), "", "", gr.update(visible=False)
+    yield log("Librarian Agent — fetching papers from arXiv...", "agent"), "", "", gr.update(visible=False)
 
     try:
         papers, gaps = librarian_agent.run(topic)
     except Exception as e:
-        yield log(f"Pipeline error: {e}", "error"), "", ""
+        yield log(f"Pipeline error: {e}", "error"), "", "", gr.update(visible=False)
+
         return
 
-    yield log(f"Retrieved {len(papers)} papers. Concepts extracted.", "success"), "", ""
-    yield log(f"Identified {len(gaps)} research gap(s).", "success"), "", ""
+    yield log(f"Retrieved {len(papers)} papers. Concepts extracted.", "success"), "", "", gr.update(visible=False)
+
+    yield log(f"Identified {len(gaps)} research gap(s).", "success"), "", "", gr.update(visible=False)
+
 
     if not gaps:
-        yield log("No gaps found. Try a more specific topic.", "warning"), "", ""
+        yield log("No gaps found. Try a more specific topic.", "warning"), "", "", gr.update(visible=False)
+
         return
 
     for g in gaps:
-        yield log(f"Gap: {g.description[:70]}...", "info"), "", ""
+        yield log(f"Gap: {g.description[:70]}...", "info"), "", "", gr.update(visible=False)
 
     # ── Step 3: Planner ───────────────────────────────────────────
-    yield log("Planner Agent — generating candidate research plans...", "agent"), "", ""
+    yield log("Planner Agent — generating candidate research plans...", "agent"), "", "", gr.update(visible=False)
 
     try:
         plans = planner_agent.run(gaps, papers)
     except Exception as e:
-        yield log(f"Planner error: {e}", "error"), "", ""
+        yield log(f"Planner error: {e}", "error"), "", "", gr.update(visible=False)
+
         return
 
-    yield log(f"Generated {len(plans)} candidate plan(s) across {len(gaps)} gap(s).", "success"), "", ""
+    yield log(f"Generated {len(plans)} candidate plan(s) across {len(gaps)} gap(s).", "success"), "", "", gr.update(visible=False)
+
 
     # ── Step 4+5: Reviewer ────────────────────────────────────────
-    yield log("Reviewer Agent — scoring novelty and checking feasibility...", "agent"), "", ""
+    yield log("Reviewer Agent — scoring novelty and checking feasibility...", "agent"), "", "", gr.update(visible=False)
 
     try:
         results = reviewer_agent.run(plans, papers)
     except Exception as e:
         import agents.reviewer_agent as _rev
         results = getattr(_rev, '_partial_results', [])
-        yield log(f"Rate limit hit — saved {len(results)} partial result(s).", "warning"), "", ""
+        yield log(f"Rate limit hit — saved {len(results)} partial result(s).", "warning"), "", "", gr.update(visible=False)
+
 
     accepted = [r for r in results if r.accepted]
     rejected = [r for r in results if not r.accepted]
-    yield log(f"Review complete: {len(accepted)} accepted, {len(rejected)} rejected.", "success"), "", ""
+    yield log(f"Review complete: {len(accepted)} accepted, {len(rejected)} rejected.", "success"), "", "", gr.update(visible=False)
+
 
     # ── Revision loop ─────────────────────────────────────────────
     rejected_results = [r for r in results if not r.accepted]
     if rejected_results:
-        yield log(f"Revision loop: retrying {len(rejected_results)} rejected plan(s)...", "agent"), "", ""
+        yield log(f"Revision loop: retrying {len(rejected_results)} rejected plan(s)...", "agent"), "", "", gr.update(visible=False)
+
 
         seen = set()
         unique_gaps = []
@@ -115,7 +127,7 @@ def run_pipeline_streaming(topic: str) -> Generator:
         for attempt in range(config.MAX_REVISION_ATTEMPTS):
             if not unique_gaps:
                 break
-            yield log(f"Revision attempt {attempt+1}/{config.MAX_REVISION_ATTEMPTS}...", "info"), "", ""
+            yield log(f"Revision attempt {attempt+1}/{config.MAX_REVISION_ATTEMPTS}...", "info"), "", "", gr.update(visible=False)
             try:
                 revised      = planner_agent.run(unique_gaps, papers)
                 re_reviewed  = reviewer_agent.run(revised, papers)
@@ -123,11 +135,12 @@ def run_pipeline_streaming(topic: str) -> Generator:
                 still        = [r for r in re_reviewed if not r.accepted]
                 results     += newly
                 accepted    += newly
-                yield log(f"Revision {attempt+1}: {len(newly)} newly accepted.", "success"), "", ""
+                yield log(f"Revision {attempt+1}: {len(newly)} newly accepted.", "success"), "", "", gr.update(visible=False)
+
                 accepted_descs = {r.plan.source_gap.description for r in newly if r.plan.source_gap}
                 unique_gaps    = [g for g in unique_gaps if g.description not in accepted_descs]
             except Exception as e:
-                yield log(f"Revision error: {e}", "warning"), "", ""
+                yield log(f"Revision error: {e}", "warning"), "", "", gr.update(visible=False)
                 break
 
     # ── Save results ──────────────────────────────────────────────
@@ -175,14 +188,21 @@ def run_pipeline_streaming(topic: str) -> Generator:
         existing["runs"].append(run_entry)
         with open(path, "w") as f:
             _json.dump(existing, f, indent=2)
-        yield log(f"Results saved to {path} (run #{len(existing['runs'])}).", "success"), "", ""
+        run_num = len(existing["runs"])
+        _last_run["results"]    = results
+        _last_run["papers"]     = papers
+        _last_run["gaps"]       = gaps
+        _last_run["topic"]      = topic
+        _last_run["run_number"] = run_num
+        yield log(f"Results saved to {path} (run #{run_num}).", "success"), "", "", gr.update(visible=False)
+
     except Exception as e:
-        yield log(f"Could not save results: {e}", "warning"), "", ""
+        yield log(f"Could not save results: {e}", "warning"), "", "", gr.update(visible=False)
 
     # ── Build output HTML ─────────────────────────────────────────
     summary_html = _build_summary(topic, results, accepted, papers, gaps)
     results_html = _build_results(accepted, rejected)
-    yield "\n".join(log_lines), results_html, summary_html
+    yield "\n".join(log_lines), results_html, summary_html, gr.update(visible=True)
 
 
 # ── HTML builders ─────────────────────────────────────────────────────────────
@@ -296,8 +316,8 @@ def _build_results(accepted, rejected):
                 f"margin:16px 0 10px'>✗  {len(rejected)} Rejected Plan(s)</h3>"
         for r in rejected:
             reasons = []
-            if r.novelty_score < config.NOVELTY_THRESHOLD:
-                reasons.append(f"Novelty {r.novelty_score:.2f} below threshold")
+            if r.novelty_score < r.novelty_threshold:
+                reasons.append(f"Novelty {r.novelty_score:.2f} below threshold {r.novelty_threshold:.2f}")
             if not r.feasibility_passed:
                 short = r.feasibility_notes[:90] + "..." if len(r.feasibility_notes) > 90 else r.feasibility_notes
                 reasons.append(short)
@@ -315,6 +335,28 @@ def _build_results(accepted, rejected):
     html += "</div>"
     return html
 
+
+
+
+# ── PDF generation ────────────────────────────────────────────────────────────
+
+def generate_pdf_report():
+    """Called when the user clicks Download PDF. Generates and returns the file path."""
+    if not _last_run:
+        return None
+    try:
+        path = generate_pdf(
+            topic      = _last_run["topic"],
+            results    = _last_run["results"],
+            papers     = _last_run["papers"],
+            gaps       = _last_run["gaps"],
+            run_number = _last_run.get("run_number", 1),
+            output_dir = "outputs",
+        )
+        return path
+    except Exception as e:
+        print(f"[pdf] Error generating PDF: {e}")
+        return None
 
 # ── Gradio UI ─────────────────────────────────────────────────────────────────
 
@@ -394,6 +436,15 @@ with gr.Blocks(title="Agentic Research Planner") as demo:
     summary_out = gr.HTML(label="Summary", value="")
 
     with gr.Row():
+        download_btn = gr.Button(
+            "⬇  Download PDF Report",
+            variant="secondary",
+            size="sm",
+            visible=False,
+        )
+        pdf_file = gr.File(label="PDF Report", visible=False, interactive=False)
+
+    with gr.Row():
         with gr.Column(scale=2):
             results_out = gr.HTML(
                 label="Proposals",
@@ -411,7 +462,19 @@ with gr.Blocks(title="Agentic Research Planner") as demo:
     run_btn.click(
         fn=run_pipeline_streaming,
         inputs=topic_input,
-        outputs=[log_out, results_out, summary_out],
+        outputs=[log_out, results_out, summary_out, download_btn],
+    )
+
+    def _do_pdf():
+        path = generate_pdf_report()
+        if path:
+            return gr.update(value=path, visible=True)
+        return gr.update(visible=False)
+
+    download_btn.click(
+        fn=_do_pdf,
+        inputs=None,
+        outputs=pdf_file,
     )
 
     gr.HTML("""
@@ -424,10 +487,10 @@ with gr.Blocks(title="Agentic Research Planner") as demo:
         Embeddings: all-MiniLM-L6-v2
       </span>
       <span style="font-size:12px;color:#9ca3af">
-        Novelty threshold: {threshold} &nbsp;|&nbsp; Max papers: {papers}
+        Novelty threshold: computed per-run from corpus &nbsp;|&nbsp; Max papers: {papers}
       </span>
     </div>
-    """.format(threshold=config.NOVELTY_THRESHOLD, papers=config.MAX_PAPERS))
+    """.format(papers=config.MAX_PAPERS))
 
 
 if __name__ == "__main__":

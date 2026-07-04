@@ -7,7 +7,7 @@ No logic. No external dependencies.
 """
 
 from dataclasses import dataclass, field
-from typing import List, Optional
+from typing import Dict, List, Optional, Tuple
 
 
 @dataclass
@@ -71,17 +71,24 @@ class ReviewResult:
     Attributes:
         plan                  : The ResearchPlan that was evaluated.
         novelty_score         : Float 0.0–10.0. Higher = more novel vs existing literature.
+        novelty_threshold     : Corpus-derived threshold used for this run's acceptance decision.
         feasibility_passed    : True if dataset and metric pass rule-based checks.
         feasibility_notes     : Human-readable explanation of feasibility result.
         suggested_title       : LLM-generated title for the research proposal.
         research_direction    : Concise description of the research opportunity.
         experimental_blueprint: High-level plan for how the idea could be tested.
+        feasibility_components: Per-component breakdown {name: (passed, note)}.
+                              Keys: data_availability, metric_validity,
+                                    computational_feasibility,
+                                    methodological_practicality, time_feasibility.
         accepted              : True only if novelty_score >= threshold AND feasibility passes.
     """
     plan: ResearchPlan
     novelty_score: float
+    novelty_threshold: float
     feasibility_passed: bool
     feasibility_notes: str
+    feasibility_components: Dict[str, Tuple[bool, str]]
     suggested_title: str
     research_direction: str
     experimental_blueprint: str
