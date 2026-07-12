@@ -12,25 +12,27 @@ Then open http://localhost:7860 in your browser.
 """
 
 import gradio as gr
-import json
 from datetime import datetime
 from typing import Generator
 
 import config
 from agents import librarian_agent, planner_agent, reviewer_agent
+from main import save_results, _rejection_reasons
 from models.schemas import ReviewResult
+from tools.feasibility_checker import get_topic_datasets
 from tools.pdf_exporter import generate_pdf
+from tools.topic_validator import validate_topic
 
 
 # ── Colour constants ──────────────────────────────────────────────────────────
 ACCENT   = "#2563EB"
-
-# ── State: holds last completed run for PDF download ──────────────────────────
-_last_run: dict = {}  # keys: results, papers, gaps, topic, run_number
 SUCCESS  = "#16A34A"
 WARNING  = "#D97706"
 DANGER   = "#DC2626"
 MUTED    = "#6B7280"
+
+# ── State: holds last completed run for PDF download ──────────────────────────
+_last_run: dict = {}  # keys: results, papers, gaps, topic, run_number
 
 
 # ── Pipeline runner with streaming logs ──────────────────────────────────────
@@ -49,7 +51,6 @@ def run_pipeline_streaming(topic: str) -> Generator:
     """
     if not topic.strip():
         yield "Please enter a research topic.", "", "", gr.update(visible=False)
-
         return
 
     log_lines = []
@@ -57,6 +58,36 @@ def run_pipeline_streaming(topic: str) -> Generator:
     def log(msg, level="info"):
         log_lines.append(format_log(msg, level))
         return "\n".join(log_lines)
+
+    # ── Topic scope validation ────────────────────────────────────
+    yield log(f"Validating topic scope: '{topic}'", "info"), "", "", gr.update(visible=False)
+    validation = validate_topic(topic)
+    if not validation["in_scope"]:
+        reason = validation["reason"]
+        suggestion = validation.get("suggested_topic", "")
+        suggestion_html = (
+            f"<p style='margin:10px 0 0;font-size:13px;color:#374151'>"
+            f"Try instead: <b>{suggestion}</b></p>"
+            if suggestion else ""
+        )
+        error_html = f"""
+        <div style="font-family:'IBM Plex Sans',system-ui,sans-serif;
+                    border:1px solid #fecaca;border-radius:12px;padding:20px 24px;
+                    background:#fff5f5;margin:8px 0">
+          <div style="font-size:15px;font-weight:600;color:#dc2626;margin-bottom:8px">
+            Topic out of scope
+          </div>
+          <p style="font-size:13px;color:#374151;margin:0">{reason}</p>
+          {suggestion_html}
+          <p style="font-size:12px;color:#9ca3af;margin:12px 0 0">
+            This tool is scoped to Computer Science and Machine Learning research.
+            Please enter a CS/ML topic to continue.
+          </p>
+        </div>"""
+        yield log(f"Topic rejected: {reason}", "error"), error_html, "", gr.update(visible=False)
+        return
+
+    yield log("Topic validated — within CS/ML scope.", "success"), "", "", gr.update(visible=False)
 
     # ── Step 1+2: Librarian ───────────────────────────────────────
     yield log(f"Starting pipeline for: '{topic}'"), "", "", gr.update(visible=False)
@@ -82,11 +113,18 @@ def run_pipeline_streaming(topic: str) -> Generator:
     for g in gaps:
         yield log(f"Gap: {g.description[:70]}...", "info"), "", "", gr.update(visible=False)
 
+    # ── Dataset grounding: verified HF Hub datasets for this topic ──
+    suggested_datasets = get_topic_datasets(topic)
+    if suggested_datasets:
+        yield log(f"HF Hub datasets found: {', '.join(suggested_datasets[:4])}...", "info"), "", "", gr.update(visible=False)
+    else:
+        yield log("No HF Hub datasets for topic — using generic benchmarks.", "info"), "", "", gr.update(visible=False)
+
     # ── Step 3: Planner ───────────────────────────────────────────
     yield log("Planner Agent — generating candidate research plans...", "agent"), "", "", gr.update(visible=False)
 
     try:
-        plans = planner_agent.run(gaps, papers)
+        plans = planner_agent.run(gaps, papers, suggested_datasets=suggested_datasets)
     except Exception as e:
         yield log(f"Planner error: {e}", "error"), "", "", gr.update(visible=False)
 
@@ -98,13 +136,18 @@ def run_pipeline_streaming(topic: str) -> Generator:
     # ── Step 4+5: Reviewer ────────────────────────────────────────
     yield log("Reviewer Agent — scoring novelty and checking feasibility...", "agent"), "", "", gr.update(visible=False)
 
+    rate_limited = False
     try:
         results = reviewer_agent.run(plans, papers)
     except Exception as e:
-        import agents.reviewer_agent as _rev
-        results = getattr(_rev, '_partial_results', [])
-        yield log(f"Rate limit hit — saved {len(results)} partial result(s).", "warning"), "", "", gr.update(visible=False)
-
+        results = getattr(reviewer_agent, '_partial_results', [])
+        if "rate_limit" in str(e).lower() or "429" in str(e):
+            rate_limited = True
+            yield log(f"Rate limit hit — recovered {len(results)} partial result(s).", "warning"), "", "", gr.update(visible=False)
+        else:
+            yield log(f"Reviewer error: {e} — recovered {len(results)} partial result(s).", "error"), "", "", gr.update(visible=False)
+        if not results:
+            return
 
     accepted = [r for r in results if r.accepted]
     rejected = [r for r in results if not r.accepted]
@@ -112,24 +155,31 @@ def run_pipeline_streaming(topic: str) -> Generator:
 
 
     # ── Revision loop ─────────────────────────────────────────────
-    rejected_results = [r for r in results if not r.accepted]
+    # Skipped after a rate limit — further LLM calls would fail too.
+    rejected_results = [] if rate_limited else rejected
     if rejected_results:
         yield log(f"Revision loop: retrying {len(rejected_results)} rejected plan(s)...", "agent"), "", "", gr.update(visible=False)
 
 
         seen = set()
         unique_gaps = []
+        rejection_feedback: dict = {}  # gap description -> [reason strings]
         for r in rejected_results:
-            if r.plan.source_gap and r.plan.source_gap.description not in seen:
-                seen.add(r.plan.source_gap.description)
-                unique_gaps.append(r.plan.source_gap)
+            if r.plan.source_gap:
+                desc = r.plan.source_gap.description
+                if desc not in seen:
+                    seen.add(desc)
+                    unique_gaps.append(r.plan.source_gap)
+                rejection_feedback.setdefault(desc, []).extend(_rejection_reasons(r))
 
         for attempt in range(config.MAX_REVISION_ATTEMPTS):
             if not unique_gaps:
                 break
             yield log(f"Revision attempt {attempt+1}/{config.MAX_REVISION_ATTEMPTS}...", "info"), "", "", gr.update(visible=False)
             try:
-                revised      = planner_agent.run(unique_gaps, papers)
+                revised      = planner_agent.run(unique_gaps, papers,
+                                                 suggested_datasets=suggested_datasets,
+                                                 rejection_feedback=rejection_feedback)
                 re_reviewed  = reviewer_agent.run(revised, papers)
                 newly        = [r for r in re_reviewed if r.accepted]
                 still        = [r for r in re_reviewed if not r.accepted]
@@ -139,56 +189,16 @@ def run_pipeline_streaming(topic: str) -> Generator:
 
                 accepted_descs = {r.plan.source_gap.description for r in newly if r.plan.source_gap}
                 unique_gaps    = [g for g in unique_gaps if g.description not in accepted_descs]
+                for r in still:
+                    if r.plan.source_gap:
+                        rejection_feedback.setdefault(r.plan.source_gap.description, []).extend(_rejection_reasons(r))
             except Exception as e:
                 yield log(f"Revision error: {e}", "warning"), "", "", gr.update(visible=False)
                 break
 
-    # ── Save results ──────────────────────────────────────────────
+    # ── Save results (same format and path as the CLI pipeline) ──
     try:
-        import os, json as _json
-        from datetime import datetime as _dt
-        path = config.OUTPUT_PATH
-        os.makedirs(os.path.dirname(path), exist_ok=True)
-        existing = {"runs": []}
-        if os.path.exists(path):
-            with open(path) as f:
-                try:
-                    existing = _json.load(f)
-                    if "runs" not in existing:
-                        existing = {"runs": [existing]}
-                except:
-                    pass
-        run_entry = {
-            "topic": topic,
-            "timestamp": _dt.now().isoformat(),
-            "summary": {
-                "total_reviewed": len(results),
-                "accepted": len(accepted),
-                "rejected": len(results) - len(accepted),
-            },
-            "results": [
-                {
-                    "accepted": r.accepted,
-                    "novelty_score": r.novelty_score,
-                    "feasibility_passed": r.feasibility_passed,
-                    "feasibility_notes": r.feasibility_notes,
-                    "suggested_title": r.suggested_title,
-                    "research_direction": r.research_direction,
-                    "experimental_blueprint": r.experimental_blueprint,
-                    "plan": {
-                        "research_question": r.plan.research_question,
-                        "proposed_method": r.plan.proposed_method,
-                        "dataset": r.plan.dataset,
-                        "evaluation_metric": r.plan.evaluation_metric,
-                        "source_gap": r.plan.source_gap.description if r.plan.source_gap else "",
-                    }
-                } for r in results
-            ]
-        }
-        existing["runs"].append(run_entry)
-        with open(path, "w") as f:
-            _json.dump(existing, f, indent=2)
-        run_num = len(existing["runs"])
+        path, run_num = save_results(results, topic)
         _last_run["results"]    = results
         _last_run["papers"]     = papers
         _last_run["gaps"]       = gaps
@@ -406,9 +416,9 @@ HEADER_HTML = """
     Agentic Research Planning Framework
   </h1>
   <p style="font-size:14px;color:#6b7280;margin:0;max-width:620px;line-height:1.6">
-    Enter a research topic to automatically retrieve papers from arXiv,
-    identify research gaps, generate candidate plans, and evaluate them
-    for novelty and feasibility.
+    Enter a <b>Computer Science or Machine Learning</b> research topic to automatically
+    retrieve papers from arXiv, identify research gaps, generate candidate plans,
+    and evaluate them for novelty and feasibility.
   </p>
 </div>
 """
@@ -420,8 +430,8 @@ with gr.Blocks(title="Agentic Research Planner") as demo:
     with gr.Row():
         with gr.Column(scale=3):
             topic_input = gr.Textbox(
-                label="Research Topic",
-                placeholder='e.g. "federated learning privacy" or "sign language recognition"',
+                label="Research Topic (CS / ML only)",
+                placeholder='e.g. "federated learning privacy" or "vision transformers medical imaging"',
                 lines=1,
             )
         with gr.Column(scale=1, min_width=140):
@@ -494,6 +504,8 @@ with gr.Blocks(title="Agentic Research Planner") as demo:
 
 
 if __name__ == "__main__":
+    # Gradio 6.x takes css on launch(); on Gradio <6 it belongs on
+    # gr.Blocks(...) instead.
     demo.launch(
         server_name="127.0.0.1",
         server_port=7860,

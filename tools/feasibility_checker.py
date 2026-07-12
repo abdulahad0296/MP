@@ -6,7 +6,7 @@ Phase B upgrade: expanded from 2 checks to 5 independent components.
 
 Components:
     1. Data Availability      — HF Hub API search (500,000+ datasets)
-    2. Metric Validity        — rule-based: 43 method types, 199 metrics
+    2. Metric Validity        — rule-based: 43 method types, 153 unique metrics
     3. Computational Feasibility — blacklist of prohibitively expensive operations
     4. Methodological Practicality — whitelist of recognised ML/AI techniques
     5. Time Feasibility       — flags for unrealistic research scope
@@ -20,12 +20,14 @@ Usage:
 import re
 import requests
 from functools import lru_cache
+
+import config
 from models.schemas import ResearchPlan
 
 # ── Hugging Face Dataset Search ───────────────────────────────────────────────
 
 HF_SEARCH_URL = "https://huggingface.co/api/datasets"
-HF_TIMEOUT    = 6  # seconds — fast enough for pipeline use
+HF_TIMEOUT    = config.HF_TIMEOUT  # seconds — fast enough for pipeline use
 
 @lru_cache(maxsize=256)
 def _search_hf_datasets(query: str) -> bool:
@@ -374,22 +376,6 @@ _METHOD_FALLBACK: list[str] = [
     "generative", "contrastive", "federated", "reinforcement", "distillation",
 ]
 
-# Groq client for LLM-based phrase extraction — imported lazily to avoid
-# circular imports and only used in check_methodological_practicality()
-_groq_client = None
-
-def _get_groq_client():
-    """Lazy initialisation of Groq client."""
-    global _groq_client
-    if _groq_client is None:
-        try:
-            from groq import Groq
-            import config
-            _groq_client = Groq(api_key=config.GROQ_API_KEY)
-        except Exception:
-            pass
-    return _groq_client
-
 # Task B.6 — Time feasibility scope flags
 # Phrases indicating the plan is unrealistic for a research timeframe
 SCOPE_FLAGS: list[str] = [
@@ -450,51 +436,28 @@ def check_methodological_practicality(plan: ResearchPlan) -> tuple:
         2. Returns is_recognised=true/false with a reason.
         3. Falls back to _METHOD_FALLBACK list if LLM is unreachable.
     """
-    client = _get_groq_client()
-
-    if client is None:
-        method_lower = plan.proposed_method.lower()
-        if any(term in method_lower for term in _METHOD_FALLBACK):
-            return (True, "Methodological practicality: OK (fallback check)")
-        return (
-            False,
-            "Methodological practicality: LLM unavailable for method verification. "
-            "Use a named ML technique."
-        )
-
     try:
         import json as _json
-        import config as _config
-        response = client.chat.completions.create(
-            model=_config.LLM_MODEL,
+        from tools.llm import call_llm
+        raw = call_llm(
+            system_prompt=(
+                "You are an ML research expert. Given a proposed research method "
+                "description, determine whether it uses a real, recognised ML/AI "
+                "technique that appears in published research. "
+                "Return ONLY a JSON object with these keys: "
+                "technique (the core method name extracted, string), "
+                "is_recognised (true if it is a real published ML technique, false if vague or fabricated), "
+                "reason (one sentence explanation). "
+                "Examples of recognised techniques: fine-tuning, contrastive learning, "
+                "energy-based models, metalearning, variational autoencoder, "
+                "sparse routing networks, elastic weight consolidation, "
+                "contrastive divergence, generative replay, knowledge distillation. "
+                "Examples of unrecognised: a completely undefined approach, "
+                "a mysterious novel framework with no grounding in literature."
+            ),
+            user_prompt=f"Method: {plan.proposed_method}",
             max_tokens=200,
-            response_format={"type": "json_object"},
-            messages=[
-                {
-                    "role": "system",
-                    "content": (
-                        "You are an ML research expert. Given a proposed research method "
-                        "description, determine whether it uses a real, recognised ML/AI "
-                        "technique that appears in published research. "
-                        "Return ONLY a JSON object with these keys: "
-                        "technique (the core method name extracted, string), "
-                        "is_recognised (true if it is a real published ML technique, false if vague or fabricated), "
-                        "reason (one sentence explanation). "
-                        "Examples of recognised techniques: fine-tuning, contrastive learning, "
-                        "energy-based models, metalearning, variational autoencoder, "
-                        "sparse routing networks, elastic weight consolidation, "
-                        "contrastive divergence, generative replay, knowledge distillation. "
-                        "Examples of unrecognised: a completely undefined approach, "
-                        "a mysterious novel framework with no grounding in literature."
-                    )
-                },
-                {
-                    "role": "user",
-                    "content": f"Method: {plan.proposed_method}"
-                }
-            ]
         )
-        raw = response.choices[0].message.content or ""
         parsed = _json.loads(raw)
 
         technique     = str(parsed.get("technique", "unknown"))
@@ -621,11 +584,8 @@ def check_feasibility(plan: ResearchPlan) -> tuple[bool, str, dict]:
     components["time_feasibility"] = check_time_feasibility(plan)
 
     # ── Aggregate result ──────────────────────────────────────────
-    failed_notes = [
-        note for name, (ok, note) in components.items()
-        if not ok and "OK" not in note
-    ]
-    passed    = all(ok for _, (ok, _) in components.items())
+    failed_notes = [note for (ok, note) in components.values() if not ok]
+    passed       = all(ok for (ok, _) in components.values())
     notes_str = " | ".join(failed_notes) if failed_notes else "All feasibility checks passed."
 
     return passed, notes_str, components

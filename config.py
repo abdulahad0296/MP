@@ -5,7 +5,7 @@ Central configuration for the Agentic Research Planning Framework.
 All constants, thresholds, and API keys are loaded here.
 
 Usage:
-    from config import GROQ_API_KEY, MAX_PAPERS, NOVELTY_THRESHOLD
+    from config import GROQ_API_KEY, MAX_PAPERS, NOVELTY_THRESHOLD_STRICT
 
 Setup:
     Copy .env.example to .env and fill in your GROQ_API_KEY.
@@ -58,13 +58,6 @@ PLANNER_CONTEXT_PAPERS: int = 4
 
 # ── Reviewer Agent ────────────────────────────────────────────────────────────
 
-# Legacy fixed novelty threshold (0.0–10.0 scale). No longer used to gate
-# acceptance — the Reviewer Agent now computes a corpus-derived threshold
-# per run (see compute_novelty_threshold() in agents/reviewer_agent.py,
-# which falls back to NOVELTY_THRESHOLD_STRICT below if computation fails).
-# Kept only for historical reference / as a manual override point.
-NOVELTY_THRESHOLD: float = 1.5
-
 # Maximum number of times a rejected plan is re-submitted to the Planner
 MAX_REVISION_ATTEMPTS: int = 2
 
@@ -82,6 +75,12 @@ TOP_K_PAPERS: int = 5
 # Plans scoring below this are rejected as insufficiently novel.
 # Recalibrate after running test topics if needed.
 NOVELTY_THRESHOLD_STRICT: float = 2.5
+
+# ── Hugging Face Hub ─────────────────────────────────────────────────────────
+
+# Timeout (seconds) for HF Hub dataset-search API calls in the
+# feasibility checker — fast enough for pipeline use.
+HF_TIMEOUT: int = 6
 
 # ── Output ────────────────────────────────────────────────────────────────────
 

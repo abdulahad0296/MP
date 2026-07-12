@@ -253,9 +253,7 @@ def print_comparison_table(rows: list) -> None:
             except (ValueError, TypeError):
                 pass
 
-            pv_str = f"{pv}" if pv == "N/A" else f"{pv}"
-            bv_str = f"{bv}" if bv == "N/A" else f"{bv}"
-            print(f"  {label:<35} {pv_str:>12} {bv_str:>12} {winner:>10}")
+            print(f"  {label:<35} {str(pv):>12} {str(bv):>12} {winner:>10}")
 
         if pipe.get("novelty_threshold"):
             print(f"\n  Corpus-derived novelty threshold: {pipe['novelty_threshold']:.2f}")

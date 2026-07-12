@@ -17,6 +17,7 @@ Usage:
 import arxiv
 from typing import List
 
+import config
 from models.schemas import Paper
 
 
@@ -24,7 +25,9 @@ def fetch_papers(query: str, max_results: int = 20) -> List[Paper]:
     """
     Query arXiv and return a list of Paper objects.
 
-    Papers are sorted by relevance to the query string.
+    Papers are sorted by relevance to the query string. The request size
+    is hard-capped at config.ARXIV_RESULTS_LIMIT to avoid asking the API
+    for more papers than it handles reliably.
     Paper.concepts will be empty — populated later by the Librarian Agent.
 
     Args:
@@ -38,13 +41,14 @@ def fetch_papers(query: str, max_results: int = 20) -> List[Paper]:
     papers: List[Paper] = []
 
     try:
+        client = arxiv.Client()
         search = arxiv.Search(
             query=query,
-            max_results=max_results,
+            max_results=min(max_results, config.ARXIV_RESULTS_LIMIT),
             sort_by=arxiv.SortCriterion.Relevance
         )
 
-        for result in search.results():
+        for result in client.results(search):
             papers.append(Paper(
                 title=result.title,
                 abstract=result.summary,

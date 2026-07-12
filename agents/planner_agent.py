@@ -15,17 +15,12 @@ Usage:
     plans = run(gaps, papers)
 """
 
-import json
 from typing import List, Optional
-
-from groq import Groq
 
 import config
 from models.schemas import Paper, ResearchGap, ResearchPlan
+from tools.llm import call_llm, parse_json
 
-
-# -- Groq client — initialised once at module level
-_client = Groq(api_key=config.GROQ_API_KEY)
 
 # Required fields every plan must contain
 _REQUIRED_FIELDS = {"research_question", "proposed_method", "dataset", "evaluation_metric"}
@@ -34,30 +29,13 @@ _REQUIRED_FIELDS = {"research_question", "proposed_method", "dataset", "evaluati
 # -- Internal helpers
 
 def _call_llm(system_prompt: str, user_prompt: str) -> str:
-    """Make a single Groq API call and return raw response text."""
-    response = _client.chat.completions.create(
-        model=config.LLM_MODEL,
-        max_tokens=config.LLM_MAX_TOKENS,
-        response_format={"type": "json_object"},
-        messages=[
-            {"role": "system", "content": system_prompt},
-            {"role": "user",   "content": user_prompt},
-        ]
-    )
-    return response.choices[0].message.content or ""
+    """Make a single Groq API call via the shared LLM client."""
+    return call_llm(system_prompt, user_prompt)
 
 
-def _parse_json(raw: str, label: str) -> Optional[dict]:
-    """
-    Parse JSON from LLM response. Logs warning and returns None on failure.
-    Never crashes the pipeline.
-    """
-    try:
-        return json.loads(raw)
-    except json.JSONDecodeError as e:
-        print(f"[planner_agent] WARNING: JSON parse failed for '{label}'. Error: {e}")
-        print(f"[planner_agent] Raw response: {raw[:200]}")
-        return None
+def _parse_json(raw: str, label: str):
+    """Parse LLM JSON output via the shared helper. Returns None on failure."""
+    return parse_json(raw, label, tag="planner_agent")
 
 
 def _is_valid_plan(plan_dict: dict) -> bool:

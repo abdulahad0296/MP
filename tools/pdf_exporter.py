@@ -22,9 +22,7 @@ Usage (internal — called from app.py):
 from __future__ import annotations
 
 import os
-import textwrap
 from datetime import datetime
-from typing import List, Optional
 
 from reportlab.lib import colors
 from reportlab.lib.enums import TA_CENTER, TA_LEFT, TA_RIGHT
@@ -178,7 +176,10 @@ def _cover(topic, results, accepted, papers, gaps, run_number, timestamp, styles
     story.append(cover_table)
     story.append(Spacer(1, 0.6 * cm))
 
-    # Summary stats grid
+    # Summary stats grid — novelty rejections and feasibility passes are
+    # computed from the actual run, never hardcoded.
+    nov_rejections = sum(1 for r in results if r.novelty_score < r.novelty_threshold)
+    feas_passed    = sum(1 for r in results if r.feasibility_passed)
     stat_data = [
         [_stat_cell("Papers retrieved",   len(papers),      NAVY,   styles),
          _stat_cell("Gaps identified",    len(gaps),        TEAL,   styles),
@@ -187,8 +188,9 @@ def _cover(topic, results, accepted, papers, gaps, run_number, timestamp, styles
         [_stat_cell("Acceptance rate",    f"{rate}%",
                     GREEN if rate >= 60 else (AMBER if rate >= 30 else RED), styles),
          _stat_cell("Avg novelty score",  avg_nov,          AMBER,  styles),
-         _stat_cell("Novelty rejections", 0,                GREEN,  styles),
-         _stat_cell("5-component\nfeasibility", "✓ all",  TEAL,   styles)],
+         _stat_cell("Novelty rejections", nov_rejections,
+                    GREEN if nov_rejections == 0 else AMBER, styles),
+         _stat_cell("5-component\nfeasibility", f"{feas_passed}/{total} pass", TEAL, styles)],
     ]
     stat_table = Table(stat_data, colWidths=[CONTENT_W / 4] * 4,
                        rowHeights=[2.3 * cm] * 2)
@@ -429,15 +431,13 @@ def _feasibility_section(results, styles):
         q = r.plan.research_question
         q_short = (q[:55] + "...") if len(q) > 55 else q
         comp_cells = []
-        for key, _ in COMP_KEYS:
-            comps = getattr(r, "feasibility_components", {}) or {}
+        comps = getattr(r, "feasibility_components", {}) or {}
+        for j, (key, _) in enumerate(COMP_KEYS):
             if key in comps:
                 passed, note = comps[key]
                 cell_text = "✓" if passed else "✗"
                 table_style.append(
-                    ("TEXTCOLOR", (3 + list(k for k,_ in COMP_KEYS).index(key), i),
-                                  (3 + list(k for k,_ in COMP_KEYS).index(key), i),
-                     GREEN if passed else RED)
+                    ("TEXTCOLOR", (3 + j, i), (3 + j, i), GREEN if passed else RED)
                 )
             else:
                 cell_text = "–"

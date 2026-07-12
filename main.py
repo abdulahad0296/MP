@@ -20,6 +20,7 @@ import argparse
 import json
 import os
 import sys
+import textwrap
 from datetime import datetime
 from typing import List, Optional
 
@@ -28,6 +29,7 @@ from agents import librarian_agent, planner_agent, reviewer_agent
 from models.schemas import ReviewResult
 from tools.feasibility_checker import get_topic_datasets
 from tools.pdf_exporter import generate_pdf
+from tools.topic_validator import validate_topic
 
 
 # ── Save results ──────────────────────────────────────────────────────────────
@@ -55,7 +57,7 @@ def save_results(results: List[ReviewResult], topic: str, path: Optional[str] = 
         path    : Output file path. Defaults to config.OUTPUT_PATH.
 
     Returns:
-        The path where results were saved.
+        Tuple of (path where results were saved, run number of this entry).
     """
     if path is None:
         path = config.OUTPUT_PATH
@@ -159,20 +161,8 @@ def display_results(results: List[ReviewResult], topic: str) -> None:
             print(f"\n  Dataset   : {r.plan.dataset}")
             print(f"  Metric    : {r.plan.evaluation_metric}")
             print(f"\n  Blueprint :")
-
-            # Word-wrap blueprint at 62 chars
-            words = r.experimental_blueprint.split()
-            line, lines = [], []
-            for word in words:
-                if sum(len(w) + 1 for w in line) + len(word) > 62:
-                    lines.append(" ".join(line))
-                    line = [word]
-                else:
-                    line.append(word)
-            if line:
-                lines.append(" ".join(line))
-            for bl in lines:
-                print(f"    {bl}")
+            print(textwrap.fill(r.experimental_blueprint, width=62,
+                                initial_indent="    ", subsequent_indent="    "))
 
             print(f"\n  Novelty Score : {r.novelty_score:.2f} / 10.00")
             print(f"  Feasibility   : PASS")
@@ -197,7 +187,27 @@ def display_results(results: List[ReviewResult], topic: str) -> None:
 
 # ── Pipeline orchestrator ─────────────────────────────────────────────────────
 
-def run_pipeline(topic: str):
+def _rejection_reasons(r: ReviewResult) -> List[str]:
+    """
+    Build the actual rejection reason(s) for a rejected plan, for injection
+    into the Planner's re-planning prompt.
+
+    A plan can fail on novelty, feasibility, or both. Using only
+    feasibility_notes would tell the planner "All feasibility checks passed."
+    for a novelty-only rejection — useless as corrective feedback.
+    """
+    reasons = []
+    if r.novelty_score < r.novelty_threshold:
+        reasons.append(
+            f"Rejected for low novelty ({r.novelty_score:.2f} < threshold "
+            f"{r.novelty_threshold:.2f}): the plan was too similar to the "
+            f"retrieved literature. Propose a substantially more distinctive method."
+        )
+    if not r.feasibility_passed:
+        reasons.append(r.feasibility_notes)
+    return reasons
+
+def run_pipeline(topic: str, output_path: Optional[str] = None):
     """
     Run the full Agentic Research Planning pipeline for a given topic.
 
@@ -209,7 +219,8 @@ def run_pipeline(topic: str):
         Output   : Save to JSON + display clean summary
 
     Args:
-        topic: Research topic string entered by the user.
+        topic       : Research topic string entered by the user.
+        output_path : Optional results JSON path (defaults to config.OUTPUT_PATH).
 
     Returns:
         Tuple of (results, papers, gaps, run_number) for optional PDF export.
@@ -217,6 +228,15 @@ def run_pipeline(topic: str):
     """
     print(f"\n[pipeline] Starting research planning for topic: '{topic}'")
     print(f"[pipeline] {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}\n")
+
+    # ── Topic scope validation ────────────────────────────────────
+    print("[pipeline] Validating topic scope (CS/ML)...")
+    validation = validate_topic(topic)
+    if not validation["in_scope"]:
+        print(f"[pipeline] ERROR: Topic rejected — {validation['reason']}")
+        if validation.get("suggested_topic"):
+            print(f"[pipeline] Suggestion: try '{validation['suggested_topic']}'")
+        return [], [], [], 0
 
     # ── Step 1 + 2: Librarian Agent ───────────────────────────────
     papers, gaps = librarian_agent.run(topic)
@@ -241,6 +261,7 @@ def run_pipeline(topic: str):
         return [], papers, gaps, 0
 
     # ── Step 4 + 5: Reviewer Agent ────────────────────────────────
+    rate_limited = False
     try:
         results = reviewer_agent.run(plans, papers)
     except Exception as e:
@@ -248,12 +269,14 @@ def run_pipeline(topic: str):
             print(f"[pipeline] Rate limit hit — saving partial results...")
             # reviewer_agent.run raises after appending the last plan,
             # so retrieve whatever was collected from the partial run
-            import agents.reviewer_agent as _rev
-            results = getattr(_rev, '_partial_results', [])
+            results = getattr(reviewer_agent, '_partial_results', [])
             if not results:
                 print("[pipeline] No partial results to save. Exiting.")
-                return []
-            print(f"[pipeline] Saving {len(results)} partial result(s).")
+                return [], papers, gaps, 0
+            print(f"[pipeline] Recovered {len(results)} partial result(s).")
+            # Skip the revision loop — further LLM calls would hit the
+            # same rate limit and crash before anything is saved.
+            rate_limited = True
         else:
             raise
 
@@ -262,7 +285,7 @@ def run_pipeline(topic: str):
     # IMPORTANT: gaps_to_retry is fixed from the ORIGINAL rejection list
     # only — it does not grow across attempts. This prevents exponential
     # explosion of API calls across revision rounds.
-    rejected = [r for r in results if not r.accepted]
+    rejected = [] if rate_limited else [r for r in results if not r.accepted]
 
     if rejected:
         print(f"\n[pipeline] Revision loop: {len(rejected)} rejected plan(s) will be re-planned.")
@@ -280,7 +303,7 @@ def run_pipeline(topic: str):
             if desc not in seen_gap_descriptions:
                 seen_gap_descriptions.add(desc)
                 unique_gaps_to_retry.append(r.plan.source_gap)
-            rejection_feedback.setdefault(desc, []).append(r.feasibility_notes)
+            rejection_feedback.setdefault(desc, []).extend(_rejection_reasons(r))
 
     for attempt in range(config.MAX_REVISION_ATTEMPTS):
         if not unique_gaps_to_retry:
@@ -311,13 +334,13 @@ def run_pipeline(topic: str):
         ]
         for r in still_rejected:
             if r.plan.source_gap:
-                rejection_feedback.setdefault(r.plan.source_gap.description, []).append(r.feasibility_notes)
+                rejection_feedback.setdefault(r.plan.source_gap.description, []).extend(_rejection_reasons(r))
 
         print(f"[pipeline] Revision {attempt + 1}: {len(newly_accepted)} newly accepted, "
               f"{len(still_rejected)} still rejected.")
 
     # ── Save + display ────────────────────────────────────────────
-    save_path, run_number = save_results(results, topic)
+    save_path, run_number = save_results(results, topic, path=output_path)
     print(f"\n[pipeline] Results saved to: {save_path} (run #{run_number})")
 
     display_results(results, topic)
@@ -367,15 +390,17 @@ Examples:
         print("ERROR: --topic cannot be empty.")
         sys.exit(1)
 
-    results, papers, gaps, run_number = run_pipeline(args.topic.strip())
+    results, papers, gaps, run_number = run_pipeline(args.topic.strip(), output_path=args.output)
 
-    if not any(r.accepted for r in results):
-        sys.exit(1)
-
-    if args.pdf:
+    # Generate the PDF before deciding the exit code — a report of an
+    # all-rejected run is still useful for analysis.
+    if args.pdf and results:
         print("[pipeline] Generating PDF report...")
         pdf_path = generate_pdf(args.topic.strip(), results, papers, gaps, run_number)
         print(f"[pipeline] PDF saved to: {pdf_path}")
+
+    if not any(r.accepted for r in results):
+        sys.exit(1)
 
 
 if __name__ == "__main__":

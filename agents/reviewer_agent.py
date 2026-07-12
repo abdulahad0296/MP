@@ -20,57 +20,41 @@ Usage:
     results = run(plans, papers)
 """
 
-import json
-from typing import Any, List
+from typing import List, Optional
 
 import numpy as np
 from sklearn.metrics.pairwise import cosine_similarity
-from groq import Groq
 from groq import RateLimitError
 
 import config
 from models.schemas import Paper, ResearchPlan, ReviewResult
 from tools.embedder import get_embeddings
 from tools.feasibility_checker import check_feasibility
+from tools.llm import call_llm, parse_json
 
-
-# -- Groq client — initialised once at module level
-_client = Groq(api_key=config.GROQ_API_KEY)
 
 # -- Module-level partial results store
 # Updated during run() so main.py can recover results if a rate limit
-# exception interrupts the loop mid-execution
+# exception interrupts the loop mid-execution (see thesis §4.7)
 _partial_results: List[ReviewResult] = []
 
 
 # -- Internal helpers
 
 def _call_llm(system_prompt: str, user_prompt: str) -> str:
-    """Make a single Groq API call and return raw response text."""
-    response = _client.chat.completions.create(
-        model=config.LLM_MODEL,
-        max_tokens=config.LLM_MAX_TOKENS,
-        response_format={"type": "json_object"},
-        messages=[
-            {"role": "system", "content": system_prompt},
-            {"role": "user",   "content": user_prompt},
-        ]
-    )
-    return response.choices[0].message.content or ""
+    """Make a single Groq API call via the shared LLM client."""
+    return call_llm(system_prompt, user_prompt)
 
 
-def _parse_json(raw: str, label: str) -> Any:
-    """Parse JSON from LLM response. Logs warning and returns None on failure."""
-    try:
-        return json.loads(raw)
-    except json.JSONDecodeError as e:
-        print(f"[reviewer_agent] WARNING: JSON parse failed for '{label}'. Error: {e}")
-        return None
+def _parse_json(raw: str, label: str):
+    """Parse LLM JSON output via the shared helper. Returns None on failure."""
+    return parse_json(raw, label, tag="reviewer_agent")
 
 
 # -- Phase A upgrade: score_novelty with top-K discrimination
 
-def score_novelty(plan: ResearchPlan, papers: List[Paper]) -> float:
+def score_novelty(plan: ResearchPlan, papers: List[Paper],
+                  abstract_embs: Optional[np.ndarray] = None) -> float:
     """
     Score a research plan's novelty against existing paper abstracts.
 
@@ -89,27 +73,32 @@ def score_novelty(plan: ResearchPlan, papers: List[Paper]) -> float:
         3. Take the mean of those K scores (worst-case neighbourhood)
         4. novelty_score = (1 - topk_mean) * 10, clamped to [0.0, 10.0]
 
-    Score interpretation (top-K calibrated):
-        0.0 – 2.4 : Near-copy — too similar to existing work. Rejected.
-        2.5 – 4.9 : Moderate novelty — meaningful differentiation. Accepted.
-        5.0 – 7.9 : Good novelty — clear conceptual distance. Accepted.
-        8.0+      : High novelty — strongly differentiated. Accepted.
+    Acceptance is decided against the corpus-derived per-run threshold
+    (see compute_novelty_threshold), not a fixed band. As reference
+    points: ~0 means near-copy of existing work, mid-range (3–6) means
+    meaningful differentiation, and high scores (8+) indicate strong
+    conceptual distance from the retrieved corpus.
 
     Args:
-        plan   : The ResearchPlan to score.
-        papers : Retrieved papers used as the novelty comparison baseline.
+        plan          : The ResearchPlan to score.
+        papers        : Retrieved papers used as the novelty comparison baseline.
+        abstract_embs : Optional precomputed abstract embeddings, shape (n, 384).
+                        Passed by run() so the corpus is embedded once per run
+                        instead of once per plan. Computed here if omitted.
 
     Returns:
         Float novelty score in range [0.0, 10.0].
     """
-    abstract_emb = get_embeddings([p.abstract for p in papers])    # shape: (n, 384)
+    if abstract_embs is None:
+        abstract_embs = get_embeddings([p.abstract for p in papers])  # (n, 384)
 
-    # Embed method and question separately for weighted scoring
-    method_emb   = get_embeddings([plan.proposed_method])           # shape: (1, 384)
-    question_emb = get_embeddings([plan.research_question])         # shape: (1, 384)
+    # Embed method and question together in one encoder call
+    plan_embs    = get_embeddings([plan.proposed_method, plan.research_question])
+    method_emb   = plan_embs[0:1]                                    # shape: (1, 384)
+    question_emb = plan_embs[1:2]                                    # shape: (1, 384)
 
-    method_sims   = cosine_similarity(method_emb,   abstract_emb)   # shape: (1, n)
-    question_sims = cosine_similarity(question_emb, abstract_emb)   # shape: (1, n)
+    method_sims   = cosine_similarity(method_emb,   abstract_embs)  # shape: (1, n)
+    question_sims = cosine_similarity(question_emb, abstract_embs)  # shape: (1, n)
 
     # Weighted similarity: method contributes more as the distinctive signal
     weighted_sims = 0.7 * method_sims + 0.3 * question_sims         # shape: (1, n)
@@ -125,7 +114,8 @@ def score_novelty(plan: ResearchPlan, papers: List[Paper]) -> float:
 
 # -- Percentile-based threshold computation
 
-def compute_novelty_threshold(papers: List[Paper]) -> float:
+def compute_novelty_threshold(papers: List[Paper],
+                              abstract_embs: Optional[np.ndarray] = None) -> float:
     """
     Compute a principled novelty threshold from the retrieved paper corpus.
 
@@ -147,7 +137,10 @@ def compute_novelty_threshold(papers: List[Paper]) -> float:
         5. Return the 25th percentile as the threshold.
 
     Args:
-        papers: Retrieved papers from the Librarian Agent.
+        papers        : Retrieved papers from the Librarian Agent.
+        abstract_embs : Optional precomputed abstract embeddings, shape (n, 384).
+                        Passed by run() so the corpus is embedded once per run.
+                        Computed here if omitted.
 
     Returns:
         Float threshold in range [0.0, 10.0].
@@ -159,9 +152,9 @@ def compute_novelty_threshold(papers: List[Paper]) -> float:
         return config.NOVELTY_THRESHOLD_STRICT
 
     try:
-        abstracts     = [p.abstract for p in papers]
-        abstract_embs = get_embeddings(abstracts)           # shape: (n, 384)
-        k             = min(config.TOP_K_PAPERS, len(papers) - 1)
+        if abstract_embs is None:
+            abstract_embs = get_embeddings([p.abstract for p in papers])  # (n, 384)
+        k = min(config.TOP_K_PAPERS, len(papers) - 1)
 
         baseline_scores = []
         for i in range(len(papers)):
@@ -273,10 +266,14 @@ def run(plans: List[ResearchPlan], papers: List[Paper]) -> List[ReviewResult]:
     global _partial_results
     _partial_results = results
 
+    # Embed the corpus once per run — reused by the threshold computation
+    # and by every score_novelty() call below.
+    abstract_embs = get_embeddings([p.abstract for p in papers]) if papers else None
+
     # Compute principled percentile-based novelty threshold from the corpus.
     # This replaces the fixed NOVELTY_THRESHOLD_STRICT with a data-driven
     # value anchored to inter-paper similarity in the retrieved corpus.
-    novelty_threshold = compute_novelty_threshold(papers)
+    novelty_threshold = compute_novelty_threshold(papers, abstract_embs)
 
     print(f"[reviewer_agent] Reviewing {len(plans)} plan(s)...")
 
@@ -284,7 +281,7 @@ def run(plans: List[ResearchPlan], papers: List[Paper]) -> List[ReviewResult]:
         print(f"\n[reviewer_agent] Plan {i+1}/{len(plans)}: '{plan.research_question[:55]}...'")
 
         # Step 1: Novelty scoring (top-K embedding-based, Phase A upgrade)
-        novelty_score = score_novelty(plan, papers)
+        novelty_score = score_novelty(plan, papers, abstract_embs)
         novelty_ok    = novelty_score >= novelty_threshold
         print(f"[reviewer_agent]   Novelty score   : {novelty_score:.2f} "
               f"(threshold={novelty_threshold:.2f}) "
@@ -318,9 +315,6 @@ def run(plans: List[ResearchPlan], papers: List[Paper]) -> List[ReviewResult]:
         accepted = novelty_ok and feasibility_ok
 
         # Step 4: Generate title + blueprint ONLY for accepted plans
-        # Ensure feasibility_components is always defined for ReviewResult
-        if 'feasibility_components' not in dir():
-            feasibility_components = {}
         if accepted:
             print(f"[reviewer_agent]   Generating title and blueprint...")
             try:
